@@ -28,5 +28,5 @@ library(GDCRNATools)
 ```
 
 ## Manual
-A comprehensive manual of `GDCRNATools` is available [GDCRNATools Manual](http://htmlpreview.github.com/?https://github.com/Jialab-UCR/GDCRNATools/blob/master/ceTCGATools_manual.html)
+A comprehensive manual of `GDCRNATools` is available [GDCRNATools Manual](https://github.com/Jialab-UCR/GDCRNATools/blob/master/147496.full.pdf)
 
