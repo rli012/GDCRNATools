@@ -28,5 +28,5 @@ library(devtools)
 ```
 
 ## Manual
-A comprehensive manual of `GDCRNATools` is available [GDCRNATools Manual](http://htmlpreview.github.com/?https://github.com/Jialab-UCR/GDCRNATools/blob/master/ChIPseq.html)
+A comprehensive manual of `GDCRNATools` is available [GDCRNATools Manual](http://htmlpreview.github.com/?https://github.com/Jialab-UCR/GDCRNATools/blob/master/ceTCGATools_manual.html)
 
