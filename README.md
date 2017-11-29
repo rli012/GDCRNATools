@@ -19,6 +19,7 @@ Code to install and load `devtools`:
 ```R
 install.packages('devtools')
 library(devtools)
+```
 
 Code to install and load `GDCRNATools`:
 ```R
