@@ -17,7 +17,7 @@ This user-friendly package allows researchers perform the analysis by simply run
 
 Code to install and load `devtools`:
 ```R
-install.packages('devtools')
+install.pacakges('devtools')
 library(devtools)
 ```
 
