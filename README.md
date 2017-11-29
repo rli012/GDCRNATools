@@ -24,6 +24,7 @@ library(devtools)
 Code to install and load `GDCRNATools`:
 ```R
 devtools::install_github(repo='Jialab-UCR/GDCRNATools')
+library(devtools)
 ```
 
 ## Manual
