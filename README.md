@@ -15,6 +15,12 @@ This user-friendly package allows researchers perform the analysis by simply run
 ## Installation
 `GDCRNATools` can be installed from github directly using the `install_github()` function in `devtools` package. So users should have `devtools` installed in R before installing `GDCRNATools`
 
+Code to install and load `devtools`:
+```R
+install.packages('devtools')
+library(devtools)
+
+Code to install and load `GDCRNATools`:
 ```R
 devtools::install_github(repo='Jialab-UCR/GDCRNATools')
 ```
