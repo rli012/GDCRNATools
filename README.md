@@ -5,7 +5,7 @@
 
 The [Genomic Data Commons (GDC)](https://portal.gdc.cancer.gov/) maintains standardized genomic, clinical, and biospecimen data from National Cancer Institute (NCI) programs including [The Cancer Genome Atlas (TCGA)](https://tcga-data.nci.nih.gov/) and [Therapeutically Applicable Research To Generate Effective Treatments (TARGET)](https://ocg.cancer.gov/programs/target), It also accepts high quality datasets from non-NCI supported cancer research programs, such as genomic data from the [Foundation Medicine](https://www.foundationmedicine.com/).
 
-**GDCRNATools** is an R/Bioconductor package which provides a standard, easy-to-use and comprehensive pipeline for downloading, organizing, and integrative analyzing RNA expression data in the GDC portal with an emphasis on deciphering the lncRNA-mRNA related ceRNA regulatory network in cancer.
+`GDCRNATools` is an R package which provides a standard, easy-to-use and comprehensive pipeline for downloading, organizing, and integrative analyzing RNA expression data in the GDC portal with an emphasis on deciphering the lncRNA-mRNA related ceRNA regulatory network in cancer.
 
 Many analyses can be perfomed using GDCRNATools, including differential gene expression analysis ([limma](http://bioconductor.org/packages/release/bioc/html/limma.html)[ref](1), [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)[ref](2), and [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)[ref](3)), univariate survival analysis (CoxPH and KM), competing endogenous RNA network analysis (hypergeometric test, Pearson correlation analysis, regulation similarity analysis, sensitivity Pearson partial  correlation[ref](4)), and functional enrichment analysis(GO, KEGG, DO). Besides some routine visualization methods such as volcano plot, scatter plot, and bubble plot, etc., three simple shiny apps are developed in GDCRNATools allowing users visualize the results on a local webpage. All the figures are plotted based on [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) package unless otherwise specified.
 
@@ -13,5 +13,10 @@ This user-friendly package allows researchers perform the analysis by simply run
 
 
 ## Installation
-`GDCRNATools` can be installed from github directly using the `install_github()` function in `devtools` package. So users should have `devtools` installed before installing `GDCRNATools`
+`GDCRNATools` can be installed from github directly using the `install_github()` function in `devtools` package. So users should have `devtools` installed in R before installing `GDCRNATools`
+
 devtools::install_github(repo='Jialab-UCR/GDCRNATools')
+
+## Manual
+A comprehensive manual of `GDCRNATools` is available 
+
