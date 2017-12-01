@@ -4,13 +4,17 @@
 ##' @return A filtered dataframe of metadata without duplicated samples
 ##' @export
 ##' @author Ruidong Li and Han Qu
+##' @examples 
+##' ####### Parse metadata by project id and data type #######
+##' metaMatrix <- gdcParseMetadata(project.id='TARGET-RT', data.type='RNAseq')
+##' metaMatrix <- gdcFilterDuplicate(metadata=metaMatrix)
 gdcFilterDuplicate <- function(metadata) {
-  filter <- which(duplicated(metadata[,'sample']))
-  if (length(filter) != 0) {
-    metadata <- metadata[-filter,]
-  }
-  cat (paste('Removed', length(filter), 'samples', sep=' '))
-  return (metadata)
+    filter <- which(duplicated(metadata[,'sample']))
+    if (length(filter) != 0) {
+        metadata <- metadata[-filter,]
+    }
+    cat (paste('Removed', length(filter), 'samples', sep=' '))
+    return (metadata)
 }
 
 
@@ -20,11 +24,15 @@ gdcFilterDuplicate <- function(metadata) {
 ##' @return A filtered dataframe of metadata with \emph{Solid Tissue Normal} and \emph{Primary Tumor} samples only
 ##' @export
 ##' @author Ruidong Li and Han Qu
+##' @examples 
+##' ####### Parse metadata by project id and data type #######
+##' metaMatrix <- gdcParseMetadata(project.id='TARGET-RT', data.type='RNAseq')
+##' metaMatrix <- gdcFilterSampleType(metadata=metaMatrix)
 gdcFilterSampleType <- function(metadata) {
-  filter <- which(! metadata$sample_type %in% c('PrimaryTumor', 'SolidTissueNormal'))
-  if (length(filter) != 0) {
-    metadata <- metadata[-filter,]
-  }
-  cat (paste('Removed', length(filter), 'samples', sep=' '))
-  return (metadata)
+    filter <- which(! metadata$sample_type %in% c('PrimaryTumor', 'SolidTissueNormal'))
+    if (length(filter) != 0) {
+        metadata <- metadata[-filter,]
+    }
+    cat (paste('Removed', length(filter), 'samples', sep=' '))
+    return (metadata)
 }
