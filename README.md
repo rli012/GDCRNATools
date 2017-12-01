@@ -28,6 +28,8 @@ library(GDCRNATools)
 ```
 If `GDCRNATools` cannot be installed due to the lack of dependencies, please run the following code ahead to install those pacakges simutaneously or separately:
 ```R
+source("https://bioconductor.org/biocLite.R")
+
 ### install packages simutaneously ###
 biocLite(c('limma', 'edgeR', 'DESeq2', 'clusterProfiler', 'DOSE', 'org.Hs.eg.db', 'biomaRt', 'BiocParallel'))
 install.packages(c('shiny', 'jsonlite', 'rjson', 'survival', 'survminer', 'ggplot2', 'gplots'))
