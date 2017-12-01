@@ -15,6 +15,11 @@ A filtered dataframe of metadata with \emph{Solid Tissue Normal} and \emph{Prima
 \description{
 Filter out samples that are neither \emph{Solid Tissue Normal} nor \emph{Primary Tumor}
 }
+\examples{
+####### Parse metadata by project id and data type #######
+metaMatrix <- gdcParseMetadata(project.id='TARGET-RT', data.type='RNAseq')
+metaMatrix <- gdcFilterSampleType(metadata=metaMatrix)
+}
 \author{
 Ruidong Li and Han Qu
 }

@@ -10,7 +10,7 @@ gdcRNADownload(manifest = NULL, project.id, data.type, directory = "Data",
 \arguments{
 \item{manifest}{menifest file that is downloaded from the GDC cart. If provided, files whose UUIDs are in the manifest file 
 will be downloaded via gdc-client, otherwise, \code{project} and \code{data.type} arguments should be provided to download 
-data by the API method implemented in the \pkg{TCGAbiolinks} package. Default is \code{NULL}}
+data automatically. Default is \code{NULL}}
 
 \item{project.id}{project id in GDC}
 
@@ -20,9 +20,21 @@ data by the API method implemented in the \pkg{TCGAbiolinks} package. Default is
 
 \item{write.manifest}{logical, whether to write out the manifest file}
 }
+\value{
+Downloaded files in the specified directory
+}
 \description{
 Download gene expression quantification and isoform expression quantification data from GDC 
-  either by providing the manifest file or by the API method developed in \pkg{TCGAbiolinks} package
+  either by providing the manifest file or by sepcifying the project id and data type
+}
+\examples{
+####### Download RNA data by menifest file #######
+manifest <- 'RNAseq.manifest.txt'
+\dontrun{gdcRNADownload(manifest=manifest)}
+
+####### Download RNA data by project id and data type #######
+project <- 'TCGA-PRAD'
+\dontrun{gdcRNADownload(project.id=project, data.type='RNAseq')}
 }
 \author{
 Ruidong Li and Han Qu

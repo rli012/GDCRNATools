@@ -15,6 +15,11 @@ A filtered dataframe of metadata without duplicated samples
 \description{
 Filter out samples that are sequenced for two or more times
 }
+\examples{
+####### Parse metadata by project id and data type #######
+metaMatrix <- gdcParseMetadata(project.id='TARGET-RT', data.type='RNAseq')
+metaMatrix <- gdcFilterDuplicate(metadata=metaMatrix)
+}
 \author{
 Ruidong Li and Han Qu
 }

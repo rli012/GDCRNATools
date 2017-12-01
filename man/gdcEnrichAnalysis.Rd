@@ -23,9 +23,17 @@ A dataframe of enrichment analysis result containing enriched terms,
 Performs Gene Ontology (GO), Kyoto Encyclopedia of Genes and Genomes (KEGG) pathway 
   and Disease Ontology (DO) enrichment analyses by \pkg{clusterProfiler} and \pkg{DOSE} packages
 }
+\examples{
+####### GO, KEGG, DO enrichment analysis #######
+genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
+           'ENSG00000001084','ENSG00000001167','ENSG00000001460')
+\dontrun{enrichOutput <- gdcEnrichAnalysis(gene=deg, simplify=TRUE)}
+}
 \references{
-Yu G, Wang LG, Han Y, He QY. clusterProfiler: an R package for comparing biological themes among gene clusters. Omics: a journal of integrative biology. 2012 May 1;16(5):284-7. \cr
-  Yu G, Wang LG, Yan GR, He QY. DOSE: an R/Bioconductor package for disease ontology semantic and enrichment analysis. Bioinformatics. 2014 Oct 17;31(4):608-9.
+Yu G, Wang LG, Han Y, He QY. clusterProfiler: an R package for comparing biological themes among gene clusters. 
+  Omics: a journal of integrative biology. 2012 May 1;16(5):284-7. \cr
+  Yu G, Wang LG, Yan GR, He QY. DOSE: an R/Bioconductor package for disease ontology semantic 
+  and enrichment analysis. Bioinformatics. 2014 Oct 17;31(4):608-9.
 }
 \author{
 Ruidong Li and Han Qu

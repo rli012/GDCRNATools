@@ -25,11 +25,37 @@ A dataframe or numeric matrix of hazard ratio, 95\% confidence interval, p value
 \description{
 Univariate Cox Proportional-Hazards and Kaplan Meier survival analysis of a vector of genes
 }
+\examples{
+genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
+           'ENSG00000001084','ENSG00000001167','ENSG00000001460')
+
+samples <- c('TCGA-2F-A9KO-01',	'TCGA-2F-A9KP-01',
+             'TCGA-2F-A9KQ-01',	'TCGA-2F-A9KR-01',	
+             'TCGA-2F-A9KT-01',	'TCGA-2F-A9KW-01')
+             
+metaMatrix <- data.frame(sample_type=rep('PrimaryTumor',6),
+                         sample=samples,
+                         days_to_death=seq(100,600,100),
+                         days_to_last_follow_up=rep(NA,6))
+rnaExpr <- matrix(c(2.7,7.0,4.9,6.9,4.6,2.5,
+                    0.5,2.5,5.7,6.5,4.9,3.8,
+                    2.1,2.9,5.9,5.7,4.5,3.5,
+                    2.7,5.9,4.5,5.8,5.2,3.0,
+                    2.5,2.2,5.3,4.4,4.4,2.9,
+                    2.4,3.8,6.2,3.8,3.8,4.2),6,6)
+rownames(rnaExpr) <- genes
+colnames(rnaExpr) <- samples
+survOutput <- gdcSurvivalAnalysis(gene=genes,
+                                  rna.expr=rnaExpr,
+                                  metadata=metaMatrix)
+}
 \references{
 Therneau TM, Lumley T. Package ‘survival’. \cr
-  Andersen PK, Gill RD. Cox's regression model for counting processes: a large sample study. The annals of statistics. 1982 Dec 1:1100-20. \cr
+  Andersen PK, Gill RD. Cox's regression model for counting processes: a large sample study. 
+  The annals of statistics. 1982 Dec 1:1100-20. \cr
   Therneau TM, Grambsch PM. Extending the Cox model. Edited by P. Bickel, P. Diggle, S. Fienberg, K. Krickeberg. 2000:51. \cr
-  Harrington DP, Fleming TR. A class of rank test procedures for censored survival data. Biometrika. 1982 Dec 1;69(3):553-66.
+  Harrington DP, Fleming TR. A class of rank test procedures for censored survival data. 
+  Biometrika. 1982 Dec 1;69(3):553-66.
 }
 \author{
 Ruidong Li and Han Qu

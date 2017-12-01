@@ -8,8 +8,7 @@ gdcParseMetadata(metafile = NULL, project.id, data.type, write.meta = FALSE)
 }
 \arguments{
 \item{metafile}{metadata file in \code{.json} format download from GDC cart. If provided, the metadata will be parsed from this file,
-otherwise, \code{project} and \code{data.type} arguments should be provided to retrieve metadata via API based on the \code{getGDCquery}
-function in \pkg{TCGAbiolinks} package. Default is \code{NULL}}
+otherwise, \code{project} and \code{data.type} arguments should be provided to retrieve metadata automatically. Default is \code{NULL}}
 
 \item{project.id}{project id in GDC}
 
@@ -21,8 +20,12 @@ function in \pkg{TCGAbiolinks} package. Default is \code{NULL}}
 A dataframe of metadata containing file_name, sample_id, etc. as well as some basic clinical data
 }
 \description{
-Parse metadata saved in the \emph{.json} file that is downloaded from GDC cart 
-  either by providing the metadata file or by the API method based on the \code{getGDCquery} function in \pkg{TCGAbiolinks} package
+Parse metadata either by providing the \emph{.json} file that is 
+downloaded from GDC cart or by parse metadata automatically by providing the projct id and data type
+}
+\examples{
+####### Merge RNA expression data #######
+metaMatrix <- gdcParseMetadata(project.id='TARGET-RT', data.type='RNAseq')
 }
 \author{
 Ruidong Li and Han Qu

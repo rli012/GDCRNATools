@@ -13,6 +13,9 @@ shinyPathview(gene, pathways, directory = ".")
 
 \item{directory}{the folder to save pathway figures. Default is the working directory}
 }
+\value{
+a local webpage for visualization of KEGG maps
+}
 \description{
 A simple \pkg{shiny} app to show pathways genetrated by \pkg{pathview} package on local web browser
 }

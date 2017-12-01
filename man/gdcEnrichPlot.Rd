@@ -26,6 +26,14 @@ A bar plot or bubble plot of functional enrichment analysis
 \description{
 Bar plot and bubble plot for GO, KEGG, and DO functional enrichment analysis
 }
+\examples{
+####### Enrichment plots #######
+enrichOutput <- data.frame(Terms=c('hsa05414~Dilated cardiomyopathy (DCM)',
+                                   'hsa04510~Focal adhesion',
+                                   'hsa05205~Proteoglycans in cancer'),
+                           Category=rep('KEGG',3), FDR=c(0.001,0.002,0.003))
+gdcEnrichPlot(enrichment=enrichOutput, type='bar', category='KEGG')
+}
 \author{
 Ruidong Li and Han Qu
 }

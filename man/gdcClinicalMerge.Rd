@@ -9,14 +9,19 @@ gdcClinicalMerge(path, key.info = TRUE)
 \arguments{
 \item{path}{path to downloaded files for merging}
 
-\item{key.info}{logical, whether to return the key clinical information only. If \code{TRUE}, only clinical
-information such as age, stage, grade, overall survial, etc. will be returned}
+\item{key.info}{logical, whether to return the key clinical information only. If \code{TRUE}, 
+only clinical information such as age, stage, grade, overall survial, etc. will be returned}
 }
 \value{
 A dataframe of clinical data with rows are patients and columns are clinical traits
 }
 \description{
 Merge clinical data in \code{.xml} files that are downloaded from GDC to a dataframe
+}
+\examples{
+####### Merge clinical data #######
+path <- 'Clinical/'
+\dontrun{clinicalDa <- gdcClinicalMerge(path=path, key.info=TRUE)}
 }
 \author{
 Ruidong Li and Han Qu

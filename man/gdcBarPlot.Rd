@@ -19,6 +19,20 @@ A bar plot
 \description{
 A bar plot showing the number of down-regulated and up-regulated DE genes/miRNAs of different biotypes
 }
+\examples{
+genes <- c('ENSG00000231806','ENSG00000261211','ENSG00000260920',
+          'ENSG00000228594','ENSG00000125170','ENSG00000179909',
+          'ENSG00000280012','ENSG00000134612','ENSG00000213071')
+symbol <- c('PCAT7','AL031123.2','AL031985.3',
+            'FNDC10','DOK4','ZNF154',
+            'RPL23AP61','FOLH1B','LPAL2')
+group <- rep(c('long_non_coding','protein_coding','pseudogene'), each=3)
+logFC <- c(2.8,2.3,-1.1,1.9,-1.2,-1.6,1.5,2.1,-1.1)
+FDR <- rep(c(0.1,0.00001,0.0002), each=3)
+deg <- data.frame(symbol, group, logFC, FDR)
+rownames(deg) <- genes
+gdcBarPlot(deg, angle=45, data.type='RNAseq')
+}
 \author{
 Ruidong Li and Han Qu
 }

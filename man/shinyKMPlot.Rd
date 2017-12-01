@@ -13,6 +13,9 @@ shinyKMPlot(gene, rna.expr, metadata)
 
 \item{metadata}{metadata parsed from \code{\link{gdcParseMetadata}}}
 }
+\value{
+a local webpage for visualization of KM plots
+}
 \description{
 A simple \pkg{shiny} app to show KM survival curves on local web browser
 }

@@ -15,6 +15,9 @@ shinyCorPlot(gene1, gene2, rna.expr, metadata)
 
 \item{metadata}{metadata parsed from \code{\link{gdcParseMetadata}}}
 }
+\value{
+a local webpage for visualization of correlation plots
+}
 \description{
 A simple \pkg{shiny} app to show scatter plot of correlations between two genes/miRNAs on local web browser
 }

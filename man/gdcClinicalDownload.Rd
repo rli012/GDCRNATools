@@ -8,9 +8,10 @@ gdcClinicalDownload(manifest = NULL, project.id, directory = "Clinical",
   write.manifest = FALSE)
 }
 \arguments{
-\item{manifest}{menifest file that is downloaded from the GDC cart. If provided, files whose UUIDs are in the manifest file 
-will be downloaded via gdc-client, otherwise, \code{project} argument should be provided to download 
-data by the API method implemented in the \pkg{TCGAbiolinks} package. Default is \code{NULL}}
+\item{manifest}{menifest file that is downloaded from the GDC cart. If provided, files whose UUIDs 
+are in the manifest file will be downloaded via gdc-client, 
+otherwise, \code{project id} argument should be provided to download data automatically. 
+Default is \code{NULL}}
 
 \item{project.id}{project id in GDC}
 
@@ -18,9 +19,24 @@ data by the API method implemented in the \pkg{TCGAbiolinks} package. Default is
 
 \item{write.manifest}{logical, whether to write out the manifest file}
 }
+\value{
+downloaded files in the specified directory
+}
 \description{
 Download clinical data in GDC 
-  either by providing the manifest file or by the API method developed in \pkg{TCGAbiolinks} package
+  either by providing the manifest file or specifying the project id and data type
+}
+\examples{
+####### Download Clinical data by manifest file #######
+manifest <- 'Clinical.manifest.txt'
+\dontrun{gdcClinicalDownload(manifest  = manifest,
+                    directory = 'Clinical')}
+                   
+####### Download Clinical data by project id #######
+project <- 'TCGA-PRAD'
+\dontrun{gdcClinicalDownload(project.id     = project, 
+                    write.manifest = TRUE,
+                    directory      = 'Clinical')}
 }
 \author{
 Ruidong Li and Han Qu

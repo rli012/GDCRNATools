@@ -17,6 +17,19 @@ A dataframe of nodes or edges
 \description{
 Export nodes and edges of ce network for \strong{Cytoscape} visualization
 }
+\examples{
+####### ceRNA network analysis #######
+ceOutput <- data.frame(lncRNAs=c('ENSG00000242125','ENSG00000242125','ENSG00000245532'), 
+                         Genes=c('ENSG00000043355','ENSG00000109586','ENSG00000144355'), 
+                         miRNAs=c('hsa-miR-340-5p','hsa-miR-340-5p',
+                         'hsa-miR-320b,hsa-miR-320d,hsa-miR-320c,hsa-miR-320a'),
+                         Counts=c(1,1,4), stringsAsFactors=FALSE)
+####### Export edges #######
+edges <- gdcExportNetwork(ceNetwork=ceOutput, net='edges')
+
+####### Export nodes #######
+\dontrun{nodes <- gdcExportNetwork(ceNetwork=ceOutput, net='nodes')}
+}
 \author{
 Ruidong Li and Han Qu
 }

@@ -14,10 +14,16 @@ gdcRNAMerge(metadata, path, data.type)
 \item{data.type}{one of \code{'RNAseq'} and \code{'miRNAs'}}
 }
 \value{
-A dataframe or numeric matrix of raw counts data with rows are genes or miRNAs and columns are samples
+A dataframe or numeric matrix of raw counts data with rows are genes or miRNAs and 
+  columns are samples
 }
 \description{
 Merge raw counts data that is downloaded from GDC to a single expression matrix
+}
+\examples{
+####### Merge RNA expression data #######
+metaMatrix <- gdcParseMetadata(project.id='TARGET-RT', data.type='RNAseq')
+\dontrun{rnaExpr <- gdcRNAMerge(metadata=metaMatrix, path='RNAseq/', data.type='RNAseq')}
 }
 \author{
 Ruidong Li and Han Qu

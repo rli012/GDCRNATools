@@ -9,7 +9,8 @@ gdcDEReport(deg, gene.type = "all", fc = 2, pval = 0.01)
 \arguments{
 \item{deg}{A dataframe of DE analysis result from \code{\link{gdcDEAnalysis}}}
 
-\item{gene.type}{one of \code{'all'}, \code{'long_non_coding'}, \code{'protein_coding'}, and \code{'miRNAs'}. Default is \code{'all'}}
+\item{gene.type}{one of \code{'all'}, \code{'long_non_coding'}, \code{'protein_coding'}, 
+and \code{'miRNAs'}. Default is \code{'all'}}
 
 \item{fc}{a numeric value specifying the threshold of fold change}
 
@@ -20,6 +21,32 @@ A dataframe or numeric matrix of differentially expressed genes/miRNAs
 }
 \description{
 Report genes/miRNAs that are differentially expressed satisfying a given threshold
+}
+\examples{
+genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
+           'ENSG00000001084','ENSG00000001167','ENSG00000001460')
+
+samples <- c('TCGA-2F-A9KO-01',	'TCGA-2F-A9KP-01',
+             'TCGA-2F-A9KQ-01',	'TCGA-2F-A9KR-11',	
+             'TCGA-2F-A9KT-11',	'TCGA-2F-A9KW-11')
+             
+metaMatrix <- data.frame(sample_type=rep(c('PrimaryTumor','SolidTissueNormal'),each=3),
+                         sample=samples,
+                         days_to_death=seq(100,600,100),
+                         days_to_last_follow_up=rep(NA,6))
+rnaMatrix <- matrix(c(6092,11652,5426,4383,3334,2656,
+                      8436,2547,7943,3741,6302,13976,
+                      1506,6467,5324,3651,1566,2780,
+                      834,4623,10275,5639,6183,4548,
+                      24702,43,1987,269,3322,2410,
+                      2815,2089,3804,230,883,5415), 6,6)
+rownames(rnaMatrix) <- genes
+colnames(rnaMatrix) <- samples
+DEGAll <- gdcDEAnalysis(counts     = rnaMatrix, 
+                        group      = metaMatrix$sample_type, 
+                        comparison = 'PrimaryTumor-SolidTissueNormal', 
+                        method     = 'limma')
+dePC <- gdcDEReport(deg=DEGAll)
 }
 \author{
 Ruidong Li and Han Qu
