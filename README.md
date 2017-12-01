@@ -26,6 +26,31 @@ Code to install and load `GDCRNATools`:
 devtools::install_github(repo='Jialab-UCR/GDCRNATools')
 library(GDCRNATools)
 ```
+If `GDCRNATools` cannot be installed due to the lack of dependencies, please run the following code ahead to install those pacakges simutaneously or separately:
+```R
+### install packages simutaneously ###
+biocLite(c('limma', 'edgeR', 'DESeq2', 'clusterProfiler', 'DOSE', 'org.Hs.eg.db', 'biomaRt', 'BiocParallel'))
+install.packages(c('shiny', 'jsonlite', 'rjson', 'survival', 'survminer', 'ggplot2', 'gplots'))
+
+### install packages seperately ###
+biocLite('limma')
+biocLite('edgeR')
+biocLite('DESeq2')
+biocLite('clusterProfiler')
+biocLite('DOSE')
+biocLite('org.Hs.eg.db')
+biocLite('biomaRt')
+biocLite('BiocParallel')
+
+install.packages('shiny')
+install.packages('jsonlite')
+install.packages('rjson')
+install.packages('survival')
+install.packages('survminer')
+install.packages('ggplot2')
+install.packages('gplots')
+```
+
 
 ## Manual
 A simply manual of `GDCRNATools` is available online [GDCRNATools Manual](https://github.com/Jialab-UCR/GDCRNATools/blob/master/vignettes/GDCRNATools.Rmd). Users are also highly recommended to download the comprhensive manual in _.html_ format and view on local computer [GDCRNATools Manual](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html)
