@@ -28,5 +28,5 @@ library(GDCRNATools)
 ```
 
 ## Manual
-A comprehensive manual of `GDCRNATools` is available [GDCRNATools Manual](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html). Users can download the manual in .html format and view on the local computer or download the manual in .pdf format from here [GDCRNATools Manual](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.pdf). 
+A comprehensive manual of `GDCRNATools` is available [GDCRNATools Manual](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html). Users can download the manual in .html format and view on the local computer, or download the manual in .pdf format from here [GDCRNATools Manual](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.pdf). 
 
