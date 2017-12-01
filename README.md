@@ -13,7 +13,7 @@ This user-friendly package allows researchers perform the analysis by simply run
 
 
 ## Installation
-`GDCRNATools` can be installed from github directly using the `install_github()` function in `devtools` package. So users should have `devtools` installed in R before installing `GDCRNATools`
+`GDCRNATools` is now under review in Bioconductor. Users can install the package from github temporarily using the `install_github()` function in `devtools` package.
 
 Code to install and load `devtools`:
 ```R
@@ -28,5 +28,5 @@ library(GDCRNATools)
 ```
 
 ## Manual
-A comprehensive manual of `GDCRNATools` is available [GDCRNATools Manual](http://htmlpreview.github.io/?https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools.html)
+A comprehensive manual of `GDCRNATools` is available [GDCRNATools Manual](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html). Users can download the manual in .html format and view on the local computer.
 
