@@ -92,13 +92,13 @@ gdcRNADownload(manifest  = 'TCGA-PRAD/TCGA-PRAD.Clinical.gdc_manifest.2017-11-23
 ####### Download RNAseq data #######
 gdcRNADownload(project.id     = 'TCGA-PRAD', 
                data.type      = 'RNAseq', 
-               write.manifest = TRUE,
+               write.manifest = FALSE,
                directory      = 'TCGA-PRAD/RNAseq')
 
 ####### Download miRNAs data #######
 gdcRNADownload(project.id     = 'TCGA-PRAD', 
                data.type      = 'miRNAs', 
-               write.manifest = TRUE,
+               write.manifest = FALSE,
                directory      = 'TCGA-PRAD/miRNAs')
 ```
 
@@ -108,7 +108,7 @@ gdcRNADownload(project.id     = 'TCGA-PRAD',
 ####### Download clinical data #######
 gdcClinicalDownload(project.id     = 'TCGA-PRAD', 
                     data.type      = 'RNAseq', 
-                    write.manifest = TRUE,
+                    write.manifest = FALSE,
                     directory      = 'TCGA-PRAD/Clinical')
 ```
 
@@ -134,12 +134,12 @@ metaMatrix.MIR <- gdcParseMetadata(metafile='TCGA-PRAD/TCGA-PRAD.miRNAs.metadata
 ####### Parse RNAseq metadata #######
 metaMatrix.RNA <- gdcParseMetadata(project.id = 'TCGA-PRAD',
                                    data.type  = 'RNAseq', 
-                                   write.meta = TRUE)
+                                   write.meta = FALSE)
 
 ####### Parse miRNAs metadata #######
 metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-PRAD',
                                    data.type  = 'miRNAs', 
-                                   write.meta = TRUE)
+                                   write.meta = FALSE)
 ```
 
 
