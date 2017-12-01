@@ -28,4 +28,4 @@ library(GDCRNATools)
 ```
 
 ## Manual
-A simply manual of `GDCRNATools` is available online [GDCRNATools Manual](https://github.com/Jialab-UCR/GDCRNATools/blob/master/vignettes/GDCRNATools.Rmd). Users can also download the comprhensive manual in _.html_ format and view on local computer [GDCRNATools Manual](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html)
+A simply manual of `GDCRNATools` is available online [GDCRNATools Manual](https://github.com/Jialab-UCR/GDCRNATools/blob/master/vignettes/GDCRNATools.Rmd). Users are also highly recommended to download the comprhensive manual in _.html_ format and view on local computer [GDCRNATools Manual](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html)
