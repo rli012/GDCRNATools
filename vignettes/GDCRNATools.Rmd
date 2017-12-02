@@ -61,7 +61,6 @@ Users can also download data from GDC using the API method developed in [TCGAbio
 Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool) from the GDC website and unzip the file
 
 ### Download manifest file and metadata from GDC Data Portal
-![](figures/download_rna.PRAD.gif)
 
 
 ### Download data 
