@@ -1,6 +1,6 @@
 Package: GDCRNATools
 Title: GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, mRNA, and miRNA data in GDC
-Version: 0.99.0
+Version: 0.99.1
 Author: Ruidong Li,
 	Han Qu,
 	Shibo Wang,
@@ -19,7 +19,7 @@ Description: This is an easy-to-use package for downloading, organizing, and int
 	the clusterProfiler and DO packages. Both univariate CoxPH and KM survival analyses of multiple genes can be 
 	implemented in the package. Besides some routine visualization functions such as volcano plot, bar plot, and 
 	KM plot, a few simply shiny apps are developed to facilitate visualization of results on a local webpage.
-Depends: R (>= 3.3.0)
+Depends: R (>= 3.5)
 License: Artistic-2.0
 Encoding: UTF-8
 LazyData: true
