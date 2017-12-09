@@ -32,7 +32,7 @@ source("https://bioconductor.org/biocLite.R")
 
 ### install packages simutaneously ###
 biocLite(c('limma', 'edgeR', 'DESeq2', 'clusterProfiler', 'DOSE', 'org.Hs.eg.db', 'biomaRt', 'BiocParallel'))
-install.packages(c('shiny', 'jsonlite', 'rjson', 'survival', 'survminer', 'ggplot2', 'gplots'))
+install.packages(c('shiny', 'jsonlite', 'rjson', 'survival', 'survminer', 'ggplot2', 'gplots', 'Hmisc'))
 
 ### install packages seperately ###
 biocLite('limma')
@@ -51,6 +51,7 @@ install.packages('survival')
 install.packages('survminer')
 install.packages('ggplot2')
 install.packages('gplots')
+install.packages('Hmisc')
 ```
 
 
