@@ -19,13 +19,14 @@ This user-friendly package allows researchers perform the analysis by simply run
 * Download the package [GDCRNATools_0.99.0.tar.gz](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_0.99.0.tar.gz)
 * Make sure you have [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed.
 * ADD R and Rtools to the Path Variable on the Environment Variables panel, including
-“c:\program files\Rtools\bin”
 
-“c:\program files\Rtools\gcc-4.6.3\bin”
+  “c:\program files\Rtools\bin”
 
-“c:\program files\R\R.3.x.x\bin\i386”
+  “c:\program files\Rtools\gcc-4.6.3\bin”
 
-“c:\program files\R\R.3.x.x\bin\x64” 
+  “c:\program files\R\R.3.x.x\bin\i386”
+
+  “c:\program files\R\R.3.x.x\bin\x64” 
 
 * Open a command prompt. Type R CMD INSTALL GDCRNATools_0.99.0.tar.gz
 
