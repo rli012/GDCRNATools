@@ -10,7 +10,7 @@ The [Genomic Data Commons (GDC)](https://portal.gdc.cancer.gov/) maintains stand
 Many analyses can be perfomed using `GDCRNATools`, including differential gene expression analysis ([limma](http://bioconductor.org/packages/release/bioc/html/limma.html)(Ritchie et al. 2015), [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)(Robinson, McCarthy, and Smyth 2010), and [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)(Love, Huber, and Anders 2014)), univariate survival analysis (CoxPH and KM), competing endogenous RNA network analysis (hypergeometric test, Pearson correlation analysis, regulation similarity analysis, sensitivity Pearson partial  correlation), and functional enrichment analysis(GO, KEGG, DO). Besides some routine visualization methods such as volcano plot, scatter plot, and bubble plot, etc., three simple shiny apps are developed in GDCRNATools allowing users visualize the results on a local webpage.
 
 
-This user-friendly package allows researchers perform the analysis by simply running a few functions and integrate their own pipelines such as molecular subtype classification, [weighted correlation network analysis (WGCNA)](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/), and TF-miRNA co-regulatory network analysis, etc. into the workflow easily.
+This user-friendly package allows researchers perform the analysis by simply running a few functions and integrate their own pipelines such as molecular subtype classification, [weighted correlation network analysis (WGCNA)](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/)(Langfelder and Horvath 2008), and TF-miRNA co-regulatory network analysis, etc. into the workflow easily.
 
 
 # Installation
@@ -84,7 +84,7 @@ Step3: Download data using `gdcRNADownload()` function by providing the manifest
 * Automatic download  
 Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool), manifest file, and data automatically by specifying the `project.id` and `data.type` in `gdcRNADownload()` function for RNAseq and miRNAs data, and in `gdcClinicalDownload()` function for clinical data
 
-Users can also download data from GDC using the API method developed in [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html) or using [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)
+Users can also download data from GDC using the API method developed in [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html)(Colaprico et al. 2016) or using [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)(Zhu, Qiu, and Ji 2014)
 
 ### 1.1 Manual download
 
@@ -239,9 +239,9 @@ clinicalDa <- gdcClinicalMerge(path = 'TCGA-PRAD/Clinical/', key.info = TRUE)
 
 
 ### 2.4 TMM normalization and voom transformation
-It has repeatedly shown that normalization is a critical way to ensure accurate estimation and detection of differential expression (DE) by removing systematic technical effects that occur in the data[@Robinsonscalingnormalizationmethod2010]. TMM normalization is a simple and effective method for estimating relative RNA production levels from RNA-seq data. Voom is moreover faster and more convenient than existing RNA-seq methods, and converts RNA-seq data into a form that can be analyzed using similar tools as for microarrays[@Lawvoomprecisionweights2014].
+It has repeatedly shown that normalization is a critical way to ensure accurate estimation and detection of differential expression (DE) by removing systematic technical effects that occur in the data(Robinson and Oshlack 2010). TMM normalization is a simple and effective method for estimating relative RNA production levels from RNA-seq data. Voom is moreover faster and more convenient than existing RNA-seq methods, and converts RNA-seq data into a form that can be analyzed using similar tools as for microarrays(Law et al. 2014).
 
-By running `gdcVoomNormalization()` function, raw counts data would be normalized by TMM method implemented in [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)[@RobinsonedgeRBioconductorpackage2010] and further transformed by the voom method provided in [limma](http://bioconductor.org/packages/release/bioc/html/limma.html)[@Ritchielimmapowersdifferential2015a]. Low expression genes (logcpm < 1 in more than half of the samples) will be filtered out by default. All the genes can be kept by setting `filter=TRUE` in the `gdcVoomNormalization()`.
+By running `gdcVoomNormalization()` function, raw counts data would be normalized by TMM method implemented in [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)(Robinson, McCarthy, and Smyth 2010) and further transformed by the voom method provided in [limma](http://bioconductor.org/packages/release/bioc/html/limma.html)(Ritchie et al. 2015). Low expression genes (logcpm < 1 in more than half of the samples) will be filtered out by default. All the genes can be kept by setting `filter=TRUE` in the `gdcVoomNormalization()`.
 
 
 
@@ -260,8 +260,7 @@ mirExpr <- gdcVoomNormalization(counts = mirMatrix, filter = FALSE)
 
 ***
 
-`gdcDEAnalysis()`, a convenience wrapper, provides three widely used methods [limma](http://bioconductor.org/packages/release/bioc/html/limma.html)[@Ritchielimmapowersdifferential2015a], [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)[@RobinsonedgeRBioconductorpackage2010], and [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)[@LoveModeratedestimationfold2014] to identify differentially expressed genes (DEGs) or miRNAs between any two groups defined by users. Note that [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)[@LoveModeratedestimationfold2014] maybe slow with a single core. Multiple cores can be specified with the `nCore` argument if [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)[@LoveModeratedestimationfold2014] is in use. Users are encouraged to consult the vignette of each method for more detailed information.
-
+`gdcDEAnalysis()`, a convenience wrapper, provides three widely used methods [limma](http://bioconductor.org/packages/release/bioc/html/limma.html)(Ritchie et al. 2015), [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)(Robinson, McCarthy, and Smyth 2010), and [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)(Love, Huber, and Anders 2014) to identify differentially expressed genes (DEGs) or miRNAs between any two groups defined by users. Note that [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)(Love, Huber, and Anders 2014) maybe slow with a single core. Multiple cores can be specified with the `nCore` argument if [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)(Love, Huber, and Anders 2014) is in use. Users are encouraged to consult the vignette of each method for more detailed information.
 
 ### 3.1 DE analysis
 ```{r deg, message=FALSE, warning=FALSE, eval=FALSE}
@@ -336,7 +335,13 @@ gdcHeatmap(deg.id = degName, metadata = metaMatrix.RNA, rna.expr = rnaExpr)
 
 Hypergenometric test is performed to test whether a lncRNA and mRNA share many miRNAs significantly.
 
-A newly developed algorithm **[spongeScan](http://spongescan.rc.ufl.edu/)**[@Furio-TarispongeScanwebdetecting2016] is used to predict MREs in lncRNAs acting as ceRNAs. Databases such as **[starBase v2.0](http://starbase.sysu.edu.cn/)**[@ListarBasev2decoding2014], **[miRcode](http://www.mircode.org/)**[@JeggarimiRcodemapputative2012] and **[mirTarBase release 7.0](http://mirtarbase.mbc.nctu.edu.tw/)**[@ChoumiRTarBaseupdate20182017] are used to collect predicted and experimentally validated miRNA-mRNA and/or miRNA-lncRNA interactions. Gene IDs in these databases are updated to the latest Ensembl 90 annotation of human genome and miRNAs names are updated to the new release miRBase 21 identifiers. Users can also provide their own datasets of miRNA-lncRNA and miRNA-mRNA interactions.
+A newly developed algorithm **[spongeScan](http://spongescan.rc.ufl.edu/)**(Furi’o-Tar’i et al. 2016) is used to predict MREs in lncRNAs acting as ceRNAs. Databases such as **[starBase v2.0](http://starbase.sysu.edu.cn/)**(J.-H. Li et al. 2014), **[miRcode](http://www.mircode.org/)**(Jeggari, Marks, and Larsson 2012) and **[mirTarBase release 7.0](http://mirtarbase.mbc.nctu.edu.tw/)**(Chou et al. 2017) are used to collect predicted and experimentally validated miRNA-mRNA and/or miRNA-lncRNA interactions. Gene IDs in these databases are updated to the latest Ensembl 90 annotation of human genome and miRNAs names are updated to the new release miRBase 21 identifiers. Users can also provide their own datasets of miRNA-lncRNA and miRNA-mRNA interactions.
+
+
+
+
+
+
 
 > The figure and equation below illustrate how the hypergeometric test works 
 
@@ -369,7 +374,7 @@ where <a href="https://www.codecogs.com/eqnedit.php?latex=m" target="_blank"><im
 
 * Sensitivity correlation
 
-Sensitivity correlation is defined by Paci et al.[@PaciComputationalanalysisidentifies2014] to measure if the correlation between a lncRNA and mRNA is mediated by a miRNA in the lncRNA-miRNA-mRNA triplet. We take average of all triplets of a lncRNA-mRNA pair and their shared miRNAs as the sensitivity correlation between a selected lncRNA and mRNA.
+Sensitivity correlation is defined by Paci et al.(2014) to measure if the correlation between a lncRNA and mRNA is mediated by a miRNA in the lncRNA-miRNA-mRNA triplet. We take average of all triplets of a lncRNA-mRNA pair and their shared miRNAs as the sensitivity correlation between a selected lncRNA and mRNA.
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=Sensitivity\&space;correlation&space;=&space;corr(l,g)-\frac{1}{M}\sum_{k=1}^M&space;{\frac{corr(l,g)-corr(m_k,l)corr(m_k,g)}{\sqrt{1-corr(m_k,l)^2}\sqrt{1-corr(m_k,g)^2}}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Sensitivity\&space;correlation&space;=&space;corr(l,g)-\frac{1}{M}\sum_{k=1}^M&space;{\frac{corr(l,g)-corr(m_k,l)corr(m_k,g)}{\sqrt{1-corr(m_k,l)^2}\sqrt{1-corr(m_k,g)^2}}}" title="Sensitivity\ correlation = corr(l,g)-\frac{1}{M}\sum_{k=1}^M {\frac{corr(l,g)-corr(m_k,l)corr(m_k,g)}{\sqrt{1-corr(m_k,l)^2}\sqrt{1-corr(m_k,g)^2}}}" /></a>
 
@@ -496,7 +501,7 @@ One of the main uses of the GO is to perform enrichment analysis on gene sets. F
 ***
 
 ### 6.1 GO, KEGG and DO analyses
-`gdcEnrichAnalysis()` can perform Gene ontology (GO), Kyoto Encyclopedia of Genes and Genomes (KEGG) and Disease Ontology (DO) functional enrichment analyses of a list of genes simultaneously. GO and KEGG analyses are based on the R/Bioconductor packages [clusterProfilier](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)[@YuclusterProfilerPackageComparing2012] and [DOSE](https://bioconductor.org/packages/release/bioc/html/DOSE.html)[@YuDOSEBioconductorpackage2015]. Redundant GO terms can be removed by specifying `simplify=TRUE` in the `gdcEnrichAnalysis()` function which uses the `simplify()` function in the  [clusterProfilier](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)[@YuclusterProfilerPackageComparing2012] package. 
+`gdcEnrichAnalysis()` can perform Gene ontology (GO), Kyoto Encyclopedia of Genes and Genomes (KEGG) and Disease Ontology (DO) functional enrichment analyses of a list of genes simultaneously. GO and KEGG analyses are based on the R/Bioconductor packages [clusterProfilier](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)(Yu et al. 2012) and [DOSE](https://bioconductor.org/packages/release/bioc/html/DOSE.html)(Yu et al. 2015). Redundant GO terms can be removed by specifying `simplify=TRUE` in the `gdcEnrichAnalysis()` function which uses the `simplify()` function in the  [clusterProfilier](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)(Yu et al. 2012) package. 
 
 ```{r enrichment, message=FALSE, warning=FALSE, eval=FALSE}
 enrichOutput <- gdcEnrichAnalysis(gene = rownames(deALL), simplify = TRUE)
@@ -555,7 +560,7 @@ gdcEnrichPlot(enrichOutput, category='DO',type = 'bubble', num.terms = 20)
 
 #### 6.2.5 Pathview
 
-Users can visualize a pathway map with `pathview()` function in the [pathview](https://bioconductor.org/packages/release/bioc/html/pathview.html)[@LuoPathviewBioconductorpackage2013] package. It displays related many-genes-to-many-terms on 2-D view, shows by genes on BioCarta & KEGG pathway maps. Gradient colors can be used to indicate if genes are up-regulated or down-regulated.
+Users can visualize a pathway map with `pathview()` function in the [pathview](https://bioconductor.org/packages/release/bioc/html/pathview.html)(Luo and Brouwer 2013) package. It displays related many-genes-to-many-terms on 2-D view, shows by genes on BioCarta & KEGG pathway maps. Gradient colors can be used to indicate if genes are up-regulated or down-regulated.
 
 ```{r pathview, message=FALSE, warning=FALSE, eval=TRUE}
 deg <- deALL$logFC
@@ -595,3 +600,36 @@ shinyPathview(deg, pathways = pathways, directory = 'pathview')
 ```{r sessionInfo}
 sessionInfo()
 ```
+
+## References
+Chou, Chih-Hung, Sirjana Shrestha, Chi-Dung Yang, Nai-Wen Chang, Yu-Ling Lin, Kuang-Wen Liao, Wei-Chi Huang, et al. 2017. “MiRTarBase Update 2018: A Resource for Experimentally Validated MicroRNA-Target Interactions.” Nucleic Acids Research, November, gkx1067–gkx1067. doi:10.1093/nar/gkx1067.
+
+Colaprico, Antonio, Tiago C. Silva, Catharina Olsen, Luciano Garofano, Claudia Cava, Davide Garolini, Thais S. Sabedot, et al. 2016. “TCGAbiolinks: An R/Bioconductor Package for Integrative Analysis of TCGA Data.” Nucleic Acids Research 44 (8): e71. doi:10.1093/nar/gkv1507.
+
+Furi’o-Tar’i, Pedro, Sonia Tarazona, Toni Gabald’on, Anton J. Enright, and Ana Conesa. 2016. “SpongeScan: A Web for Detecting MicroRNA Binding Elements in LncRNA Sequences.” Nucleic Acids Research 44 (Web Server issue): W176–W180. doi:10.1093/nar/gkw443.
+
+Jeggari, Ashwini, Debora S Marks, and Erik Larsson. 2012. “MiRcode: A Map of Putative MicroRNA Target Sites in the Long Non-Coding Transcriptome.” Bioinformatics 28 (15): 2062–3. doi:10.1093/bioinformatics/bts344.
+
+Langfelder, Peter, and Steve Horvath. 2008. “WGCNA: An R Package for Weighted Correlation Network Analysis.” BMC Bioinformatics 9 (December): 559. doi:10.1186/1471-2105-9-559.
+
+Law, Charity W., Yunshun Chen, Wei Shi, and Gordon K. Smyth. 2014. “Voom: Precision Weights Unlock Linear Model Analysis Tools for RNA-Seq Read Counts.” Genome Biology 15 (February): R29. doi:10.1186/gb-2014-15-2-r29.
+
+Li, Jun-Hao, Shun Liu, Hui Zhou, Liang-Hu Qu, and Jian-Hua Yang. 2014. “StarBase V2.0: Decoding MiRNA-CeRNA, MiRNA-NcRNA and Protein–RNA Interaction Networks from Large-Scale CLIP-Seq Data.” Nucleic Acids Research 42 (Database issue): D92–D97. doi:10.1093/nar/gkt1248.
+
+Love, Michael I., Wolfgang Huber, and Simon Anders. 2014. “Moderated Estimation of Fold Change and Dispersion for RNA-Seq Data with DESeq2.” Genome Biology 15 (December): 550. doi:10.1186/s13059-014-0550-8.
+
+Luo, Weijun, and Cory Brouwer. 2013. “Pathview: An R/Bioconductor Package for Pathway-Based Data Integration and Visualization.” Bioinformatics 29 (14): 1830–1. doi:10.1093/bioinformatics/btt285.
+
+Paci, Paola, Teresa Colombo, and Lorenzo Farina. 2014. “Computational Analysis Identifies a Sponge Interaction Network Between Long Non-Coding RNAs and Messenger RNAs in Human Breast Cancer.” BMC Systems Biology 8 (July): 83. doi:10.1186/1752-0509-8-83.
+
+Ritchie, Matthew E., Belinda Phipson, Di Wu, Yifang Hu, Charity W. Law, Wei Shi, and Gordon K. Smyth. 2015. “Limma Powers Differential Expression Analyses for RNA-Sequencing and Microarray Studies.” Nucleic Acids Research 43 (7): e47. doi:10.1093/nar/gkv007.
+
+Robinson, Mark D., and Alicia Oshlack. 2010. “A Scaling Normalization Method for Differential Expression Analysis of RNA-Seq Data.” Genome Biology 11 (March): R25. doi:10.1186/gb-2010-11-3-r25.
+
+Robinson, Mark D., Davis J. McCarthy, and Gordon K. Smyth. 2010. “EdgeR: A Bioconductor Package for Differential Expression Analysis of Digital Gene Expression Data.” Bioinformatics 26 (1): 139–40. doi:10.1093/bioinformatics/btp616.
+
+Yu, Guangchuang, Li-Gen Wang, Yanyan Han, and Qing-Yu He. 2012. “ClusterProfiler: An R Package for Comparing Biological Themes Among Gene Clusters.” OMICS : A Journal of Integrative Biology 16 (5): 284–87. doi:10.1089/omi.2011.0118.
+
+Yu, Guangchuang, Li-Gen Wang, Guang-Rong Yan, and Qing-Yu He. 2015. “DOSE: An R/Bioconductor Package for Disease Ontology Semantic and Enrichment Analysis.” Bioinformatics 31 (4): 608–9. doi:10.1093/bioinformatics/btu684.
+
+Zhu, Yitan, Peng Qiu, and Yuan Ji. 2014. “TCGA-Assembler: An Open-Source Pipeline for TCGA Data Downloading, Assembling, and Processing.” Nature Methods 11 (6): 599–600. doi:10.1038/nmeth.2956.
