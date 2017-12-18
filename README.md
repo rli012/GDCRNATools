@@ -93,7 +93,7 @@ Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-tr
 
 **1.1.2 Download manifest file and metadata from GDC Data Portal**
 
-![](vignettes/figures/TCGA-PRAD.download_cart.png)
+![](https://github.com/Jialab-UCR/Jialab-UCR.github.io/figures/download_rna.PRAD.gif)
 
 **1.1.3 Download data**
 ```{r rnaseq, eval=FALSE, message=FALSE, warning=FALSE}
