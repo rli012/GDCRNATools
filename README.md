@@ -322,7 +322,7 @@ degName = rownames(deALL)
 gdcHeatmap(deg.id = degName, metadata = metaMatrix.RNA, rna.expr = rnaExpr)
 ```
 
-![](figures/gdcHeatmap.png)
+![](vignettes/figures/gdcHeatmap.png)
 
 
 ## 4 Competing endogenous RNAs network analysis
@@ -343,7 +343,7 @@ A newly developed algorithm **[spongeScan](http://spongescan.rc.ufl.edu/)**[@Fur
 
 > The figure and equation below illustrate how the hypergeometric test works 
 
-![](figures/hyper.png)
+![](vignettes/figures/hyper.png)
 
 
 $$p=1-\sum_{k=0}^m \frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}} $$
@@ -405,7 +405,7 @@ gdcCorPlot(gene1    = 'ENSG00000234456',
            metadata = metaMatrix.RNA)
 ```
 
-![](figures/gdcCorPlot.png)
+![](vignettes/figures/gdcCorPlot.png)
 
 
 #### 4.4.2 Correlation plot on a local webpage by shinyCorplot
@@ -419,7 +419,7 @@ shinyCorPlot(gene1    = rownames(deLNC),
              metadata = metaMatrix.RNA)
 ```
 
-![](figures/TCGA-PRAD.shinyCorPlot.gif)
+![](vignettes/figures/TCGA-PRAD.shinyCorPlot.gif)
 
 
 
@@ -576,7 +576,7 @@ hsa04022 <- pathview(gene.data   = deg,
 ```
 
 
-![](figures/hsa04022.pathview.png)
+![](vignettes/figures/hsa04022.pathview.png)
 
 
 #### 6.2.6 View pathway maps on a local webpage by shinyPathview
@@ -591,7 +591,7 @@ pathways <- as.character(enrichOutput$Terms[enrichOutput$Category=='KEGG'])
 shinyPathview(deg, pathways = pathways, directory = 'pathview')
 ```
 
-![](vi figures/TCGA-PRAD.shinyPathview.gif)
+![](vignettes/figures/TCGA-PRAD.shinyPathview.gif)
 
 
 ## sessionInfo
