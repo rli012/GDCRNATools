@@ -369,7 +369,8 @@ where $M$ is the total number of shared miRNAs, $k$ is the $k$th shared miRNAs, 
 
 Sensitivity correlation is defined by Paci et al.[@PaciComputationalanalysisidentifies2014] to measure if the correlation between a lncRNA and mRNA is mediated by a miRNA in the lncRNA-miRNA-mRNA triplet. We take average of all triplets of a lncRNA-mRNA pair and their shared miRNAs as the sensitivity correlation between a selected lncRNA and mRNA.
 
-$$Sensitivity\ correlation  = corr(l,g)-\frac{1}{M}\sum_{k=1}^M {\frac{corr(l,g)-corr(m_k,l)corr(m_k,g)}{\sqrt{1-corr(m_k,l)^2}\sqrt{1-corr(m_k,g)^2}}}$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$Regulation\&space;similarity\&space;score&space;=&space;1-\frac{1}{M}&space;\sum_{k=1}^M&space;[{\frac{|corr(m_k,l)-corr(m_k,g)|}{|corr(m_k,l)|&plus;|corr(m_k,g)|}}]^M$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$Regulation\&space;similarity\&space;score&space;=&space;1-\frac{1}{M}&space;\sum_{k=1}^M&space;[{\frac{|corr(m_k,l)-corr(m_k,g)|}{|corr(m_k,l)|&plus;|corr(m_k,g)|}}]^M$$" title="$$Regulation\ similarity\ score = 1-\frac{1}{M} \sum_{k=1}^M [{\frac{|corr(m_k,l)-corr(m_k,g)|}{|corr(m_k,l)|+|corr(m_k,g)|}}]^M$$" /></a>
+
 where $M$ is the total number of shared miRNAs, $k$ is the $k$th shared miRNAs, $corr(l,g)$, $corr(m_k,l)$ and $corr(m_k, g)$ represents the Pearson correlation between the long non-coding RNA and the protein coding gene, the kth miRNA and lncRNA, the kth miRNA and mRNA, respectively
 
 
