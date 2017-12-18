@@ -341,9 +341,10 @@ A newly developed algorithm **[spongeScan](http://spongescan.rc.ufl.edu/)**[@Fur
 
 ![](vignettes/figures/hyper.png)
 
+<a href="https://www.codecogs.com/eqnedit.php?latex=p=1-\sum_{k=0}^m&space;\frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?p=1-\sum_{k=0}^m&space;\frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}}" title="p=1-\sum_{k=0}^m \frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}}" /></a>
 
-$$p=1-\sum_{k=0}^m \frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}} $$
-here $m$ is the number of shared miRNAs, $N$ is the total number of miRNAs in the database, $n$ is the number of miRNAs targeting the lncRNA, $K$ is the number of miRNAs targeting the protein coding gene.
+
+here <a href="https://www.codecogs.com/eqnedit.php?latex=m" target="_blank"><img src="https://latex.codecogs.com/gif.latex?m" title="m" /></a> is the number of shared miRNAs, <a href="https://www.codecogs.com/eqnedit.php?latex=m" target="_blank"><img src="https://latex.codecogs.com/gif.latex?m" title="N" /></a> is the total number of miRNAs in the database, <a href="https://www.codecogs.com/eqnedit.php?latex=m" target="_blank"><img src="https://latex.codecogs.com/gif.latex?m" title="n" /></a> is the number of miRNAs targeting the lncRNA, <a href="https://www.codecogs.com/eqnedit.php?latex=m" target="_blank"><img src="https://latex.codecogs.com/gif.latex?m" title="K" /></a> is the number of miRNAs targeting the protein coding gene.
 
 
 ### 4.2 Pearson correlation analysis
@@ -360,16 +361,17 @@ Pearson correlation coefficient is a measure of the strength of a linear associa
 
 We defined a measurement *regulation similarity score* to check the similarity between miRNAs-lncRNA expression correlation and miRNAs-mRNA expression correlation.
 
-$$Regulation\ similarity\ score  = 1-\frac{1}{M} \sum_{k=1}^M [{\frac{|corr(m_k,l)-corr(m_k,g)|}{|corr(m_k,l)|+|corr(m_k,g)|}}]^M$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$Regulation\&space;similarity\&space;score&space;=&space;1-\frac{1}{M}&space;\sum_{k=1}^M&space;[{\frac{|corr(m_k,l)-corr(m_k,g)|}{|corr(m_k,l)|&plus;|corr(m_k,g)|}}]^M$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$Regulation\&space;similarity\&space;score&space;=&space;1-\frac{1}{M}&space;\sum_{k=1}^M&space;[{\frac{|corr(m_k,l)-corr(m_k,g)|}{|corr(m_k,l)|&plus;|corr(m_k,g)|}}]^M$$" title="$$Regulation\ similarity\ score = 1-\frac{1}{M} \sum_{k=1}^M [{\frac{|corr(m_k,l)-corr(m_k,g)|}{|corr(m_k,l)|+|corr(m_k,g)|}}]^M$$" /></a>
 
-where $M$ is the total number of shared miRNAs, $k$ is the $k$th shared miRNAs, $corr(m_k, l)$ and $corr(m_k, g)$ represents the Pearson correlation between the $k$th miRNA and lncRNA, the $k$th miRNA and mRNA, respectively
+where <a href="https://www.codecogs.com/eqnedit.php?latex=m" target="_blank"><img src="https://latex.codecogs.com/gif.latex?m" title="m" /></a> is the total number of shared miRNAs, <a href="https://www.codecogs.com/eqnedit.php?latex=m" target="_blank"><img src="https://latex.codecogs.com/gif.latex?m" title="k" /></a> is the <a href="https://www.codecogs.com/eqnedit.php?latex=m" target="_blank"><img src="https://latex.codecogs.com/gif.latex?m" title="k" /></a>th shared miRNAs, <a href="https://www.codecogs.com/eqnedit.php?latex=corr(m_k,&space;l)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?corr(m_k,&space;l)" title="corr(m_k, l)" /></a> and <a href="https://www.codecogs.com/eqnedit.php?latex=corr(m_k,&space;l)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?corr(m_k,&space;l)" title="corr(m_k, g)" /></a> represents the Pearson correlation between the $<a href="https://www.codecogs.com/eqnedit.php?latex=corr(m_k,&space;l)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?corr(m_k,&space;l)" title="k" /></a>th miRNA and lncRNA, the <a href="https://www.codecogs.com/eqnedit.php?latex=corr(m_k,&space;l)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?corr(m_k,&space;l)" title="k" /></a>th miRNA and mRNA, respectively
 
 
 * Sensitivity correlation
 
 Sensitivity correlation is defined by Paci et al.[@PaciComputationalanalysisidentifies2014] to measure if the correlation between a lncRNA and mRNA is mediated by a miRNA in the lncRNA-miRNA-mRNA triplet. We take average of all triplets of a lncRNA-mRNA pair and their shared miRNAs as the sensitivity correlation between a selected lncRNA and mRNA.
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=$$Regulation\&space;similarity\&space;score&space;=&space;1-\frac{1}{M}&space;\sum_{k=1}^M&space;[{\frac{|corr(m_k,l)-corr(m_k,g)|}{|corr(m_k,l)|&plus;|corr(m_k,g)|}}]^M$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$Regulation\&space;similarity\&space;score&space;=&space;1-\frac{1}{M}&space;\sum_{k=1}^M&space;[{\frac{|corr(m_k,l)-corr(m_k,g)|}{|corr(m_k,l)|&plus;|corr(m_k,g)|}}]^M$$" title="$$Regulation\ similarity\ score = 1-\frac{1}{M} \sum_{k=1}^M [{\frac{|corr(m_k,l)-corr(m_k,g)|}{|corr(m_k,l)|+|corr(m_k,g)|}}]^M$$" /></a>
+<a href="https://www.codecogs.com/eqnedit.php?latex=Sensitivity\&space;correlation&space;=&space;corr(l,g)-\frac{1}{M}\sum_{k=1}^M&space;{\frac{corr(l,g)-corr(m_k,l)corr(m_k,g)}{\sqrt{1-corr(m_k,l)^2}\sqrt{1-corr(m_k,g)^2}}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?Sensitivity\&space;correlation&space;=&space;corr(l,g)-\frac{1}{M}\sum_{k=1}^M&space;{\frac{corr(l,g)-corr(m_k,l)corr(m_k,g)}{\sqrt{1-corr(m_k,l)^2}\sqrt{1-corr(m_k,g)^2}}}" title="Sensitivity\ correlation = corr(l,g)-\frac{1}{M}\sum_{k=1}^M {\frac{corr(l,g)-corr(m_k,l)corr(m_k,g)}{\sqrt{1-corr(m_k,l)^2}\sqrt{1-corr(m_k,g)^2}}}" /></a>
+
 
 where $M$ is the total number of shared miRNAs, $k$ is the $k$th shared miRNAs, $corr(l,g)$, $corr(m_k,l)$ and $corr(m_k, g)$ represents the Pearson correlation between the long non-coding RNA and the protein coding gene, the kth miRNA and lncRNA, the kth miRNA and mRNA, respectively
 
