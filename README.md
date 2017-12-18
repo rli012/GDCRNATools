@@ -88,13 +88,14 @@ Users can also download data from GDC using the API method developed in [TCGAbio
 ### 1.1 Manual download
 
 **1.1.1 Installation of GDC Data Transfer Tool gdc-client**
+
 Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool) from the GDC website and unzip the file
 
 **1.1.2 Download manifest file and metadata from GDC Data Portal**
 
-![](figures/TCGA-PRAD.download_cart.png)
+![](vignettes/figures/TCGA-PRAD.download_cart.png)
 
-**1.1.3 ownload data **
+**1.1.3 Download data**
 ```{r rnaseq, eval=FALSE, message=FALSE, warning=FALSE}
 ####### Download RNAseq data #######
 gdcRNADownload(manifest  = 'TCGA-PRAD/TCGA-PRAD.RNAseq.gdc_manifest.2017-11-23T14-40-52.txt',
@@ -178,7 +179,7 @@ metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-PRAD',
 
 ### 2.2 Filter samples
 
-##### 2.2.1 Filter duplicated samples
+#### 2.2.1 Filter duplicated samples
 Only one sample would be kept if the sample had been sequenced more than once by `gdcFilterDuplicate()`.
 
 ```{r filter meta, message=FALSE, warning=FALSE, eval=TRUE}
@@ -193,7 +194,7 @@ metaMatrix.MIR <- gdcFilterDuplicate(metaMatrix.MIR)
 
 
 
-##### 2.2.2 Filter non-Primary Tumor and non-Solid Tissue Normal samples
+#### 2.2.2 Filter non-Primary Tumor and non-Solid Tissue Normal samples
 Samples that are neither Primary Tumor (code: 01) nor Solid Tissue Normal (code: 11) would be filtered out by `gdcFilterSampleType()`.
 
 ```{r filter meta3, message=FALSE, warning=FALSE, eval=TRUE}
