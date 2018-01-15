@@ -46,7 +46,7 @@ gdcCorPlot <- function(gene1, gene2, rna.expr, metadata) {
     p <- format(x$p.value, digits=3)
     
     corDa <- data.frame(lncDa=rna.expr[gene1,], pcDa=rna.expr[gene2,], 
-                        sampleType=as.factor(metadata$sample_type))
+        sampleType=as.factor(metadata$sample_type))
     
     
     xpos <- (min(lncDa)+max(lncDa))/2
@@ -59,17 +59,16 @@ gdcCorPlot <- function(gene1, gene2, rna.expr, metadata) {
         ylab(paste(gene2,' (',ensembl2symbolFun(gene2),')',sep='')) + 
         geom_smooth(method="lm",se=FALSE, col='darkgreen', size=0.5) + 
         scale_colour_manual(breaks = sampleType, values = c('chocolate1', 'blue')) +
-        ggplot2::annotate("text", 
-                          x = xpos, y = ypos, # x and y coordinates of the text
-                          label = paste('cor=', c, ', p=', p, sep=''), size = 5) +
+        ggplot2::annotate("text", x = xpos, y = ypos, # x and y coordinates of the text
+            label = paste('cor=', c, ', p=', p, sep=''), size = 5) +
         theme_bw()+theme(legend.title = element_blank(),
-                         legend.text = element_text(size=12),
-                         axis.line = element_line(colour = "black"),
-                         panel.grid.major = element_blank(),
-                         panel.grid.minor = element_blank(),
-                         panel.border = element_rect(colour='white'),
-                         panel.background = element_blank(),
-                         axis.text = element_text(size=10),
-                         axis.title = element_text(size=14))
+            legend.text = element_text(size=12),
+            axis.line = element_line(colour = "black"),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.border = element_rect(colour='white'),
+            panel.background = element_blank(),
+            axis.text = element_text(size=10),
+            axis.title = element_text(size=14))
   
 }
