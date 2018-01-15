@@ -30,16 +30,16 @@
 ##' \dontrun{enrichOutput <- gdcEnrichAnalysis(gene=deg, simplify=TRUE)}
 gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
   
-    cat ('### This step may take a few minutes ###\n')
+    message ('### This step may take a few minutes ###\n')
     
-    goBP <- enrichGO(gene          = gene,
-                     universe      = biotype$ensemblID,
-                     OrgDb         = org.Hs.eg.db,
-                     ont           = "BP",
-                     keytype       = 'ENSEMBL',
-                     pAdjustMethod = "fdr",
-                     pvalueCutoff  = 0.01,
-                     readable      = FALSE)
+    goBP <- enrichGO(gene = gene,
+        universe = biotype$ensemblID,
+        OrgDb = org.Hs.eg.db,
+        ont = "BP",
+        keytype = 'ENSEMBL',
+        pAdjustMethod = "fdr",
+        pvalueCutoff = 0.01,
+        readable = FALSE)
     
     if (level != 0) {
         goBP <- gofilter(goBP, level=level)
@@ -49,16 +49,16 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         goBP <- simplify(goBP, cutoff=0.7, by="p.adjust", select_fun=min)
     }
     
-    cat ('Step 1/5: BP analysis done!\n')
+    message ('Step 1/5: BP analysis done!\n')
     
-    goCC <- enrichGO(gene          = gene,
-                     universe      = biotype$ensemblID,
-                     OrgDb         = org.Hs.eg.db,
-                     ont           = "CC",
-                     keytype       = 'ENSEMBL',
-                     pAdjustMethod = "fdr",
-                     pvalueCutoff  = 0.01,
-                     readable      = FALSE)
+    goCC <- enrichGO(gene = gene,
+        universe = biotype$ensemblID,
+        OrgDb = org.Hs.eg.db,
+        ont = "CC",
+        keytype = 'ENSEMBL',
+        pAdjustMethod = "fdr",
+        pvalueCutoff = 0.01,
+        readable = FALSE)
     
     if (level != 0) {
         goCC <- gofilter(goCC, level=level)
@@ -68,16 +68,16 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         goCC <- simplify(goCC, cutoff=0.7, by="p.adjust", select_fun=min)
     }
     
-    cat ('Step 2/5: CC analysis done!\n')
+    message ('Step 2/5: CC analysis done!\n')
     
-    goMF <- enrichGO(gene          = gene,
-                     universe      = biotype$ensemblID,
-                     OrgDb         = org.Hs.eg.db,
-                     ont           = "MF",
-                     keytype       = 'ENSEMBL',
-                     pAdjustMethod = "fdr",
-                     pvalueCutoff  = 0.01,
-                     readable      = FALSE)
+    goMF <- enrichGO(gene = gene,
+        universe = biotype$ensemblID,
+        OrgDb = org.Hs.eg.db,
+        ont = "MF",
+        keytype = 'ENSEMBL',
+        pAdjustMethod = "fdr",
+        pvalueCutoff = 0.01,
+        readable = FALSE)
     
     if (level != 0) {
         goMF <- gofilter(goMF, level=level)
@@ -87,45 +87,45 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         goMF <- simplify(goMF, cutoff=0.7, by="p.adjust", select_fun=min)
     }
     
-    cat ('Step 3/5: MF analysis done!\n')
+    message ('Step 3/5: MF analysis done!\n')
     
     ensembl = useMart("ensembl",dataset="hsapiens_gene_ensembl")
     genes <- getBM(attributes = c('ensembl_gene_id','entrezgene'), 
-                   values=gene, filters='ensembl_gene_id', mart=ensembl)
+       values=gene, filters='ensembl_gene_id', mart=ensembl)
     genes <- genes[! is.na(genes$entrezgene),]
     universe <- getBM(attributes = c('ensembl_gene_id','entrezgene'), 
-                      values=biotype$ensemblID, filters='ensembl_gene_id', mart=ensembl)
+        values=biotype$ensemblID, filters='ensembl_gene_id', mart=ensembl)
     
-    kegg <- enrichKEGG(gene=as.character(genes$entrezgene),
-                       organism   = 'hsa',
-                       universe   = as.character(unique(universe$entrezgene[!is.na(universe$entrezgene)])),
-                       minGSSize  = 10,
-                       maxGSSize  = 500,
-                       pAdjustMethod = 'fdr',
-                       pvalueCutoff=0.01)
+    kegg <- enrichKEGG(gene = as.character(genes$entrezgene),
+        organism = 'hsa',
+        universe = as.character(unique(universe$entrezgene[!is.na(universe$entrezgene)])),
+        minGSSize = 10,
+        maxGSSize = 500,
+        pAdjustMethod = 'fdr',
+        pvalueCutoff = 0.01)
     
     kegg <- data.frame(kegg@result)
     
     kegg$geneID <- unlist(lapply(kegg$geneID, function(v) 
         paste(genes$ensembl_gene_id[match(strsplit(v, '/', fixed=TRUE)[[1]], genes$entrezgene)], 
-              collapse = '/')))
+            collapse = '/')))
     
-    cat ('Step 4/5: KEGG analysis done!\n')
+    message ('Step 4/5: KEGG analysis done!\n')
     
-    do <- enrichDO(gene          = as.character(genes$entrezgene),
-                   universe      = as.character(unique(universe$entrezgene[!is.na(universe$entrezgene)])),
-                   ont           = "DO",
-                   pAdjustMethod = "fdr",
-                   pvalueCutoff  = 0.01,
-                   readable      = FALSE)
+    do <- enrichDO(gene = as.character(genes$entrezgene),
+        universe = as.character(unique(universe$entrezgene[!is.na(universe$entrezgene)])),
+        ont = "DO",
+        pAdjustMethod = "fdr",
+        pvalueCutoff = 0.01,
+        readable = FALSE)
     
     do <- data.frame(do@result)
     
     do$geneID <- unlist(lapply(do$geneID, function(v) 
         paste(genes$ensembl_gene_id[match(strsplit(v, '/', fixed=TRUE)[[1]], genes$entrezgene)], 
-              collapse = '/')))
+            collapse = '/')))
     
-    cat ('Step 5/5: DO analysis done!\n')
+    message ('Step 5/5: DO analysis done!\n')
     
     goBP <- organizeEnrichFun(data.frame(goBP@result))
     goCC <- organizeEnrichFun(data.frame(goCC@result))
@@ -136,7 +136,7 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
     enrichOutput <- data.frame(rbind(goBP, goCC, goMF, kegg, do))
     
     enrichOutput$Category <- rep(c('GO_BP','GO_CC','GO_MF','KEGG', 'DO'), 
-                                 c(nrow(goBP),nrow(goCC),nrow(goMF),nrow(kegg),nrow(do)))
+        c(nrow(goBP),nrow(goCC),nrow(goMF),nrow(kegg),nrow(do)))
     
     return (enrichOutput)
 }
@@ -162,10 +162,10 @@ organizeEnrichFun <- function(go) {
     
     geneID <- go$geneID
     geneSymbol <- unlist(lapply(strsplit(geneID, '/', fixed=TRUE), 
-                                function(v) paste(ensembl2symbolFun(v), collapse = '/')))
+        function(v) paste(ensembl2symbolFun(v), collapse = '/')))
     
     goOutput <- data.frame(Terms, Counts, GeneRatio, BgRatio, pValue, FDR, 
-                           foldEnrichment, geneID, geneSymbol)
+        foldEnrichment, geneID, geneSymbol)
     
     return (goOutput)
 }
