@@ -36,16 +36,15 @@ gdcExportNetwork <- function(ceNetwork, net) {
     symbol <- c(ensembl2symbolFun(names(nodeTable1)), names(nodeTable2))
     
     type <- c(ifelse(names(nodeTable1) %in% ceNetwork$lncRNAs, 'lnc', 'pc'), 
-              rep('mir', length(nodeTable2)))
+        rep('mir', length(nodeTable2)))
     
     
     nodes <- data.frame(gene=c(names(nodeTable1), names(nodeTable2)), symbol, type, 
-                        numInteractions=as.numeric(c(nodeTable1, nodeTable2)))
+        numInteractions=as.numeric(c(nodeTable1, nodeTable2)))
     
     if (net=='nodes') {
         return (nodes)
     } else if (net=='edges') {
         return (edges)
     }
-  
 }
