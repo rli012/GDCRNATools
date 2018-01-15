@@ -81,13 +81,12 @@ enrichBubblePlotFun <- function(kegg, pval=0.01) {
         xlab('')+ylab('Fold enrichment') +
         guides(shape = guide_legend(order=1),colour = guide_colourbar(order=2)) + 
         theme_bw()+theme(axis.line = element_line(colour = "black"),
-                         panel.grid.minor = element_blank(),
-                         panel.border = element_rect(colour='black'),
-                         panel.background = element_blank()) +
-        
+            panel.grid.minor = element_blank(),
+            panel.border = element_rect(colour='black'),
+            panel.background = element_blank()) +
         ggtitle("") + theme(plot.title = element_text(hjust = 0.5, size=20)) +
         theme(axis.text.y=element_text(size=14), axis.title=element_text(size=15),
-              axis.text.x=element_text(size=14)) + 
+            axis.text.x=element_text(size=14)) + 
         theme(legend.text = element_text(size = 14),legend.title = element_text(size = 14)) +
         theme(strip.text = element_text(size = 14), legend.key.size = unit(0.8,'cm'))
   
@@ -104,13 +103,13 @@ enrichBarPlotFun <- function(kegg, type='single', bar.color='black') {
             theme(legend.title=element_blank())+ylab('-log10(FDR)')+
             xlab('') + coord_flip() + 
             theme_bw()+theme(axis.line = element_line(colour = "black"),
-                             panel.grid.major = element_blank(),
-                             panel.grid.minor = element_blank(),
-                             panel.border = element_rect(colour='white'),
-                             panel.background = element_blank()) +
+                panel.grid.major = element_blank(),
+                panel.grid.minor = element_blank(),
+                panel.border = element_rect(colour='white'),
+                panel.background = element_blank()) +
             
             theme(axis.text.y=element_text(size=14), axis.title=element_text(size=15),
-                  axis.text.x=element_text(size=14)) + 
+                axis.text.x=element_text(size=14)) + 
             theme(legend.position = 'none')
         
     } else if (type=='multiple') {
@@ -122,13 +121,11 @@ enrichBarPlotFun <- function(kegg, type='single', bar.color='black') {
             scale_fill_hue(name='',breaks=kegg$Category, labels=kegg$Category) +
             
             theme_bw()+theme(axis.line = element_line(colour = "black"),
-                             panel.grid.major = element_blank(),
-                             panel.grid.minor = element_blank(),
-                             panel.border = element_rect(colour='white'),
-                             panel.background = element_blank()) +
-            
+                panel.grid.major = element_blank(),
+                panel.grid.minor = element_blank(),
+                panel.border = element_rect(colour='white'),
+                panel.background = element_blank()) +
             theme(axis.text=element_text(size=14), axis.title=element_text(size=15)) + 
             theme(legend.text = element_text(size=16))
-        
     }
 }
