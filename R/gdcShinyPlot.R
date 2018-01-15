@@ -31,14 +31,11 @@
 ## shinyCorPlot(gene1=genes[1:3], gene2=genes[4:5], rna.expr=rnaExpr, metadata=metaMatrix)
 shinyCorPlot <- function (gene1, gene2, rna.expr,metadata) {
     ui <- fluidPage(
-        
         headerPanel('Expression correlation of ceRNA pairs'),
-        
         sidebarPanel(
             selectInput('xcol', 'Long non-coding gene', paste(gene1, ' (', ensembl2symbolFun(gene1), ')', sep='')),
             selectInput('ycol', 'Protein coding gene', paste(gene2, ' (', ensembl2symbolFun(gene2), ')', sep=''))
         ),
-        
         mainPanel(
             plotOutput('plot1')
         )
@@ -47,9 +44,9 @@ shinyCorPlot <- function (gene1, gene2, rna.expr,metadata) {
     server <- function(input, output, session) {
         output$plot1 <- renderPlot({
             gdcCorPlot(gene1 = strsplit(input$xcol,' (', fixed=TRUE)[[1]][1], 
-                       gene2 = strsplit(input$ycol,' (', fixed=TRUE)[[1]][1],
-                       rna.expr = rna.expr,
-                       metadata = metadata)
+                gene2 = strsplit(input$ycol,' (', fixed=TRUE)[[1]][1],
+                rna.expr = rna.expr,
+                metadata = metadata)
         })
     }
     shinyApp(ui = ui, server = server)
@@ -68,9 +65,7 @@ shinyCorPlot <- function (gene1, gene2, rna.expr,metadata) {
 ##' @author Ruidong Li and Han Qu
 shinyKMPlot <- function (gene, rna.expr, metadata) {
     sep=c('1stQu','median','mean','3rdQu')
-    
     ui <- fluidPage(
-        
         headerPanel('Kaplan Meier plot'),
         
         sidebarPanel(
@@ -86,9 +81,9 @@ shinyKMPlot <- function (gene, rna.expr, metadata) {
     server <- function(input, output, session) {
         output$plot1 <- renderPlot({
             gdcKMPlot(gene = strsplit(input$xcol,' (', fixed=TRUE)[[1]][1], 
-                      sep = input$ycol,
-                      rna.expr = rna.expr,
-                      metadata = metadata)
+                sep = input$ycol,
+                rna.expr = rna.expr,
+                metadata = metadata)
         })
     }
     shinyApp(ui = ui, server = server)
@@ -117,9 +112,7 @@ shinyPathview <- function(gene, pathways, directory='.') {
     }
     
     ui <- fluidPage(
-        
         headerPanel('Pathview'),
-        
         sidebarPanel(
             selectInput('xcol', 'Pathway', pathways)
         ),
@@ -136,12 +129,12 @@ shinyPathview <- function(gene, pathways, directory='.') {
             
             if (! file.exists(outfile)) {
                 pathview(gene.data  = gene,
-                         pathway.id = pathwayID,
-                         species    = "hsa",
-                         gene.idtype= 'ENSEMBL',
-                         #limit      = list(gene=c(min(geneList),max(geneList)), cpd=1),
-                         limit      = list(gene=max(abs(gene)), cpd=1),
-                         kegg.dir = directory)
+                    pathway.id = pathwayID,
+                    species    = "hsa",
+                    gene.idtype= 'ENSEMBL',
+                    #limit      = list(gene=c(min(geneList),max(geneList)), cpd=1),
+                    limit      = list(gene=max(abs(gene)), cpd=1),
+                    kegg.dir = directory)
                 
                 file.move(paste(pathwayID, '.pathview.png', sep=''), directory)
             }
