@@ -65,12 +65,12 @@ gdcDEAnalysis <- function(counts, group, comparison, method='limma', n.cores=NUL
     
     if (method == 'DESeq2') {
         
-        cat ('DE analysis using DESeq2 may take long time with a single core')
+        message ('DE analysis using DESeq2 may take long time with a single core')
         
         coldata <- data.frame(group)
         dds <- DESeqDataSetFromMatrix(countData = readCounts,
-                                      colData = coldata,
-                                      design = ~ group)
+           colData = coldata,
+           design = ~ group)
         
         dds$group <- factor(dds$group, levels = rev(strsplit(comparison, '-', fixed=TRUE)[[1]]))
         dds <- dds[keep, ]
