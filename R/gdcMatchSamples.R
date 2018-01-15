@@ -27,9 +27,9 @@
 ##' colnames(rnaExpr) <- samples
 ##' gdcMatchSamples(metadata=metaMatrix, rna.expr=rnaExpr)
 gdcMatchSamples <- function(metadata, rna.expr) {
-  correctNum <- sum(metadata$sample==colnames(rna.expr))
+    correctNum <- sum(metadata$sample==colnames(rna.expr))
   
-  if (correctNum == nrow(metadata) & correctNum == ncol(rna.expr)) {
-    cat ('Samples matched')
-  }
+    if (correctNum == nrow(metadata) & correctNum == ncol(rna.expr)) {
+        ('Samples matched')
+    }
 }
