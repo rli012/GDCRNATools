@@ -26,9 +26,11 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
         up <- sum(deg$logFC > 0)
         
         d <- data.frame(geneClass = c('Up','Down'),
-                        geneNums = c(up, down), 
-                        Regulation = factor(c('Up-regulated','Down-regulated'),
-                                            levels=c('Up-regulated','Down-regulated')))
+            geneNums = c(up, down), 
+            Regulation = factor(c('Up-regulated','Down-regulated'),
+            levels=c('Up-regulated','Down-regulated')
+            )
+        )
         
         if (angle==0) {
             ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
@@ -37,12 +39,12 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
                 ylab('No. of Differentially Expressed miRNAs') +xlab('') +
                 #theme(axis.text.x = element_text(angle = angle)) + 
                 theme_bw()+theme(axis.line = element_line(colour = "black"),
-                                 panel.grid.major = element_blank(),
-                                 panel.grid.minor = element_blank(),
-                                 panel.border = element_rect(colour='white'),
-                                 panel.background = element_blank(),
-                                 axis.text.x = element_text(angle = angle,size=10),
-                                 axis.text.y=element_text(size=10))
+                    panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour='white'),
+                    panel.background = element_blank(),
+                    axis.text.x = element_text(angle = angle,size=10),
+                    axis.text.y=element_text(size=10))
         } else {
             ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
                 geom_bar(stat = 'identity') + 
@@ -50,12 +52,12 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
                 ylab('No. of Differentially Expressed miRNAs') +xlab('') +
                 #theme(axis.text.x = element_text(angle = angle, vjust = 1, hjust=1)) +
                 theme_bw()+theme(axis.line = element_line(colour = "black"),
-                                 panel.grid.major = element_blank(),
-                                 panel.grid.minor = element_blank(),
-                                 panel.border = element_rect(colour='white'),
-                                 panel.background = element_blank(),
-                                 axis.text.x = element_text(angle = angle, vjust = 1, hjust=1,size=10),
-                                 axis.text.y=element_text(size=10))
+                    panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour='white'),
+                    panel.background = element_blank(),
+                    axis.text.x = element_text(angle = angle, vjust = 1, hjust=1,size=10),
+                    axis.text.y=element_text(size=10))
         }
         
     } else if (data.type=='RNAseq') {
@@ -81,10 +83,10 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
         o <- order(unlist(lapply(gr, function(v) v[['all']])), decreasing=TRUE)
         
         d <- data.frame(geneClass = rep(names(gr)[o], 2),
-                        geneNums = c(unlist(lapply(gr, function(v) v[['up']]))[o],
-                                     unlist(lapply(gr, function(v) v[['down']]))[o]), 
-                        Regulation = factor(rep(c('Up-regulated','Down-regulated'), each=length(gr)), 
-                                            levels=c('Up-regulated','Down-regulated')))
+            geneNums = c(unlist(lapply(gr, function(v) v[['up']]))[o],
+                unlist(lapply(gr, function(v) v[['down']]))[o]), 
+            Regulation = factor(rep(c('Up-regulated','Down-regulated'), each=length(gr)), 
+                levels=c('Up-regulated','Down-regulated')))
         
         if (angle==0) {
             ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
@@ -94,12 +96,12 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
                 ylab('No. of Differentially Expressed Genes') +xlab('Type of genes') +
                 #theme(axis.text.x = element_text(angle = angle)) +
                 theme_bw()+theme(axis.line = element_line(colour = "black"),
-                                 panel.grid.major = element_blank(),
-                                 panel.grid.minor = element_blank(),
-                                 panel.border = element_rect(colour='white'),
-                                 panel.background = element_blank(),
-                                 axis.text.x = element_text(angle = angle,size=14),
-                                 axis.text.y=element_text(size=14))
+                    panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour='white'),
+                    panel.background = element_blank(),
+                    axis.text.x = element_text(angle = angle,size=14),
+                    axis.text.y=element_text(size=14))
         } else {
             ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
                 geom_bar(stat = 'identity') + 
@@ -107,12 +109,12 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
                 ylab('No. of Differentially Expressed Genes') +xlab('Type of genes') +
                 #theme(axis.text.x = element_text(angle = angle, vjust = 1, hjust=1)) +
                 theme_bw()+theme(axis.line = element_line(colour = "black"),
-                                 panel.grid.major = element_blank(),
-                                 panel.grid.minor = element_blank(),
-                                 panel.border = element_rect(colour='white'),
-                                 panel.background = element_blank(),
-                                 axis.text.x = element_text(angle = angle, vjust = 1, hjust=1,size=14),
-                                 axis.text.y=element_text(size=14)) +
+                    panel.grid.major = element_blank(),
+                    panel.grid.minor = element_blank(),
+                    panel.border = element_rect(colour='white'),
+                    panel.background = element_blank(),
+                    axis.text.x = element_text(angle = angle, vjust = 1, hjust=1,size=14),
+                    axis.text.y=element_text(size=14)) +
                 theme(axis.title=element_text(size=16), legend.text = element_text(size=14))
             
         }
@@ -222,8 +224,8 @@ gdcHeatmap <- function(deg.id, metadata, rna.expr) {
     lhei = c(1,5)
     
     heatmap.2(as.matrix(degDa), col=bluered(75), trace='none', cexCol=0.32, cexRow=0.1,
-              dendrogram='both', srtCol=90, adjCol=c(0.8,0.15), density.info="none", labRow=NA,
-              key.title=NA,na.color=NA,lwid=lwid, lhei=lhei,  margins =c(3,3), labCol=NA,
-              key.xlab='Normalized intensity', scale='row', ColSideColors = sampleCol)
+       dendrogram='both', srtCol=90, adjCol=c(0.8,0.15), density.info="none", labRow=NA,
+       key.title=NA,na.color=NA,lwid=lwid, lhei=lhei,  margins =c(3,3), labCol=NA,
+       key.xlab='Normalized intensity', scale='row', ColSideColors = sampleCol)
   
 }
