@@ -24,4 +24,3 @@ symbol2ensemblFun <- function(symbol, info='ensemblID') {
         return (geneInfo)
     }
 }
-
