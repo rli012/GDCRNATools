@@ -13,7 +13,7 @@ gdcFilterDuplicate <- function(metadata) {
     if (length(filter) != 0) {
         metadata <- metadata[-filter,]
     }
-    cat (paste('Removed', length(filter), 'samples', sep=' '))
+    message (paste('Removed', length(filter), 'samples', sep=' '))
     return (metadata)
 }
 
@@ -33,6 +33,6 @@ gdcFilterSampleType <- function(metadata) {
     if (length(filter) != 0) {
         metadata <- metadata[-filter,]
     }
-    cat (paste('Removed', length(filter), 'samples', sep=' '))
+    message (paste('Removed', length(filter), 'samples', sep=' '))
     return (metadata)
 }
