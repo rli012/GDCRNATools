@@ -76,7 +76,7 @@ coxphTestFun <- function(genes, rna.expr, metaMatrix) {
         
         summcph <- summary(coxtest)
         coeffs <- c(summcph$coefficients[,1:2], summcph$conf.int[,3:4], 
-                    summcph$coefficients[,5])
+            summcph$coefficients[,5])
         coxphDEGs <- rbind(coxphDEGs, coeffs)
         
     }
