@@ -20,7 +20,7 @@
 ##' project <- 'TCGA-PRAD'
 ##' \dontrun{gdcRNADownload(project.id=project, data.type='RNAseq')}
 gdcRNADownload <- function(manifest=NULL, project.id, data.type, directory='Data',
-                           write.manifest=FALSE) {
+    write.manifest=FALSE) {
   
     if (! is.null(manifest)) {
         manifestDownloadFun(manifest=manifest,directory=directory)
@@ -155,10 +155,10 @@ gdcGetURL <- function(project.id, data.type) {
     filters <- paste('filters=',URLencode(paste('{"op":"and","content":[', content, ']}', sep='')),sep='')
     
     expand <- paste('analysis', 'analysis.input_files', 'associated_entities',
-                    'cases', 'cases.diagnoses','cases.diagnoses.treatments', 
-                    'cases.demographic', 'cases.project', 'cases.samples', 'cases.samples.portions', 
-                    'cases.samples.portions.analytes', 'cases.samples.portions.analytes.aliquots',
-                    'cases.samples.portions.slides', sep=',')
+        'cases', 'cases.diagnoses','cases.diagnoses.treatments', 
+        'cases.demographic', 'cases.project', 'cases.samples', 'cases.samples.portions', 
+        'cases.samples.portions.analytes', 'cases.samples.portions.analytes.aliquots',
+        'cases.samples.portions.slides', sep=',')
     
     expand <- paste('expand=', expand, sep='')
     
