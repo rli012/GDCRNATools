@@ -22,8 +22,8 @@
 ##' \dontrun{gdcClinicalDownload(project.id     = project, 
 ##'                     write.manifest = TRUE,
 ##'                     directory      = 'Clinical')}
-gdcClinicalDownload <- function(manifest=NULL, project.id, directory='Clinical', 
-                                write.manifest=FALSE) {
+gdcClinicalDownload <- function(manifest=NULL, project.id, 
+    directory='Clinical', write.manifest=FALSE) {
 
     data.type = 'Clinical'
     
@@ -34,7 +34,7 @@ gdcClinicalDownload <- function(manifest=NULL, project.id, directory='Clinical',
         
         url <- gdcGetURL(project.id=project.id, data.type=data.type)
         manifest <- read.table(paste(url, '&return_type=manifest', sep=''), 
-                               header=TRUE, stringsAsFactors=FALSE)
+            header=TRUE, stringsAsFactors=FALSE)
         
         systime <- gsub(' ', 'T', Sys.time())
         systime <- gsub(':', '-', systime)
@@ -95,11 +95,10 @@ gdcClinicalMerge <- function(path, key.info=TRUE) {
     xmlMatrix[xmlMatrix==""]<- "NA"
     xmlMatrix<- data.frame(xmlMatrix)
     if (key.info== TRUE){
-        
         line1<- xmlMatrix[c("age_at_initial_pathologic_diagnosis","ethnicity", "gender", "race",
-                            "clinical_stage", "clinical_T","clinical_N", "clinical_M", "gleason_grading",
-                            "gleason_score", "primary_pattern","secondary_pattern","tertiary_pattern",
-                            "psa","psa_value","days_to_psa"),]
+            "clinical_stage", "clinical_T","clinical_N", "clinical_M", "gleason_grading",
+            "gleason_score", "primary_pattern","secondary_pattern","tertiary_pattern",
+            "psa","psa_value","days_to_psa"),]
         
         
         ### days_to_death
@@ -136,9 +135,9 @@ gdcClinicalMerge <- function(path, key.info=TRUE) {
         ### age_at_initial_pathologic_diagnosis
         
         line6<- xmlMatrix[c("initial_pathologic_diagnosis_method", "lymphnodes_examined",
-                            "number_of_lymphnodes_examined","number_of_lymphnodes_positive_by_he",
-                            "pathologic_categories", "pathologic_stage","pathologic_T", "pathologic_M","pathologic_N",
-                            "new_tumor_event"),]
+            "number_of_lymphnodes_examined","number_of_lymphnodes_positive_by_he",
+            "pathologic_categories", "pathologic_stage","pathologic_T", "pathologic_M","pathologic_N",
+            "new_tumor_event"),]
         
         ### days_to_new_tumor_event_after_initial_treatment
         
