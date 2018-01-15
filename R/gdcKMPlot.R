@@ -72,18 +72,17 @@ gdcKMPlot <- function(gene, rna.expr, metadata, sep='median') {
     ypos = 1.05
     
     ggsurvplot(fit, data=survDa, pval = FALSE, pval.coord = c(2200, 1),
-               font.main = c(14, 'bold', 'blue'), conf.int = FALSE, legend = c(0.15, 0.2), 
-               legend.labs = c('Low expression', 'High expression'),  legend.title='',
-               xlab = 'Overall survival (days)', ylab = 'Survival probability',
-               font.x = c(16), font.y = c(16), ylim=c(0,1.05), 
-               ggtheme = theme_bw()+ theme(axis.line = element_line(colour = "black"),
-                                           panel.grid.major = element_blank(),
-                                           panel.grid.minor = element_blank(),
-                                           panel.border = element_rect(colour='black'),
-                                           panel.background = element_blank(),
-                                           legend.text = element_text(size=14))) +
-        ggplot2::annotate("text", 
-                          x = xpos, y = ypos,
-                          label = paste(ensembl2symbolFun(gene), ' (p=', pValue, ')', sep=''), size = 5.2)
+        font.main = c(14, 'bold', 'blue'), conf.int = FALSE, legend = c(0.15, 0.2), 
+        legend.labs = c('Low expression', 'High expression'),  legend.title='',
+        xlab = 'Overall survival (days)', ylab = 'Survival probability',
+        font.x = c(16), font.y = c(16), ylim=c(0,1.05), 
+        ggtheme = theme_bw()+ theme(axis.line = element_line(colour = "black"),
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.border = element_rect(colour='black'),
+            panel.background = element_blank(),
+            legend.text = element_text(size=14))) +
+        ggplot2::annotate("text", x = xpos, y = ypos,
+            label = paste(ensembl2symbolFun(gene), ' (p=', pValue, ')', sep=''), size = 5.2)
   
 }
