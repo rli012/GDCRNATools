@@ -20,13 +20,13 @@ gdcRNAMerge <- function(metadata, path, data.type) {
     filenames <- file.path(path, metadata$file_id, metadata$file_name, fsep = .Platform$file.sep)
     
     if (data.type=='RNAseq') {
-        cat ('############### Merging RNAseq data ################\n')
-        cat ('### This step may take a few minutes ###\n')
+        message ('############### Merging RNAseq data ################\n',
+            '### This step may take a few minutes ###\n')
         
         rnaMatrix <- do.call("cbind", lapply(filenames, function(fl) read.table(gzfile(fl))$V2))
         rownames(rnaMatrix) <- read.table(gzfile(filenames[1]))$V1
         rownames(rnaMatrix) <- unlist(lapply(strsplit(rownames(rnaMatrix), '.', fixed=TRUE), 
-                                             function(gene) gene[1]))
+            function(gene) gene[1]))
         colnames(rnaMatrix) <- metadata$sample
         
         rnaMatrix <- rnaMatrix[biotype$ensemblID,]
@@ -34,12 +34,12 @@ gdcRNAMerge <- function(metadata, path, data.type) {
         nSamples = ncol(rnaMatrix)
         nGenes = nrow(rnaMatrix)
         
-        cat (paste('Number of samples: ', nSamples, '\n', sep=''))
-        cat (paste('Number of genes: ', nGenes, '\n', sep=''))
+        message (paste('Number of samples: ', nSamples, '\n', sep=''),
+            paste('Number of genes: ', nGenes, '\n', sep=''))
         
         return (rnaMatrix)
     } else if (data.type=='miRNAs') {
-        cat ('############### Merging miRNAs data ###############\n')
+        message ('############### Merging miRNAs data ###############\n')
         
         mirMatrix <- lapply(filenames, function(fl) cleanMirFun(fl))
         #mirs <- sort(unique(names(unlist(mirMatrix))))
@@ -54,8 +54,8 @@ gdcRNAMerge <- function(metadata, path, data.type) {
         nSamples = ncol(mirMatrix)
         nGenes = nrow(mirMatrix)
         
-        cat (paste('Number of samples: ', nSamples, '\n', sep=''))
-        cat (paste('Number of miRNAs: ', nGenes, '\n', sep=''))
+        message (paste('Number of samples: ', nSamples, '\n', sep=''),
+            paste('Number of miRNAs: ', nGenes, '\n', sep=''))
         
         return (mirMatrix)
     } else {
@@ -70,7 +70,8 @@ cleanMirFun <- function(fl) {
     expr <- expr[startsWith(expr$miRNA_region, "mature"),]
     expr <- aggregate(expr$read_count, list(expr$miRNA_region), sum)
     
-    mirs <- unlist(lapply(strsplit(expr$Group.1, ',', fixed=TRUE), function(mir) mir[2]))
+    mirs <- unlist(lapply(strsplit(expr$Group.1, ',', fixed=TRUE),
+        function(mir) mir[2]))
     
     expr <- expr[,-1]
     names(expr) <- mirs
