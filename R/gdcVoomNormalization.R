@@ -20,7 +20,6 @@
 gdcVoomNormalization <- function(counts, filter=TRUE) {
     expr = DGEList(counts = counts)
     expr = calcNormFactors(expr)
-    
     if (filter==TRUE) {
         ## filter out low expression genes
         keepALL <- rowSums(cpm(expr) > 1) >= 0.5*ncol(counts)
