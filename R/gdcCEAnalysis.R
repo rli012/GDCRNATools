@@ -65,7 +65,8 @@ gdcCEAnalysis <- function(lnc, pc, deMIR=NULL, lnc.targets='starBase',
     message ('Step 1/3: Hypergenometric test done !\n')
     
     regOutput <- multiRegTestFun(hyperOutput, rna.expr=rna.expr, mir.expr=mir.expr)
-    message ('Step 2/3: Correlation analysis done !\nStep 3/3: Regulation pattern analysis done !\n')
+    message ('Step 2/3: Correlation analysis done !\n',
+             'Step 3/3: Regulation pattern analysis done !\n')
     
     ceOutput <- data.frame(hyperOutput, regOutput, row.names=NULL)
     
