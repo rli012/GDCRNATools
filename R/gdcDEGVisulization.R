@@ -28,9 +28,7 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
         d <- data.frame(geneClass = c('Up','Down'),
             geneNums = c(up, down), 
             Regulation = factor(c('Up-regulated','Down-regulated'),
-            levels=c('Up-regulated','Down-regulated')
-            )
-        )
+            levels=c('Up-regulated','Down-regulated')))
         
         if (angle==0) {
             ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
@@ -91,7 +89,7 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
         if (angle==0) {
             ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
                 geom_bar(stat = 'identity') + 
-                scale_x_discrete(limits=d$geneClass[1:nrow(d)/2]) + 
+                scale_x_discrete(limits=d$geneClass[seq_len(nrow(d)/2)]) + 
                 scale_fill_discrete(name = "") +
                 ylab('No. of Differentially Expressed Genes') +xlab('Type of genes') +
                 #theme(axis.text.x = element_text(angle = angle)) +
@@ -105,7 +103,7 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
         } else {
             ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
                 geom_bar(stat = 'identity') + 
-                scale_x_discrete(limits=d$geneClass[1:nrow(d)/2]) + scale_fill_discrete(name = "") +
+                scale_x_discrete(limits=d$geneClass[seq_len(nrow(d)/2)]) + scale_fill_discrete(name = "") +
                 ylab('No. of Differentially Expressed Genes') +xlab('Type of genes') +
                 #theme(axis.text.x = element_text(angle = angle, vjust = 1, hjust=1)) +
                 theme_bw()+theme(axis.line = element_line(colour = "black"),
@@ -150,7 +148,7 @@ gdcVolcanoPlot <- function(deg.all, fc=2, pval=0.01) {
     geneList$threshold <- c()
     geneList$threshold[geneList$logFC>log(fc,2) & geneList$FDR<pval] <- 1
     geneList$threshold[geneList$logFC>=-log(fc,2) & geneList$logFC<=log(fc,2) 
-                       | geneList$FDR>=pval] <- 2
+        | geneList$FDR>=pval] <- 2
     geneList$threshold[geneList$logFC < -log(fc,2) & geneList$FDR<pval] <- 3
     
     geneList$threshold <- as.factor(geneList$threshold)
@@ -167,13 +165,12 @@ gdcVolcanoPlot <- function(deg.all, fc=2, pval=0.01) {
         geom_hline(yintercept = -log(pval,10), color='darkgreen',linetype=3)+
         theme_bw() +
         theme(axis.line = element_line(colour = "black"),
-              panel.grid.major = element_blank(),
-              panel.grid.minor = element_blank(),
-              panel.border = element_rect(colour='black'),
-              panel.background = element_blank()) +
+            panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            panel.border = element_rect(colour='black'),
+            panel.background = element_blank()) +
         theme(legend.position="none") +
         theme(axis.text=element_text(size=14), axis.title=element_text(size=16))
-    
 }
 
 
