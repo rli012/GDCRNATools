@@ -112,15 +112,15 @@ hyperTestFun <- function(lnc, pc, deMIR, lnc.targets='starBase', pc.targets='sta
             ovlpMIRs <- paste(ovlp, collapse = ',')
             foldEnrichment <- Counts/listTotal*popTotal/popHits
             pValue <- phyper(Counts-1, popHits, popTotal-popHits, 
-                             listTotal, lower.tail=FALSE, log.p=FALSE)
+                listTotal, lower.tail=FALSE, log.p=FALSE)
             
             ceMIR <- Reduce(intersect, list(ovlp, deMIR))
             deMIRs <- paste(ceMIR, collapse = ',')
             deMIRCounts <- length(ceMIR)
             
             hyperOutput[[i]] <- c(lncID, gene, Counts, listTotal,
-                                  popHits,popTotal,foldEnrichment,pValue,ovlpMIRs,
-                                  deMIRCounts, deMIRs)
+                popHits,popTotal,foldEnrichment,pValue,ovlpMIRs,
+                deMIRCounts, deMIRs)
             
         }
     }
@@ -130,7 +130,7 @@ hyperTestFun <- function(lnc, pc, deMIR, lnc.targets='starBase', pc.targets='sta
     #hyperOutput <- rbind_list(hyperOutput) ## not test
     
     colnames(hyperOutput) <- c('lncRNAs','Genes','Counts','listTotal','popHits','popTotal',
-                               'foldEnrichment','hyperPValue','miRNAs','deMIRCounts','deMIRs')
+        'foldEnrichment','hyperPValue','miRNAs','deMIRCounts','deMIRs')
     hyperOutput <- as.data.frame(as.matrix(hyperOutput), stringsAsFactors=FALSE)
     hyperOutput <- hyperOutput[as.numeric(hyperOutput$Counts)>0,]
     
@@ -170,7 +170,9 @@ multiRegFun <- function(lnc, pc, mirs, rna.expr, mir.expr) {
         
     } else {
         mirs <- unlist(strsplit(mirs, ',', fixed=TRUE))
-        mirCor <- sapply(mirs, function(mir) mirCorTestFun(lncDa, pcDa, mir, mir.expr))
+        mirCor <- vapply(mirs, function(mir) 
+            mirCorTestFun(lncDa, pcDa, mir, mir.expr), 
+            numeric(2))
         
         reglm <- mirCor[1,]
         regpm <- mirCor[2,]
@@ -203,8 +205,9 @@ multiRegTestFun <- function(hyperOutput, rna.expr, mir.expr) {
     mirID <- hyperOutput$miRNAs
     
     
-    reg <- sapply(1:nrow(hyperOutput), function(i) 
-        multiRegFun(lncID[i], pcID[i], mirID[i], rna.expr, mir.expr))
+    reg <- vapply(seq_len(nrow(hyperOutput)), function(i) 
+        multiRegFun(lncID[i], pcID[i], mirID[i], rna.expr, mir.expr), 
+        numeric(4))
     
     reg <- t(reg)
     colnames(reg) <- c('cor','corPValue','regSim', 'sppc')
