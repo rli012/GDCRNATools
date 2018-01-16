@@ -77,7 +77,7 @@ gdcClinicalMerge <- function(path, key.info=TRUE) {
     #  path = substr(path, 1, nchar(path)-1)
     #}
     
-    cat ('############### Merging Clinical data ###############\n')
+    message ('############### Merging Clinical data ###############\n')
     
     folders <- file.path(path, dir(path), fsep = .Platform$file.sep)
     
@@ -157,7 +157,7 @@ gdcClinicalMerge <- function(path, key.info=TRUE) {
         # t6[is.na(t6)]<-"0"
         line8<- NULL
         
-        for (i in 1:ncol(t6)) {
+        for (i in seq_len(ncol(t6))) {
             t6.1<- t6[which(t6[,i] != "NA"),i]
             t6.1<- paste(t6.1,collapse=",")
             line8<- append(line8,t6.1)
