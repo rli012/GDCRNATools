@@ -154,9 +154,9 @@ organizeEnrichFun <- function(go) {
     pValue <- go$pvalue
     FDR <- go$p.adjust
     
-    listTotal <- sapply(go$GeneRatio, function(v) convertRatioFun(v, type='bg'))
-    popHits <- sapply(go$BgRatio, function(v) convertRatioFun(v, type='hit'))
-    popTotal <- sapply(go$BgRatio, function(v) convertRatioFun(v, type='bg'))
+    listTotal <- vapply(go$GeneRatio, function(v) convertRatioFun(v, type='bg'), numeric(1))
+    popHits <- vapply(go$BgRatio, function(v) convertRatioFun(v, type='hit'), numeric(1))
+    popTotal <- vapply(go$BgRatio, function(v) convertRatioFun(v, type='bg'), numeric(1))
     
     foldEnrichment <- as.vector(Counts/listTotal*popTotal/popHits)
     
