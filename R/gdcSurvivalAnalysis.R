@@ -70,7 +70,7 @@ coxphTestFun <- function(genes, rna.expr, metaMatrix) {
     daysToDeath[nonComplt] <- as.numeric(clinicalDa$days_to_last_follow_up[nonComplt])
     
     coxphDEGs <- c()
-    for (i in c(1:nrow(exprDa))) {
+    for (i in seq_len(nrow(exprDa))) {
         DEG <- unlist(exprDa[i,])
         coxtest <- coxph(Surv(daysToDeath, vitalStatus) ~ DEG)
         
@@ -108,7 +108,7 @@ kmTestFun <- function(genes, rna.expr, metaMatrix, sep='median') {
     daysToDeath[nonComplt] <- as.numeric(clinicalDa$days_to_last_follow_up[nonComplt])
     
     kmDEGs <- c()
-    for (i in c(1:nrow(exprDa))) {
+    for (i in seq_len(nrow(exprDa))) {
         DEG <- unlist(exprDa[i,])
         
         if (sep=='1stQu') {
