@@ -17,7 +17,8 @@ gdcRNAMerge <- function(metadata, path, data.type) {
     #  path = substr(path, 1, nchar(path)-1)
     #}
     
-    filenames <- file.path(path, metadata$file_id, metadata$file_name, fsep = .Platform$file.sep)
+    filenames <- file.path(path, metadata$file_id, metadata$file_name, 
+        fsep = .Platform$file.sep)
     
     if (data.type=='RNAseq') {
         message ('############### Merging RNAseq data ################\n',
