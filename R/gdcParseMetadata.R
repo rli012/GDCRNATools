@@ -37,42 +37,52 @@ gdcParseMetadata <- function(metafile=NULL, project.id, data.type, write.meta=FA
         
     }
     
+    nSam <- length(metadata)
     
-    file_name <- sapply(1:length(metadata), function(i) metadata[[i]]$file_name)
-    file_id <- sapply(1:length(metadata), function(i) metadata[[i]]$file_id)
-    submitter_id <- sapply(1:length(metadata), function(i) 
-        metadata[[i]]$cases[[1]]$samples[[1]]$submitter_id)
-    sample <- sapply(submitter_id, function(v) substr(v, 1, nchar(v)-1))
-    entity_submitter_id <- sapply(1:length(metadata), function(i) 
-        metadata[[i]]$associated_entities[[1]]$entity_submitter_id)
-    sample_type <- sapply(1:length(metadata), function(i) 
-        metadata[[i]]$cases[[1]]$samples[[1]]$sample_type)
-    patient <- sapply(1:length(metadata), function(i) 
-        metadata[[i]]$cases[[1]]$submitter_id)
+    file_name <- vapply(seq_len(nSam), 
+        function(i) metadata[[i]]$file_name, 
+        character(1))
+    file_id <- vapply(seq_len(nSam), 
+        function(i) metadata[[i]]$file_id, character(1))
+    submitter_id <- vapply(seq_len(nSam), function(i) 
+        metadata[[i]]$cases[[1]]$samples[[1]]$submitter_id,
+        character(1))
+    sample <- vapply(submitter_id, 
+        function(v) substr(v, 1, nchar(v)-1), 
+        character(1))
+    entity_submitter_id <- vapply(seq_len(nSam), function(i) 
+        metadata[[i]]$associated_entities[[1]]$entity_submitter_id,
+        character(1))
+    sample_type <- vapply(seq_len(nSam), function(i) 
+        metadata[[i]]$cases[[1]]$samples[[1]]$sample_type,
+        character(1))
+    patient <- vapply(seq_len(nSam), function(i) 
+        metadata[[i]]$cases[[1]]$submitter_id,
+        character(1))
     
     
-    gender <- null2naFun(sapply(1:length(metadata), function(i) 
-        metadata[[i]]$cases[[1]]$demographic$gender))
+    gender <- null2naFun(vapply(seq_len(nSam), function(i) 
+        metadata[[i]]$cases[[1]]$demographic$gender, character(1)))
     #race <- sapply(1:length(metadata), function(i) metadata[[i]]$cases[[1]]$demographic$race)
     #ethnicity <- sapply(1:length(metadata), function(i) metadata[[i]]$cases[[1]]$demographic$ethnicity)
     
-    project_id <- null2naFun(sapply(1:length(metadata), function(i) 
-        metadata[[i]]$cases[[1]]$project$project_id))
+    project_id <- null2naFun(vapply(seq_len(nSam), function(i) 
+        metadata[[i]]$cases[[1]]$project$project_id, character(1)))
     
-    tumor_stage <- null2naFun(sapply(1:length(metadata), function(i) 
-        metadata[[i]]$cases[[1]]$diagnoses[[1]]$tumor_stage))
-    tumor_grade <- null2naFun(sapply(1:length(metadata), function(i) 
-        metadata[[i]]$cases[[1]]$diagnoses[[1]]$tumor_grade))
+    tumor_stage <- null2naFun(vapply(seq_len(nSam), function(i) 
+        metadata[[i]]$cases[[1]]$diagnoses[[1]]$tumor_stage, character(1)))
+    tumor_grade <- null2naFun(vapply(seq_len(nSam), function(i) 
+        metadata[[i]]$cases[[1]]$diagnoses[[1]]$tumor_grade, character(1)))
     
     
-    age_at_diagnosis <- suppressWarnings(as.numeric(as.character(sapply(1:length(metadata), 
-        function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$age_at_diagnosis))))
-    days_to_death <- suppressWarnings(as.numeric(as.character(sapply(1:length(metadata), 
-        function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_death))))
-    days_to_last_follow_up <- suppressWarnings(as.numeric(as.character(sapply(1:length(metadata), 
-        function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_last_follow_up))))
-    vital_status <- null2naFun(sapply(1:length(metadata), function(i) 
-        metadata[[i]]$cases[[1]]$diagnoses[[1]]$vital_status))
+    age_at_diagnosis <- suppressWarnings(as.numeric(as.character(vapply(seq_len(nSam), 
+        function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$age_at_diagnosis, character(1)))))
+    days_to_death <- suppressWarnings(as.numeric(as.character(vapply(seq_len(nSam), 
+        function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_death, character(1)))))
+    days_to_last_follow_up <- suppressWarnings(as.numeric(as.character(vapply(seq_len(nSam), 
+        function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_last_follow_up, character(1)))))
+    vital_status <- null2naFun(sapply(vapply(seq_len(nSam), function(i) 
+        metadata[[i]]$cases[[1]]$diagnoses[[1]]$vital_status, character(1)))
     
     metaMatrix <- data.frame(file_name,file_id,patient,sample,submitter_id,entity_submitter_id,
         sample_type, gender,age_at_diagnosis,tumor_stage,tumor_grade,days_to_death,
