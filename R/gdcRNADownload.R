@@ -19,8 +19,8 @@
 ##' ####### Download RNA data by project id and data type #######
 ##' project <- 'TCGA-PRAD'
 ##' \dontrun{gdcRNADownload(project.id=project, data.type='RNAseq')}
-gdcRNADownload <- function(manifest=NULL, project.id, data.type, directory='Data',
-    write.manifest=FALSE) {
+gdcRNADownload <- function(manifest=NULL, project.id, data.type, 
+    directory='Data', write.manifest=FALSE) {
   
     if (! is.null(manifest)) {
         manifestDownloadFun(manifest=manifest,directory=directory)
@@ -28,7 +28,8 @@ gdcRNADownload <- function(manifest=NULL, project.id, data.type, directory='Data
     } else {
         
         url <- gdcGetURL(project.id=project.id, data.type=data.type)
-        manifest <- read.table(paste(url, '&return_type=manifest', sep=''), header=TRUE, stringsAsFactors=FALSE)
+        manifest <- read.table(paste(url, '&return_type=manifest', sep=''), 
+            header=TRUE, stringsAsFactors=FALSE)
         
         systime <- gsub(' ', 'T', Sys.time())
         systime <- gsub(':', '-', systime)
@@ -51,17 +52,17 @@ downloadClientFun <- function(os) {
     if (os == 'Linux') {
         adress <- 'https://gdc.cancer.gov/system/files/authenticated%20user/0/gdc-client_v1.3.0_Ubuntu14.04_x64.zip'
         download.file(adress, destfile = './gdc-client_v1.3.0_Ubuntu14.04_x64.zip')
-        unzip('./gdc-client_v1.3.0_Ubuntu14.04_x64.zip', unzip='unzip')
+        unzip('./gdc-client_v1.3.0_Ubuntu14.04_x64.zip')
         
     } else if ( os== 'Windows') {
         adress <- 'https://gdc.cancer.gov/system/files/authenticated%20user/0/gdc-client_v1.3.0_Windows_x64.zip'
         download.file(adress, destfile = './gdc-client_v1.3.0_Windows_x64.zip')
-        unzip('./gdc-client_v1.3.0_Windows_x64.zip', unzip='unzip')
+        unzip('./gdc-client_v1.3.0_Windows_x64.zip')
         
     } else if (os == 'Darwin') {
         adress <- 'https://gdc.cancer.gov/system/files/authenticated%20user/0/gdc-client_v1.3.0_OSX_x64.zip'
         download.file(adress, destfile = './gdc-client_v1.3.0_OSX_x64.zip')
-        unzip('./gdc-client_v1.3.0_OSX_x64.zip', unzip='unzip')
+        unzip('./gdc-client_v1.3.0_OSX_x64.zip')
     }
 }
 
@@ -70,7 +71,7 @@ downloadClientFun <- function(os) {
 manifestDownloadFun <- function(manifest=manifest,directory) {
   
     ### download gdc-client
-    if (! file.exists('gdc-client')) {
+    if (! file.exists('gdc-client') & !file.exists('gdc-client.exe')) {
         downloadClientFun(Sys.info()[1])
     }
     
@@ -106,7 +107,7 @@ manifestDownloadFun <- function(manifest=manifest,directory) {
         }
     } else {
         if (! dir.exists(directory)) {
-            dir.create(directory)
+            dir.create(directory, recursive = TRUE)
         }
     }
     
@@ -167,6 +168,3 @@ gdcGetURL <- function(project.id, data.type) {
     
     return (url)
 }
-
-
-
