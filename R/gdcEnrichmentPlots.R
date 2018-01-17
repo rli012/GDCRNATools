@@ -27,23 +27,23 @@ gdcEnrichPlot <- function(enrichment, type='bar', category='KEGG', num.terms=10,
     DO   <- enrichment[enrichment$Category=='DO',]
     
     if (nrow(goBP) > num.terms) {
-        goBP <- goBP[1:num.terms,]
+        goBP <- goBP[seq_len(num.terms),]
     }
     
     if (nrow(goCC) > num.terms) {
-        goCC <- goCC[1:num.terms,]
+        goCC <- goCC[seq_len(num.terms),]
     }
     
     if (nrow(goMF) > num.terms) {
-        goMF <- goMF[1:num.terms,]
+        goMF <- goMF[seq_len(num.terms),]
     }
     
     if (nrow(kegg) > num.terms) {
-        kegg <- kegg[1:num.terms,]
+        kegg <- kegg[seq_len(num.terms),]
     }
     
     if (nrow(DO) > num.terms) {
-        DO <- DO[1:num.terms,]
+        DO <- DO[seq_len(num.terms),]
     }
     
     
@@ -107,7 +107,6 @@ enrichBarPlotFun <- function(kegg, type='single', bar.color='black') {
                 panel.grid.minor = element_blank(),
                 panel.border = element_rect(colour='white'),
                 panel.background = element_blank()) +
-            
             theme(axis.text.y=element_text(size=14), axis.title=element_text(size=15),
                 axis.text.x=element_text(size=14)) + 
             theme(legend.position = 'none')
@@ -119,7 +118,6 @@ enrichBarPlotFun <- function(kegg, type='single', bar.color='black') {
             ylab('-log10(FDR)')+
             xlab('') + coord_flip() + 
             scale_fill_hue(name='',breaks=kegg$Category, labels=kegg$Category) +
-            
             theme_bw()+theme(axis.line = element_line(colour = "black"),
                 panel.grid.major = element_blank(),
                 panel.grid.minor = element_blank(),
