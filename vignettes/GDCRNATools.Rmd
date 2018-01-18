@@ -32,10 +32,11 @@ This user-friendly package allows researchers perform the analysis by simply run
 
 # `GDCRNATools` package installation 
 
-The R software for running `GDCRNATools` can be downloaded from [The Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/). The `GDCRNATools` package can be installed from [Github](https://github.com/Jialab-UCR/GDCRNATools).
+The R software for running `GDCRNATools` can be downloaded from [The Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/). The `GDCRNATools` package can be installed from [Bioconductor](https://www.bioconductor.org/).
 
 ```{r installation3, eval=FALSE, message=FALSE, warning=FALSE}
-devtools::install_github(repo='Jialab-UCR/GDCRNATools')
+source("https://bioconductor.org/biocLite.R")
+biocLite("GDCRNATools")
 ```
 
 ```{r load, eval=TRUE, message=FALSE, warning=FALSE}
