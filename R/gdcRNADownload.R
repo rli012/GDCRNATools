@@ -150,10 +150,14 @@ gdcGetURL <- function(project.id, data.type) {
         workflow.type <- NA
     }
     
-    project <- paste('{"op":"in","content":{"field":"cases.project.project_id","value":["', project.id, '"]}}', sep='')
-    dataCategory <- paste('{"op":"in","content":{"field":"files.data_category","value":"', data.category, '"}}', sep='')
-    dataType <- paste('{"op":"in","content":{"field":"files.data_type","value":"', data.type, '"}}', sep='')
-    workflowType <- paste('{"op":"in","content":{"field":"files.analysis.workflow_type","value":"', workflow.type, '"}}', sep='')
+    project <- paste('{"op":"in","content":{"field":"cases.project.project_id","value":["', 
+        project.id, '"]}}', sep='')
+    dataCategory <- paste('{"op":"in","content":{"field":"files.data_category","value":"', 
+        data.category, '"}}', sep='')
+    dataType <- paste('{"op":"in","content":{"field":"files.data_type","value":"', 
+        data.type, '"}}', sep='')
+    workflowType <- paste('{"op":"in","content":{"field":"files.analysis.workflow_type","value":"', 
+        workflow.type, '"}}', sep='')
     
     
     if (is.na(workflow.type)) {
@@ -162,7 +166,8 @@ gdcGetURL <- function(project.id, data.type) {
         content <- paste(project, dataCategory, dataType, workflowType, sep=',')
     }
     
-    filters <- paste('filters=',URLencode(paste('{"op":"and","content":[', content, ']}', sep='')),sep='')
+    filters <- paste('filters=',URLencode(paste('{"op":"and","content":[', 
+        content, ']}', sep='')),sep='')
     
     expand <- paste('analysis', 'analysis.input_files', 'associated_entities',
         'cases', 'cases.diagnoses','cases.diagnoses.treatments', 
