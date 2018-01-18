@@ -8,6 +8,9 @@
 ##' @param data.type one of \code{'RNAseq'} and \code{'miRNAs'}
 ##' @param directory the folder to save downloaded files. Default is \code{'Data'}
 ##' @param write.manifest logical, whether to write out the manifest file
+##' @param method method that is used to download data. Either \code{'GenomicDataCommons'} which is a well established method developed in
+##'   the \pkg{GenomicDataCommons'} package, or alternatively \code{'gdc-client'} which uses the \code{gdc-client} tool developed by GDC.
+##'   Default is 'GenomicDataCommons'.
 ##' @return Downloaded files in the specified directory
 ##' @export
 ##' @author Ruidong Li and Han Qu
@@ -20,7 +23,7 @@
 ##' project <- 'TCGA-PRAD'
 ##' \dontrun{gdcRNADownload(project.id=project, data.type='RNAseq')}
 gdcRNADownload <- function(manifest=NULL, project.id, data.type, 
-    directory='Data', write.manifest=FALSE) {
+    directory='Data', write.manifest=FALSE, method='GenomicDataCommons') {
   
     if (! is.null(manifest)) {
         manifestDownloadFun(manifest=manifest,directory=directory)
@@ -37,7 +40,13 @@ gdcRNADownload <- function(manifest=NULL, project.id, data.type,
         manifile <- paste(project.id, data.type, 'gdc_manifest', systime, 'txt', sep='.')
         write.table(manifest, file=manifile, row.names=FALSE, sep='\t', quote=FALSE)
         
-        manifestDownloadFun(manifest=manifile,directory=directory)
+        if (method=='GenomicDataCommons') {
+            fnames = lapply(manifest$id,gdcdata,
+                destination_dir=directory,overwrite=FALSE,
+                progress=TRUE)
+        } else if (method='gdc-client') {
+            manifestDownloadFun(manifest=manifile,directory=directory)
+        }
         
         if (write.manifest == FALSE) {
             invisible(file.remove(manifile))
