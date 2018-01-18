@@ -39,6 +39,7 @@ Imports: shiny,
     pathview,
     ggplot2,
     gplots,
+    GenomicDataCommons,
     BiocParallel
 Suggests: knitr,
     testthat
