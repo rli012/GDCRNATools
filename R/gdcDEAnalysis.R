@@ -73,7 +73,10 @@ gdcDEAnalysis <- function(counts, group, comparison, method='limma', n.cores=NUL
            design = ~ group)
         
         dds$group <- factor(dds$group, levels = rev(strsplit(comparison, '-', fixed=TRUE)[[1]]))
-        dds <- dds[keep, ]
+        
+        if (filter==TRUE) {
+            dds <- dds[keep, ]
+        }
         
         if (! is.null(n.cores)) {
             register(MulticoreParam(n.cores))
@@ -94,7 +97,9 @@ gdcDEAnalysis <- function(counts, group, comparison, method='limma', n.cores=NUL
         colnames(design) <- levels(group)
         contrast.matrix <- makeContrasts(contrasts=comparison, levels=design)
         
-        dge <- dge[keep,,keep.lib.sizes = TRUE]
+        if (filter==TRUE) {
+            dge <- dge[keep,,keep.lib.sizes = TRUE]
+        }
         dge <- calcNormFactors(dge)
         
         if (method == 'edgeR') {
