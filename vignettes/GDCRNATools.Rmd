@@ -29,7 +29,6 @@ Many analyses can be perfomed using GDCRNATools, including differential gene exp
 This user-friendly package allows researchers perform the analysis by simply running a few functions and integrate their own pipelines such as molecular subtype classification, [weighted correlation network analysis (WGCNA)](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/)[@LangfelderWGCNApackageweighted2008], and TF-miRNA co-regulatory network analysis, etc. into the workflow easily. This could open a door to accelerate the study of crosstalk among different classes of RNAs and their regulatory relationships in cancer.
 
 
-
 # `GDCRNATools` package installation 
 
 The R software for running `GDCRNATools` can be downloaded from [The Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/). The `GDCRNATools` package can be installed from [Bioconductor](https://www.bioconductor.org/).
@@ -42,6 +41,106 @@ biocLite("GDCRNATools")
 ```{r load, eval=TRUE, message=FALSE, warning=FALSE}
 library(GDCRNATools)
 ```
+
+# Quick start
+To do the comprehensive data analysis, users can use their own data that is processed by other tools such as the [UCSC Xena GDC hub] (https://xenabrowser.net/datapages/?host=https://gdc.xenahubs.net), [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html)[@ColapricoTCGAbiolinksBioconductorpackage2016], or [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)[@ZhuTCGAAssemblerOpenSourcePipeline2014], etc. We also build some functions for users to download and process GDC data efficiently.
+
+Here we use a small dataset from TCGA-CHOL project to show the most basic steps for ceRNA network analysis. A more detailed instruction of each step is followed.
+
+
+## Normalization of HTSeq-Counts data
+```{r load data, message=FALSE, warning=FALSE, eval=TRUE}
+library(DT)
+### load RNA counts data
+data(rnaCOunts)
+
+### load miRNAs counts data
+data(mirCounts)
+```
+
+```{r normalization, message=FALSE, warning=FALSE, eval=TRUE}
+####### RNAseq data #######
+rnaExpr <- gdcVoomNormalization(counts = rnaCounts, filter = FALSE)
+
+####### miRNAs data #######
+mirExpr <- gdcVoomNormalization(counts = mirCounts, filter = FALSE)
+```
+
+
+
+## Parse metadata
+```{r parse meta2 q, message=FALSE, warning=FALSE, eval=TRUE}
+####### Parse RNAseq metadata #######
+metaMatrix.RNA <- gdcParseMetadata(project.id = 'TCGA-CHOL',
+                                   data.type  = 'RNAseq', 
+                                   write.meta = FALSE)
+
+metaMatrix.RNA <- gdcFilterDuplicate(metaMatrix.RNA)                                   
+metaMatrix.RNA <- gdcFilterSampleType(metaMatrix.RNA)
+datatable(as.data.frame(metaMatrix.RNA), 
+          options = list(scrollX = TRUE, pageLength = 5))
+
+```
+
+```{r parse meta3 q, message=FALSE, warning=FALSE, eval=TRUE}
+####### Parse miRNAs metadata #######
+metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-CHOL',
+                                   data.type  = 'miRNAs', 
+                                   write.meta = FALSE)
+                                   
+metaMatrix.MIR <- gdcFilterDuplicate(metaMatrix.MIR)
+metaMatrix.MIR <- gdcFilterSampleType(metaMatrix.MIR)
+datatable(as.data.frame(metaMatrix.MIR), 
+          options = list(scrollX = TRUE, pageLength = 5))
+```
+
+
+## Differential gene expression analysis
+```{r deg q, message=FALSE, warning=FALSE, eval=TRUE}
+DEGAll <- gdcDEAnalysis(counts     = rnaCounts, 
+                        group      = metaMatrix.RNA$sample_type, 
+                        comparison = 'PrimaryTumor-SolidTissueNormal', 
+                        method     = 'limma')
+datatable(as.data.frame(DEGAll), 
+          options = list(scrollX = TRUE, pageLength = 5))
+                        
+#### DE long-noncoding
+deLNC <- gdcDEReport(deg = DEGAll, gene.type = 'long_non_coding')
+
+#### DE protein coding genes
+dePC <- gdcDEReport(deg = DEGAll, gene.type = 'protein_coding')
+```
+
+
+
+```{r ce, message=FALSE, warning=FALSE, eval=TRUE}
+ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
+                          pc          = rownames(dePC), 
+                          lnc.targets = 'starBase', 
+                          pc.targets  = 'starBase', 
+                          rna.expr    = rnaExpr, 
+                          mir.expr    = mirExpr)
+                          
+datatable(as.data.frame(ceOutput), 
+          options = list(scrollX = TRUE, pageLength = 5))
+```
+
+
+```{r edges, message=FALSE, warning=FALSE, eval=TRUE}
+ceOutput2 <- ceOutput[ceOutput$hyperPValue<0.01 & ceOutput$corPValue<0.01 & ceOutput$regSim != 0,]
+
+edges <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'edges')
+datatable(as.data.frame(edges), 
+          options = list(scrollX = TRUE, pageLength = 5))
+```
+
+```{r nodes, message=FALSE, warning=FALSE, eval=TRUE}
+nodes <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'nodes')
+datatable(as.data.frame(nodes), 
+          options = list(scrollX = TRUE, pageLength = 5))
+```
+
+
 
 # Data download
 > Two methods are provided for downloading Gene Expression Quantification (HTSeq-Counts), Isoform Expression Quantification (BCGSC miRNA Profiling), and Clinical (Clinical Supplement) data:
