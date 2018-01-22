@@ -77,13 +77,14 @@ gdcCEAnalysis <- function(lnc, pc, deMIR=NULL, lnc.targets='starBase',
 
 #### hypergeometric test
 hyperTestFun <- function(lnc, pc, deMIR, lnc.targets='starBase', pc.targets='starBase') {
-    if (! lnc.targets %in% c('spongeScan','starBase','miRcode')) {
+    
+    if (length(lnc.targets) > 1) {
         lnc.targets <- lnc.targets
     } else {
         lnc.targets <- lncTargets[[lnc.targets]]
     }
     
-    if (! pc.targets %in% c('mirTarBase','starBase','miRcode')) {
+    if (length(pc.targets) > 1) {
         pc.targets <- pc.targets
     } else {
         pc.targets <- pcTargets[[pc.targets]]
