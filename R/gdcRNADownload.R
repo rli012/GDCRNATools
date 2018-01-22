@@ -44,7 +44,7 @@ gdcRNADownload <- function(manifest=NULL, project.id, data.type,
             fnames = lapply(manifest$id,gdcdata,
                 destination_dir=directory,overwrite=FALSE,
                 progress=TRUE)
-        } else if (method='gdc-client') {
+        } else if (method=='gdc-client') {
             manifestDownloadFun(manifest=manifile,directory=directory)
         }
         
