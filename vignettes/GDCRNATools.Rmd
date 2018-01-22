@@ -193,12 +193,26 @@ Step3: Download data using `gdcRNADownload()` function by providing the manifest
 
 Metadata can be parsed by either providing the metadata file (.json) that is downloaded in the data download step, or specifying the `project.id` and `data.type` in `gdcParseMetadata()` function to obtain information of data in the manifest file to facilitate data organization and basic clinical information of patients such as age, stage and gender, etc. for data analysis.
 
+Only one sample would be kept if the sample had been sequenced more than once by `gdcFilterDuplicate()`.
+Samples that are neither Primary Tumor (code: 01) nor Solid Tissue Normal (code: 11) would be filtered out by `gdcFilterSampleType()`
+
 ```{r parse meta2, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Parse RNAseq metadata #######
 metaMatrix.RNA <- gdcParseMetadata(project.id = 'TCGA-PRAD',
                                    data.type  = 'RNAseq', 
                                    write.meta = FALSE)
 ```
+```{r filter meta, message=FALSE, warning=FALSE, eval=TRUE}
+####### Filter duplicated samples in RNAseq metadata #######
+metaMatrix.RNA <- gdcFilterDuplicate(metaMatrix.RNA)
+```
+
+```{r filter meta3, message=FALSE, warning=FALSE, eval=TRUE}
+####### Filter non-Primary Tumor and non-Solid Tissue Normal samples in RNAseq metadata #######
+metaMatrix.RNA <- gdcFilterSampleType(metaMatrix.RNA)
+```
+
+
 
 ```{r parse meta3, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Parse miRNAs metadata #######
@@ -207,33 +221,12 @@ metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-PRAD',
                                    write.meta = FALSE)
 ```
 
-
-
-
-### Filter samples
-
-* Filter duplicated samples
-Only one sample would be kept if the sample had been sequenced more than once by `gdcFilterDuplicate()`.
-
-```{r filter meta, message=FALSE, warning=FALSE, eval=TRUE}
-####### Filter duplicated samples in RNAseq metadata #######
-metaMatrix.RNA <- gdcFilterDuplicate(metaMatrix.RNA)
-```
-
 ```{r filter meta2, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Filter duplicated samples in miRNAs metadata #######
 metaMatrix.MIR <- gdcFilterDuplicate(metaMatrix.MIR)
+
 ```
 
-
-
-* Filter non-Primary Tumor and non-Solid Tissue Normal samples
-Samples that are neither Primary Tumor (code: 01) nor Solid Tissue Normal (code: 11) would be filtered out by `gdcFilterSampleType()`.
-
-```{r filter meta3, message=FALSE, warning=FALSE, eval=TRUE}
-####### Filter non-Primary Tumor and non-Solid Tissue Normal samples in RNAseq metadata #######
-metaMatrix.RNA <- gdcFilterSampleType(metaMatrix.RNA)
-```
 
 ```{r filter meta4, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Filter non-Primary Tumor and non-Solid Tissue Normal samples in miRNAs metadata #######
@@ -241,8 +234,7 @@ metaMatrix.MIR <- gdcFilterSampleType(metaMatrix.MIR)
 ```
 
 
-
-### Merge HTSeq-Counts data
+### Merge raw counts data
 
 `gdcRNAMerge()` merges raw counts data of RNAseq to a single expression matrix with rows are *Ensembl id* and columns are *samples*. Total read counts for 5p and 3p strands of miRNAs can be processed from isoform quantification files and then merged to a single expression matrix with rows are *miRBase v21 identifiers* and columns are *samples*.
 
@@ -259,7 +251,7 @@ mirCounts <- gdcRNAMerge(metadata  = metaMatrix.MIR,
 ```
 
 
-## TMM normalization and voom transformation
+### TMM normalization and voom transformation
 
 By running `gdcVoomNormalization()` function, raw counts data would be normalized by TMM method implemented in [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)[@RobinsonedgeRBioconductorpackage2010] and further transformed by the voom method provided in [limma](http://bioconductor.org/packages/release/bioc/html/limma.html)[@Ritchielimmapowersdifferential2015a]. Low expression genes (logcpm < 1 in more than half of the samples) will be filtered out by default. All the genes can be kept by setting `filter=TRUE` in the `gdcVoomNormalization()`.
 
