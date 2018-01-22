@@ -36,7 +36,7 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         universe = biotype$ensemblID,
         OrgDb = org.Hs.eg.db,
         ont = "BP",
-        keytype = 'ENSEMBL',
+        keyType = 'ENSEMBL',
         pAdjustMethod = "fdr",
         pvalueCutoff = 0.01,
         readable = FALSE)
@@ -55,7 +55,7 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         universe = biotype$ensemblID,
         OrgDb = org.Hs.eg.db,
         ont = "CC",
-        keytype = 'ENSEMBL',
+        keyType = 'ENSEMBL',
         pAdjustMethod = "fdr",
         pvalueCutoff = 0.01,
         readable = FALSE)
@@ -74,7 +74,7 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         universe = biotype$ensemblID,
         OrgDb = org.Hs.eg.db,
         ont = "MF",
-        keytype = 'ENSEMBL',
+        keyType = 'ENSEMBL',
         pAdjustMethod = "fdr",
         pvalueCutoff = 0.01,
         readable = FALSE)
