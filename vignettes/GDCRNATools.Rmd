@@ -44,7 +44,7 @@ library(GDCRNATools)
 
 # Quick start
 To perform the comprehensive data analysis, some functions are built for users to download and process GDC data efficiently.
-Users can also use their own data that is processed by other tools such as the [UCSC Xena GDC hub] (https://xenabrowser.net/datapages/?host=https://gdc.xenahubs.net), [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html)[@ColapricoTCGAbiolinksBioconductorpackage2016], or [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)[@ZhuTCGAAssemblerOpenSourcePipeline2014], etc.
+Users can also use their own data that is processed by other tools such as the [UCSC Xena GDC hub] (https://xenabrowser.net/datapages/?host=https://gdc.xenahubs.net), [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html)[@ColapricoTCGAbiolinksBioconductorpackage2016], or [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)[@ZhuTCGAAssemblerOpenSourcePipeline2014], etc.[TCGAbiolinks](https://xenabrowser.net/datapages/?host=https://gdc.xenahubs.net)
 
 Here we use a small dataset from TCGA-CHOL project to show the most basic steps for ceRNA network analysis. A more detailed instruction of each step is followed.
 
