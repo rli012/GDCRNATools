@@ -33,7 +33,7 @@ This user-friendly package allows researchers perform the analysis by simply run
 
 The R software for running `GDCRNATools` can be downloaded from [The Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/). The `GDCRNATools` package can be installed from [Bioconductor](https://www.bioconductor.org/).
 
-```{r installation3, eval=TRUE, message=FALSE, warning=FALSE}
+```{r installation3, eval=FALSE, message=FALSE, warning=FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite("GDCRNATools")
 ```
@@ -46,20 +46,22 @@ library(GDCRNATools)
 In `GDCRNATools`, some functions are built for users to download and process GDC data efficiently.
 Users can also use their own data that is processed by other tools such as the [UCSC Xena GDC hub](https://xenabrowser.net/datapages/?host=https://gdc.xenahubs.net), [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html)[@ColapricoTCGAbiolinksBioconductorpackage2016], or [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)[@ZhuTCGAAssemblerOpenSourcePipeline2014], etc.
 
-Here we use a small dataset to show the most basic steps for ceRNA network analysis. More detailed instruction of each step is in the Case Study section.
+Here we use a small dataset to show the most basic steps for ceRNA network analysis. More detailed instruction of each step is in the [Case Study](#case) section.
 
 
 ## Normalization of HTSeq-Counts data
-```{r load data, message=FALSE, warning=FALSE, eval=TRUE}
+```{r load data q, message=FALSE, warning=FALSE, eval=TRUE}
 library(DT)
 ### load RNA counts data
-data(rnaCounts)
+#data(rnaCounts)
+load('rnaCounts.rda')
 
 ### load miRNAs counts data
-data(mirCounts)
+#data(mirCounts)
+load('mirCounts.rda')
 ```
 
-```{r normalization, message=FALSE, warning=FALSE, eval=TRUE}
+```{r normalization q, message=FALSE, warning=FALSE, eval=TRUE}
 ####### RNAseq data #######
 rnaExpr <- gdcVoomNormalization(counts = rnaCounts, filter = FALSE)
 
@@ -93,10 +95,6 @@ metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-CHOL',
                                    
 metaMatrix.MIR <- gdcFilterDuplicate(metaMatrix.MIR)
 metaMatrix.MIR <- gdcFilterSampleType(metaMatrix.MIR)
-datatable(as.data.frame(metaMatrix.MIR[1:5,]), extensions = 'Scroller',
-          options = list(scrollX = TRUE, 
-                         deferRender = TRUE,
-                         scroller = TRUE))
 ```
 
 
@@ -111,18 +109,14 @@ datatable(as.data.frame(DEGAll),
                         
 #### DE long-noncoding
 deLNC <- gdcDEReport(deg = DEGAll, gene.type = 'long_non_coding')
-datatable(as.data.frame(deLNC), 
-          options = list(scrollX = TRUE, pageLength = 5))
 
 #### DE protein coding genes
 dePC <- gdcDEReport(deg = DEGAll, gene.type = 'protein_coding')
-datatable(as.data.frame(dePC), 
-          options = list(scrollX = TRUE, pageLength = 5))
 ```
 
 
 ## ceRNA network analysis
-```{r ce, message=FALSE, warning=FALSE, eval=TRUE}
+```{r ce q, message=FALSE, warning=FALSE, eval=TRUE}
 ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
                           pc          = rownames(dePC), 
                           lnc.targets = 'starBase', 
@@ -135,34 +129,35 @@ datatable(as.data.frame(ceOutput),
 ```
 
 ## Report ceRNA network to Cytoscape
-```{r edges, message=FALSE, warning=FALSE, eval=TRUE}
+```{r edges q, message=FALSE, warning=FALSE, eval=TRUE}
 ceOutput2 <- ceOutput[ceOutput$hyperPValue<0.01 & ceOutput$corPValue<0.01 & ceOutput$regSim != 0,]
-
 edges <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'edges')
 datatable(as.data.frame(edges), 
           options = list(scrollX = TRUE, pageLength = 5))
 ```
 
-```{r nodes, message=FALSE, warning=FALSE, eval=TRUE}
+```{r nodes q, message=FALSE, warning=FALSE, eval=TRUE}
 nodes <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'nodes')
 datatable(as.data.frame(nodes), 
           options = list(scrollX = TRUE, pageLength = 5))
 ```
 
 
-# Case study: TCGA-PRAD
+
+
+# Case study: TCGA-PRAD {#case}
 In this section, we use data from the TCGA-PRAD project as an example to illustrate how the `GDCRNATools` works in detail.
 
 ## Data download
 > Two methods are provided for downloading Gene Expression Quantification (HTSeq-Counts), Isoform Expression Quantification (BCGSC miRNA Profiling), and Clinical (Clinical Supplement) data:
 
 ### Automatic download  
-To provide users a convenient method for data download, by default, we used the API method developed in the `GenomicDataCommons` package to download data automatically by specifying `data.type` and `project.id` arguments. An alternative method using the gdc-client for automatic download is also provided in case that the API method fails.
+To provide users a convenient method for data download, by default, we used the API method developed in the `GenomicDataCommons` package to download data automatically by specifying `data.type` and `project.id` arguments. An alternative method using the `gdc-client` for automatic download is also provided in case that the API method fails.
 
 ```{r manual, eval=FALSE, message=FALSE, warning=FALSE}
 testdir <- tempdir()
-rnadir <- paste(rnadir, 'RNAseq', sep='/')
-mirdir <- paste(rnadir, 'miRNAs', sep='/')
+rnadir <- paste(testdir, 'RNAseq', sep='/')
+mirdir <- paste(testdir, 'miRNAs', sep='/')
 
 ####### Download RNAseq data #######
 gdcRNADownload(project.id     = 'TCGA-PRAD', 
@@ -187,7 +182,7 @@ Step3: Download data using `gdcRNADownload()` function by providing the manifest
 
 
 
-## Data organization
+## Data organization and DE analysis
 
 ### Parse metadata
 
@@ -224,7 +219,6 @@ metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-PRAD',
 ```{r filter meta2, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Filter duplicated samples in miRNAs metadata #######
 metaMatrix.MIR <- gdcFilterDuplicate(metaMatrix.MIR)
-
 ```
 
 
@@ -241,12 +235,12 @@ metaMatrix.MIR <- gdcFilterSampleType(metaMatrix.MIR)
 ```{r merge RNAseq, message=FALSE, warning=FALSE, eval=FALSE}
 ####### Merge RNAseq data #######
 rnaCounts <- gdcRNAMerge(metadata  = metaMatrix.RNA, 
-                         path      = 'TCGA-PRAD/RNAseq/', 
+                         path      = rnadir, 
                          data.type = 'RNAseq')
 
 ####### Merge miRNAs data #######
 mirCounts <- gdcRNAMerge(metadata  = metaMatrix.MIR,
-                         path      = 'TCGA-PRAD/miRNAs/',
+                         path      = mirdir,
                          data.type = 'miRNAs')
 ```
 
@@ -266,15 +260,11 @@ mirExpr <- gdcVoomNormalization(counts = mirCounts, filter = FALSE)
 
 
 
+### Differential gene expression analysis
 
-## Differential gene expression analysis
-
-***
-
-`gdcDEAnalysis()`, a convenience wrapper, provides three widely used methods [limma](http://bioconductor.org/packages/release/bioc/html/limma.html)[@Ritchielimmapowersdifferential2015a], [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)[@RobinsonedgeRBioconductorpackage2010], and [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)[@LoveModeratedestimationfold2014] to identify differentially expressed genes (DEGs) or miRNAs between any two groups defined by users. Note that [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)[@LoveModeratedestimationfold2014] maybe slow with a single core. Multiple cores can be specified with the `nCore` argument if [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)[@LoveModeratedestimationfold2014] is in use. Users are encouraged to consult the vignette of each method for more detailed information.
+Usually, people are interested in genes that are differentially expressed between different groups (eg. Primary Tumor vs. Solid Tissue Normal). `gdcDEAnalysis()`, a convenience wrapper, provides three widely used methods [limma](http://bioconductor.org/packages/release/bioc/html/limma.html)[@Ritchielimmapowersdifferential2015a], [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)[@RobinsonedgeRBioconductorpackage2010], and [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)[@LoveModeratedestimationfold2014] to identify differentially expressed genes (DEGs) or miRNAs between any two groups defined by users. Note that [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)[@LoveModeratedestimationfold2014] maybe slow with a single core. Multiple cores can be specified with the `nCore` argument if [DESeq2](http://bioconductor.org/packages/release/bioc/html/DESeq2.html)[@LoveModeratedestimationfold2014] is in use. Users are encouraged to consult the vignette of each method for more detailed information.
 
 
-## DE analysis
 ```{r deg, message=FALSE, warning=FALSE, eval=FALSE}
 DEGAll <- gdcDEAnalysis(counts     = rnaCounts, 
                         group      = metaMatrix.RNA$sample_type, 
@@ -282,8 +272,6 @@ DEGAll <- gdcDEAnalysis(counts     = rnaCounts,
                         method     = 'limma')
 ```
 
-
-## Report DE genes/miRNAs
 
 All DEGs, DE long non-coding genes, DE protein coding genes and DE miRNAs could be reported separately by setting `geneType` argument in `gdcDEReport()`. Gene symbols and biotypes based on the Ensembl 90 annotation are reported in the output.
 
@@ -308,7 +296,7 @@ dePC <- gdcDEReport(deg = DEGAll, gene.type = 'protein_coding')
 ```
 
 
-# Competing endogenous RNAs network analysis
+## Competing endogenous RNAs network analysis
 
 > Three criteria are used to determine the competing endogenous interactions between lncRNA-mRNA pairs: 
 
@@ -318,7 +306,7 @@ dePC <- gdcDEReport(deg = DEGAll, gene.type = 'protein_coding')
 
 
 
-## Hypergeometric test
+### Hypergeometric test
 
 Hypergenometric test is performed to test whether a lncRNA and mRNA share many miRNAs significantly.
 
@@ -333,13 +321,13 @@ $$p=1-\sum_{k=0}^m \frac{\binom{K}{k}\binom{N-K}{n-k}}{\binom{N}{n}} $$
 here $m$ is the number of shared miRNAs, $N$ is the total number of miRNAs in the database, $n$ is the number of miRNAs targeting the lncRNA, $K$ is the number of miRNAs targeting the protein coding gene.
 
 
-## Pearson correlation analysis
+### Pearson correlation analysis
 
 Pearson correlation coefficient is a measure of the strength of a linear association between two variables. As we all know, miRNAs are negative regulators of gene expression. If more common miRNAs are occupied by a lncRNA, less of them will bind to the target mRNA, thus increasing the expression level of mRNA. So expression of the lncRNA and mRNA in a ceRNA pair should be positively correlated.
 
 
 
-## Regulation pattern analysis
+### Regulation pattern analysis
 
 > Two methods are used to measure the regulatory role of miRNAs on the lncRNA and mRNA:
 
@@ -367,7 +355,7 @@ The hypergeometric test of shared miRNAs, expression correlation analysis of lnc
 
 Users can either use the internally incoporated databases of miRNA-mRNA and miRNA-lncRNA interactions, or provide there own interaction datasets, such as miRNA-target interactions predicted by [TargetScan](http://www.targetscan.org/vert_71/), [miRanda](www.microrna.org/), and [DIANA TOOLS](http://diana.imis.athena-innovation.gr/DianaTools/index.php?r=site/index), etc.
 
-* ceRNA network analysis using internal database
+#### ceRNAs network analysis using internal database
 ```{r ce, message=FALSE, warning=FALSE, eval=FALSE}
 ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
                           pc          = rownames(dePC), 
@@ -375,37 +363,53 @@ ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC),
                           pc.targets  = 'starBase', 
                           rna.expr    = rnaExpr, 
                           mir.expr    = mirExpr)
-datatable(as.data.frame(ceOutput), 
-          options = list(scrollX = TRUE, pageLength = 5))
 ```
 
 
-* ceRNA network analysis using user-provided dataset
-```{r ce 2, message=FALSE, warning=FALSE, eval=FALSE}
-data(lncTarget)
-lncTarget[1:5]
+#### ceRNAs network analysis using user-provided dataset
+```{r ce 2, message=FALSE, warning=FALSE, eval=TRUE}
+#data(lncTarget)
+load('lncTarget.rda')
 
-data(pcTarget)
-pcTarget[1:5]
+#data(pcTarget)
+load('pcTarget.rda')
+pcTarget[1:3]
+```
 
+```{r ce 22, message=FALSE, warning=FALSE, eval=FALSE}
 ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
                           pc          = rownames(dePC), 
-                          lnc.targets = lncTarget', 
+                          lnc.targets = lncTarget, 
                           pc.targets  = pcTarget, 
                           rna.expr    = rnaExpr, 
                           mir.expr    = mirExpr)
-datatable(as.data.frame(ceOutput), 
-          options = list(scrollX = TRUE, pageLength = 5))
 ```
 
 
 
 
-## ceRNAs visualization
+### Network visulization in Cytoscape
 
-### Correlation plot on a local webpage by shinyCorplot
+lncRNA-miRNA-mRNA interactions can be reported by the `gdcExportNetwork()` and visualized in **[Cytoscape](http://www.cytoscape.org/)**. `edges` should be imported as network and `nodes` should be imported as feature table.
 
-Typing and running `gdcCorPlot()` for each pair of lncRNA-mRNA is bothering when multiple pairs are being interested in. `shinyCorPlot()` , a interactive plot function based on `shiny` package, can be easily operated by just clicking the genes in each drop down box (in the GUI window). By running `shinyCorPlot()` function, a local webpage would pop up and correlation plot between a lncRNA and mRNA would be automatically shown.
+```{r message=FALSE, warning=FALSE, eval=FALSE}
+ceOutput2 <- ceOutput[ceOutput$hyperPValue<0.01 & ceOutput$corPValue<0.01 & ceOutput$regSim != 0,]
+
+edges <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'edges')
+nodes <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'nodes')
+
+write.table(edges, file='edges.txt', sep='\t', quote=F)
+write.table(nodes, file='nodes.txt', sep='\t', quote=F)
+```
+
+
+![](figures/network.png)
+
+
+
+### Correlation plot on a local webpage
+
+`shinyCorPlot()` , a interactive plot function based on `shiny` package, can be easily operated by just clicking the genes in each drop down box (in the GUI window). By running `shinyCorPlot()` function, a local webpage would pop up and correlation plot between a lncRNA and mRNA would be automatically shown.
 
 ```{r shiny cor plot, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
 shinyCorPlot(gene1    = rownames(deLNC), 
@@ -418,29 +422,17 @@ shinyCorPlot(gene1    = rownames(deLNC),
 
 
 
-### Network visulization in Cytoscape
 
-lncRNA-miRNA-mRNA interactions can be reported by the `gdcExportNetwork()` and visualized in **[Cytoscape](http://www.cytoscape.org/)**.
-
-```{r message=FALSE, warning=FALSE, eval=FALSE}
-ceOutput2 <- ceOutput[ceOutput$hyperPValue<0.01 & ceOutput$corPValue<0.01 & ceOutput$regSim != 0,]
-
-edges <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'edges')
-nodes <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'nodes')
-```
+## Other downstream analyses
+Downstream analyses such as univariate survival analysis and functional enrichment analysis are developed in the `GDCRNATools` package to facilitate the identification of genes in the ceRNAs network that play important roles in prognosis or involve in important pathways.
 
 
-![](figures/network.png)
-
-
-
-
-# Univariate survival analysis
+### Univariate survival analysis
 
 Two methods are provided to perform univariate survival analysis: Cox Proportional-Hazards (CoxPH) model and Kaplan Meier (KM) analysis based on the [survival](https://cran.r-project.org/web/packages/survival/index.html) package. CoxPH model considers expression value as continous variable while KM analysis divides patients into high-expreesion and low-expression groups by a user-defined threshold such as median or mean. `gdcSurvivalAnalysis()` take a list of genes as input and report the hazard ratio, 95% confidence intervals, and test significance of each gene on overall survival.
 
 
-## CoxPH analysis
+#### CoxPH analysis
 
 ```{r survival, message=FALSE, warning=FALSE, eval=FALSE}
 ####### CoxPH analysis #######
@@ -451,7 +443,7 @@ survOutput <- gdcSurvivalAnalysis(gene     = rownames(deALL),
 ```
 
 
-## KM analysis
+#### KM analysis
 ```{r survival2, message=FALSE, warning=FALSE, eval=FALSE}
 ####### KM analysis #######
 survOutput <- gdcSurvivalAnalysis(gene     = rownames(deALL), 
@@ -461,9 +453,8 @@ survOutput <- gdcSurvivalAnalysis(gene     = rownames(deALL),
                                   sep      = 'median')
 ```
 
-## KM analysis visualization
 
-### KM plot on a local webpage by shinyKMPlot
+#### KM plot on a local webpage by shinyKMPlot
 The `shinyKMPlot()` function is also a simply `shiny` app which allow users view KM plots (based on the R package [survminer](https://cran.r-project.org/web/packages/survminer/index.html).) of all genes of interests on a local webpackage conveniently.
 
 ```{r shiny km plot, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
@@ -474,13 +465,8 @@ shinyKMPlot(gene = rownames(deALL), rna.expr = rnaExpr, metadata = metaMatrix.RN
 
 
 
-# Functional enrichment analysis
+### Functional enrichment analysis
 
-One of the main uses of the GO is to perform enrichment analysis on gene sets. For example, given a set of genes that are up-regulated under certain conditions, an enrichment analysis will find which GO terms are over-represented (or under-represented) using annotations for that gene set and pathway enrichment can also be applied afterwards.
-
-***
-
-## GO, KEGG and DO analyses
 `gdcEnrichAnalysis()` can perform Gene ontology (GO), Kyoto Encyclopedia of Genes and Genomes (KEGG) and Disease Ontology (DO) functional enrichment analyses of a list of genes simultaneously. GO and KEGG analyses are based on the R/Bioconductor packages [clusterProfilier](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)[@YuclusterProfilerPackageComparing2012] and [DOSE](https://bioconductor.org/packages/release/bioc/html/DOSE.html)[@YuDOSEBioconductorpackage2015]. Redundant GO terms can be removed by specifying `simplify=TRUE` in the `gdcEnrichAnalysis()` function which uses the `simplify()` function in the  [clusterProfilier](https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html)[@YuclusterProfilerPackageComparing2012] package. 
 
 ```{r enrichment, message=FALSE, warning=FALSE, eval=FALSE}
@@ -488,30 +474,29 @@ enrichOutput <- gdcEnrichAnalysis(gene = rownames(deALL), simplify = TRUE)
 ```
 
 
-## Enrichment visualization
 
-The output generated by `gdcEnrichAnalysis()` can be used for visualization in the `gdcEnrichPlot()` function by specifying `type`,`category` and `numTerms` arguments. 
 
+#### Barplot
 ```{r enrichment data, message=FALSE, warning=FALSE, eval=TRUE}
 data(enrichOutput)
 ```
 
-### Barplot
-```{r go bar, fig.height=8, fig.width=15.5, message=FALSE, warning=FALSE}
+
+```{r go bar, fig.height=8, fig.width=15.5, message=FALSE, warning=FALSE, eval=TRUE}
 gdcEnrichPlot(enrichOutput, type = 'bar', category = 'GO', num.terms = 10)
 ```
 
 
-### Bubble plot
-```{r go bubble, echo=TRUE, fig.height=8, fig.width=12.5, message=FALSE, warning=FALSE}
+#### Bubble plot
+```{r go bubble, echo=TRUE, fig.height=8, fig.width=12.5, message=FALSE, warning=FALSE, eval=TRUE}
 gdcEnrichPlot(enrichOutput, type='bubble', category='GO', num.terms = 10)
 ```
 
 
-### View pathway maps on a local webpage by shinyPathview
+#### View pathway maps on a local webpage
 `shinyPathview()` allows users view and download pathways of interests by simply selecting the pathway terms on a local webpage.
 
-```{r shiny pathview, message=FALSE, warning=FALSE, include=FALSE}
+```{r shiny pathview, message=FALSE, warning=FALSE, include=FALSE, eval=TRUE}
 library(pathview)
 deg <- deALL$logFC
 names(deg) <- rownames(deALL)
