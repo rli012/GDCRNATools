@@ -43,10 +43,10 @@ library(GDCRNATools)
 ```
 
 # Quick start
-To perform the comprehensive data analysis, some functions are built for users to download and process GDC data efficiently.
+In `GDCRNATools`, some functions are built for users to download and process GDC data efficiently.
 Users can also use their own data that is processed by other tools such as the [UCSC Xena GDC hub](https://xenabrowser.net/datapages/?host=https://gdc.xenahubs.net), [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html)[@ColapricoTCGAbiolinksBioconductorpackage2016], or [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)[@ZhuTCGAAssemblerOpenSourcePipeline2014], etc.
 
-Here we use a small dataset from TCGA-CHOL project to show the most basic steps for ceRNA network analysis. A more detailed instruction of each step is followed.
+Here we use a small dataset to show the most basic steps for ceRNA network analysis. More detailed instruction of each step is in the Case Study section.
 
 
 ## Normalization of HTSeq-Counts data
@@ -156,16 +156,8 @@ In this section, we use data from the TCGA-PRAD project as an example to illustr
 ## Data download
 > Two methods are provided for downloading Gene Expression Quantification (HTSeq-Counts), Isoform Expression Quantification (BCGSC miRNA Profiling), and Clinical (Clinical Supplement) data:
 
-### Manual download  
-Step1: Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool) on the GDC website  
-Step2: Add data to the GDC cart, then download manifest file and metadata of the cart  
-Step3: Download data using `gdcRNADownload()` and `gdcClinicalDownload()` functions by providing the manifest file 
-
 ### Automatic download  
-To provide users a more convenient method for data download, by default, we used the API method developed in the `GenomicDataCommons` package to download data automatically. An alternative method using the gdc-client for automatic download is also provided in case that the API method fails.
-
-* `gdcRNADownload()` will download HTSeq-Counts data if `data.type='RNAseq'` and download BCGSC miRNA Profiling data if `data.type='miRNAs'`. `project.id` argument is required to be provided.
-
+To provide users a convenient method for data download, by default, we used the API method developed in the `GenomicDataCommons` package to download data automatically by specifying `data.type` and `project.id` arguments. An alternative method using the gdc-client for automatic download is also provided in case that the API method fails.
 
 ```{r manual, eval=FALSE, message=FALSE, warning=FALSE}
 testdir <- tempdir()
@@ -184,17 +176,14 @@ gdcRNADownload(project.id     = 'TCGA-PRAD',
                write.manifest = FALSE,
                directory      = mirdir)
 
-```               
-
-* `gdcClinicalDownload()` download clinical data in .xml format automatically by simply specifying the `project.id` argument.
-
-```{r manual clinical, eval=FALSE, message=FALSE, warning=FALSE}
-####### Download clinical data #######
-gdcClinicalDownload(project.id     = 'TCGA-PRAD', 
-                    data.type      = 'RNAseq', 
-                    write.manifest = FALSE,
-                    directory      = 'TCGA-PRAD/Clinical')
 ```
+
+### Manual download  
+Users can also download data manually by providing the manifest file that is downloaded from the GDC cart
+Step1: Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool) on the GDC website  
+Step2: Add data to the GDC cart, then download manifest file and metadata of the cart  
+Step3: Download data using `gdcRNADownload()` function by providing the manifest file 
+
 
 
 ## Data organization
