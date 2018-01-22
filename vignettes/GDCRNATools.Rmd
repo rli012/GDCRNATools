@@ -33,7 +33,7 @@ This user-friendly package allows researchers perform the analysis by simply run
 
 The R software for running `GDCRNATools` can be downloaded from [The Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/). The `GDCRNATools` package can be installed from [Bioconductor](https://www.bioconductor.org/).
 
-```{r installation3, eval=FALSE, message=FALSE, warning=FALSE}
+```{r installation3, eval=TRUE, message=FALSE, warning=FALSE}
 source("https://bioconductor.org/biocLite.R")
 biocLite("GDCRNATools")
 ```
@@ -43,7 +43,8 @@ library(GDCRNATools)
 ```
 
 # Quick start
-To do the comprehensive data analysis, users can use their own data that is processed by other tools such as the [UCSC Xena GDC hub] (https://xenabrowser.net/datapages/?host=https://gdc.xenahubs.net), [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html)[@ColapricoTCGAbiolinksBioconductorpackage2016], or [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)[@ZhuTCGAAssemblerOpenSourcePipeline2014], etc. We also build some functions for users to download and process GDC data efficiently.
+To perform the comprehensive data analysis, some functions are built for users to download and process GDC data efficiently.
+Users can also use their own data that is processed by other tools such as the [UCSC Xena GDC hub] (https://xenabrowser.net/datapages/?host=https://gdc.xenahubs.net), [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html)[@ColapricoTCGAbiolinksBioconductorpackage2016], or [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)[@ZhuTCGAAssemblerOpenSourcePipeline2014], etc.
 
 Here we use a small dataset from TCGA-CHOL project to show the most basic steps for ceRNA network analysis. A more detailed instruction of each step is followed.
 
@@ -52,7 +53,7 @@ Here we use a small dataset from TCGA-CHOL project to show the most basic steps 
 ```{r load data, message=FALSE, warning=FALSE, eval=TRUE}
 library(DT)
 ### load RNA counts data
-data(rnaCOunts)
+data(rnaCounts)
 
 ### load miRNAs counts data
 data(mirCounts)
@@ -77,8 +78,10 @@ metaMatrix.RNA <- gdcParseMetadata(project.id = 'TCGA-CHOL',
 
 metaMatrix.RNA <- gdcFilterDuplicate(metaMatrix.RNA)                                   
 metaMatrix.RNA <- gdcFilterSampleType(metaMatrix.RNA)
-datatable(as.data.frame(metaMatrix.RNA), 
-          options = list(scrollX = TRUE, pageLength = 5))
+datatable(as.data.frame(metaMatrix.RNA[1:5,]), extensions = 'Scroller',
+          options = list(scrollX = TRUE, 
+                         deferRender = TRUE,
+                         scroller = TRUE))
 
 ```
 
@@ -90,8 +93,10 @@ metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-CHOL',
                                    
 metaMatrix.MIR <- gdcFilterDuplicate(metaMatrix.MIR)
 metaMatrix.MIR <- gdcFilterSampleType(metaMatrix.MIR)
-datatable(as.data.frame(metaMatrix.MIR), 
-          options = list(scrollX = TRUE, pageLength = 5))
+datatable(as.data.frame(metaMatrix.MIR[1:5,]), extensions = 'Scroller',
+          options = list(scrollX = TRUE, 
+                         deferRender = TRUE,
+                         scroller = TRUE))
 ```
 
 
@@ -106,13 +111,17 @@ datatable(as.data.frame(DEGAll),
                         
 #### DE long-noncoding
 deLNC <- gdcDEReport(deg = DEGAll, gene.type = 'long_non_coding')
+datatable(as.data.frame(deLNC), 
+          options = list(scrollX = TRUE, pageLength = 5))
 
 #### DE protein coding genes
 dePC <- gdcDEReport(deg = DEGAll, gene.type = 'protein_coding')
+datatable(as.data.frame(dePC), 
+          options = list(scrollX = TRUE, pageLength = 5))
 ```
 
 
-
+## ceRNA network analysis
 ```{r ce, message=FALSE, warning=FALSE, eval=TRUE}
 ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
                           pc          = rownames(dePC), 
@@ -125,7 +134,7 @@ datatable(as.data.frame(ceOutput),
           options = list(scrollX = TRUE, pageLength = 5))
 ```
 
-
+## Report ceRNA network to Cytoscape
 ```{r edges, message=FALSE, warning=FALSE, eval=TRUE}
 ceOutput2 <- ceOutput[ceOutput$hyperPValue<0.01 & ceOutput$corPValue<0.01 & ceOutput$regSim != 0,]
 
