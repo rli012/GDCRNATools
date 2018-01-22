@@ -180,6 +180,7 @@ gdcRNADownload(project.id     = 'TCGA-PRAD',
 
 ### Manual download  
 Users can also download data manually by providing the manifest file that is downloaded from the GDC cart
+
 Step1: Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool) on the GDC website  
 Step2: Add data to the GDC cart, then download manifest file and metadata of the cart  
 Step3: Download data using `gdcRNADownload()` function by providing the manifest file 
@@ -209,9 +210,9 @@ metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-PRAD',
 
 
 
-## Filter samples
+### Filter samples
 
-### Filter duplicated samples
+* Filter duplicated samples
 Only one sample would be kept if the sample had been sequenced more than once by `gdcFilterDuplicate()`.
 
 ```{r filter meta, message=FALSE, warning=FALSE, eval=TRUE}
@@ -226,7 +227,7 @@ metaMatrix.MIR <- gdcFilterDuplicate(metaMatrix.MIR)
 
 
 
-### Filter non-Primary Tumor and non-Solid Tissue Normal samples
+* Filter non-Primary Tumor and non-Solid Tissue Normal samples
 Samples that are neither Primary Tumor (code: 01) nor Solid Tissue Normal (code: 11) would be filtered out by `gdcFilterSampleType()`.
 
 ```{r filter meta3, message=FALSE, warning=FALSE, eval=TRUE}
@@ -241,46 +242,40 @@ metaMatrix.MIR <- gdcFilterSampleType(metaMatrix.MIR)
 
 
 
-## Merge data
+### Merge HTSeq-Counts data
 
-* `gdcRNAMerge()` merges raw counts data of RNAseq to a single expression matrix with rows are *Ensembl id* and columns are *samples*. Total read counts for 5p and 3p strands of miRNAs can be processed from isoform quantification files and then merged to a single expression matrix with rows are *miRBase v21 identifiers* and columns are *samples*.
+`gdcRNAMerge()` merges raw counts data of RNAseq to a single expression matrix with rows are *Ensembl id* and columns are *samples*. Total read counts for 5p and 3p strands of miRNAs can be processed from isoform quantification files and then merged to a single expression matrix with rows are *miRBase v21 identifiers* and columns are *samples*.
 
-* `gdcClinicalMerge()` merges clinical data to a dataframe with rows are *patient id* and columns are *clinical traits*. If `key.info=TRUE`, only those most commonly used clinical traits will be reported, otherwise, all the clinical information will be reported.
-
-
-### Merge RNAseq/miRNAs data
 ```{r merge RNAseq, message=FALSE, warning=FALSE, eval=FALSE}
 ####### Merge RNAseq data #######
-rnaMatrix <- gdcRNAMerge(metadata  = metaMatrix.RNA, 
+rnaCounts <- gdcRNAMerge(metadata  = metaMatrix.RNA, 
                          path      = 'TCGA-PRAD/RNAseq/', 
                          data.type = 'RNAseq')
 
 ####### Merge miRNAs data #######
-mirMatrix <- gdcRNAMerge(metadata  = metaMatrix.MIR,
+mirCounts <- gdcRNAMerge(metadata  = metaMatrix.MIR,
                          path      = 'TCGA-PRAD/miRNAs/',
                          data.type = 'miRNAs')
 ```
 
 
 ## TMM normalization and voom transformation
-It has repeatedly shown that normalization is a critical way to ensure accurate estimation and detection of differential expression (DE) by removing systematic technical effects that occur in the data[@Robinsonscalingnormalizationmethod2010]. TMM normalization is a simple and effective method for estimating relative RNA production levels from RNA-seq data. Voom is moreover faster and more convenient than existing RNA-seq methods, and converts RNA-seq data into a form that can be analyzed using similar tools as for microarrays[@Lawvoomprecisionweights2014].
 
 By running `gdcVoomNormalization()` function, raw counts data would be normalized by TMM method implemented in [edgeR](http://bioconductor.org/packages/release/bioc/html/edgeR.html)[@RobinsonedgeRBioconductorpackage2010] and further transformed by the voom method provided in [limma](http://bioconductor.org/packages/release/bioc/html/limma.html)[@Ritchielimmapowersdifferential2015a]. Low expression genes (logcpm < 1 in more than half of the samples) will be filtered out by default. All the genes can be kept by setting `filter=TRUE` in the `gdcVoomNormalization()`.
 
 
-
 ```{r normalization, message=FALSE, warning=FALSE, eval=FALSE}
 ####### RNAseq data #######
-rnaExpr <- gdcVoomNormalization(counts = rnaMatrix, filter = FALSE)
+rnaExpr <- gdcVoomNormalization(counts = rnaCounts, filter = FALSE)
 
 ####### miRNAs data #######
-mirExpr <- gdcVoomNormalization(counts = mirMatrix, filter = FALSE)
+mirExpr <- gdcVoomNormalization(counts = mirCounts, filter = FALSE)
 ```
 
 
 
 
-# Differential gene expression analysis
+## Differential gene expression analysis
 
 ***
 
@@ -289,7 +284,7 @@ mirExpr <- gdcVoomNormalization(counts = mirMatrix, filter = FALSE)
 
 ## DE analysis
 ```{r deg, message=FALSE, warning=FALSE, eval=FALSE}
-DEGAll <- gdcDEAnalysis(counts     = rnaMatrix, 
+DEGAll <- gdcDEAnalysis(counts     = rnaCounts, 
                         group      = metaMatrix.RNA$sample_type, 
                         comparison = 'PrimaryTumor-SolidTissueNormal', 
                         method     = 'limma')
@@ -318,22 +313,6 @@ deLNC <- gdcDEReport(deg = DEGAll, gene.type = 'long_non_coding')
 ```{r extract3, message=FALSE, warning=FALSE, eval=TRUE}
 #### DE protein coding genes
 dePC <- gdcDEReport(deg = DEGAll, gene.type = 'protein_coding')
-```
-
-
-## DEG visualization
-
-Volcano plot and bar plot are used to visualize DE analysis results in different manners by `gdcVolcanoPlot()` and `gdcBarPlot()` functions, respectively . Hierarchical clustering on the expression matrix of DEGs can be analyzed and plotted by the `gdcHeatmap()` function.
-
-### Volcano plot
-```{r volcano, fig.align='center', fig.width=5, message=FALSE, warning=FALSE, eval=TRUE}
-gdcVolcanoPlot(DEGAll)
-```
-
-
-### Barplot
-```{r barplot, fig.align='center', fig.height=6, message=FALSE, warning=FALSE, eval=TRUE}
-gdcBarPlot(deg = deALL, angle = 45, data.type = 'RNAseq')
 ```
 
 
@@ -405,6 +384,23 @@ ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC),
 ```
 
 
+```{r ce 2, message=FALSE, warning=FALSE, eval=FALSE}
+data(lncTarget)
+
+
+data(pcTarget)
+
+
+ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
+                          pc          = rownames(dePC), 
+                          lnc.targets = 'starBase', 
+                          pc.targets  = 'starBase', 
+                          rna.expr    = rnaExpr, 
+                          mir.expr    = mirExpr)
+```
+
+
+
 
 
 ## ceRNAs visualization
@@ -434,7 +430,6 @@ ceOutput2 <- ceOutput[ceOutput$hyperPValue<0.01 & ceOutput$corPValue<0.01 & ceOu
 edges <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'edges')
 nodes <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'nodes')
 ```
-
 
 
 ![](figures/network.png)
