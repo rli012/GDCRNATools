@@ -150,69 +150,44 @@ datatable(as.data.frame(nodes),
 ```
 
 
+# Case study: TCGA-PRAD
+In this section, we use data from the TCGA-PRAD project as an example to illustrate how the `GDCRNATools` works in detail.
 
-# Data download
+## Data download
 > Two methods are provided for downloading Gene Expression Quantification (HTSeq-Counts), Isoform Expression Quantification (BCGSC miRNA Profiling), and Clinical (Clinical Supplement) data:
 
-* Manual download  
+### Manual download  
 Step1: Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool) on the GDC website  
 Step2: Add data to the GDC cart, then download manifest file and metadata of the cart  
-Step3: Download data using `gdcRNADownload()` function by providing the manifest file  
+Step3: Download data using `gdcRNADownload()` and `gdcClinicalDownload()` functions by providing the manifest file 
 
-* Automatic download  
-Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool), manifest file, and data automatically by specifying the `project.id` and `data.type` in `gdcRNADownload()` function for RNAseq and miRNAs data, and in `gdcClinicalDownload()` function for clinical data
+### Automatic download  
+To provide users a more convenient method for data download, by default, we used the API method developed in the `GenomicDataCommons` package to download data automatically. An alternative method using the gdc-client for automatic download is also provided in case that the API method fails.
 
-Users can also download data from GDC using the API method developed in [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html)[@ColapricoTCGAbiolinksBioconductorpackage2016] or using [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)[@ZhuTCGAAssemblerOpenSourcePipeline2014]
-
-## Manual download
-
-### Installation of GDC Data Transfer Tool gdc-client
-Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool) from the GDC website and unzip the file
-
-### Download manifest file and metadata from GDC Data Portal
-
-![](figures/TCGA-PRAD.download_cart.png)
-
-### Download data 
-```{r rnaseq, eval=FALSE, message=FALSE, warning=FALSE}
-####### Download RNAseq data #######
-gdcRNADownload(manifest  = 'TCGA-PRAD/TCGA-PRAD.RNAseq.gdc_manifest.2017-11-23T14-40-52.txt',
-               directory = 'TCGA-PRAD/RNAseq')
-
-####### Download miRNAs data #######
-gdcRNADownload(manifest  = 'TCGA-PRAD/TCGA-PRAD.miRNAs.gdc_manifest.2017-11-22T15-36-57.txt',
-               directory = 'TCGA-PRAD/miRNAs')
-
-####### Download Clinical data #######
-gdcRNADownload(manifest  = 'TCGA-PRAD/TCGA-PRAD.Clinical.gdc_manifest.2017-11-23T14-42-01.txt',
-               directory = 'TCGA-PRAD/Clinical')
-```
-
-
-
-## Automatic download
 * `gdcRNADownload()` will download HTSeq-Counts data if `data.type='RNAseq'` and download BCGSC miRNA Profiling data if `data.type='miRNAs'`. `project.id` argument is required to be provided.
 
-* `gdcClinicalDownload()` download clinical data in .xml format automatically by simply specifying the `project.id` argument.
-
-### Download RNAseq/miRNAs data
 
 ```{r manual, eval=FALSE, message=FALSE, warning=FALSE}
+testdir <- tempdir()
+rnadir <- paste(rnadir, 'RNAseq', sep='/')
+mirdir <- paste(rnadir, 'miRNAs', sep='/')
+
 ####### Download RNAseq data #######
 gdcRNADownload(project.id     = 'TCGA-PRAD', 
                data.type      = 'RNAseq', 
                write.manifest = FALSE,
-               directory      = 'TCGA-PRAD/RNAseq')
+               directory      = rnadir)
 
 ####### Download miRNAs data #######
 gdcRNADownload(project.id     = 'TCGA-PRAD', 
                data.type      = 'miRNAs', 
                write.manifest = FALSE,
-               directory      = 'TCGA-PRAD/miRNAs')
-```
+               directory      = mirdir)
 
+```               
 
-### Download clinical data
+* `gdcClinicalDownload()` download clinical data in .xml format automatically by simply specifying the `project.id` argument.
+
 ```{r manual clinical, eval=FALSE, message=FALSE, warning=FALSE}
 ####### Download clinical data #######
 gdcClinicalDownload(project.id     = 'TCGA-PRAD', 
@@ -222,23 +197,12 @@ gdcClinicalDownload(project.id     = 'TCGA-PRAD',
 ```
 
 
-# Data organization
+## Data organization
 
-## Parse metadata
+### Parse metadata
 
-Metadata can be parsed by either providing the metadata file that is downloaded in the data download step, or specifying the `project.id` and `data.type` in `gdcParseMetadata()` function to obtain information of data in the manifest file to facilitate data organization and basic clinical information of patients such as age, stage and gender, etc. for data analysis.
+Metadata can be parsed by either providing the metadata file (.json) that is downloaded in the data download step, or specifying the `project.id` and `data.type` in `gdcParseMetadata()` function to obtain information of data in the manifest file to facilitate data organization and basic clinical information of patients such as age, stage and gender, etc. for data analysis.
 
-
-### Parse metadata by providing the metadata file
-```{r parse meta, message=FALSE, warning=FALSE, eval=FALSE}
-####### Parse RNAseq metadata #######
-metaMatrix.RNA <- gdcParseMetadata(metafile='TCGA-PRAD/TCGA-PRAD.RNAseq.metadata.2017-11-23T17-23-59.json')
-
-####### Parse miRNAs metadata #######
-metaMatrix.MIR <- gdcParseMetadata(metafile='TCGA-PRAD/TCGA-PRAD.miRNAs.metadata.2017-11-23T17-33-55.json')
-```
-
-### Parse metadata by specifying project.id and data.type
 ```{r parse meta2, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Parse RNAseq metadata #######
 metaMatrix.RNA <- gdcParseMetadata(project.id = 'TCGA-PRAD',
@@ -307,13 +271,6 @@ mirMatrix <- gdcRNAMerge(metadata  = metaMatrix.MIR,
                          path      = 'TCGA-PRAD/miRNAs/',
                          data.type = 'miRNAs')
 ```
-
-### Merge clinical data
-```{r merge clinical, message=FALSE, warning=FALSE, eval=FALSE}
-####### Merge clinical data #######
-clinicalDa <- gdcClinicalMerge(path = 'TCGA-PRAD/Clinical/', key.info = TRUE)
-```
-
 
 
 ## TMM normalization and voom transformation
@@ -391,20 +348,6 @@ gdcBarPlot(deg = deALL, angle = 45, data.type = 'RNAseq')
 ```
 
 
-
-### Heatmap
-Heatmap is generated based on the `heatmap.2()` function in [gplots](https://cran.r-project.org/web/packages/gplots/index.html) package.
-```{r heatmap, message=FALSE, warning=FALSE, eval=TRUE}
-degName = rownames(deALL)
-```
-
-```{r heatmap 2, message=FALSE, warning=FALSE, eval=FALSE}
-gdcHeatmap(deg.id = degName, metadata = metaMatrix.RNA, rna.expr = rnaExpr)
-```
-
-![](figures/gdcHeatmap.png)
-
-
 # Competing endogenous RNAs network analysis
 
 > Three criteria are used to determine the competing endogenous interactions between lncRNA-mRNA pairs: 
@@ -463,7 +406,6 @@ where $M$ is the total number of shared miRNAs, $k$ is the $k$th shared miRNAs, 
 The hypergeometric test of shared miRNAs, expression correlation analysis of lncRNA-mRNA pair, and regulation pattern analysis of shared miRNAs are all implemented in the `gdcCEAnalysis()` function.
 
 
-
 ```{r ce, message=FALSE, warning=FALSE, eval=FALSE}
 ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
                           pc          = rownames(dePC), 
@@ -477,16 +419,6 @@ ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC),
 
 
 ## ceRNAs visualization
-### Correlation plot
-```{r correlation, fig.align='center', message=FALSE, warning=FALSE, eval=FALSE}
-gdcCorPlot(gene1    = 'ENSG00000234456', 
-           gene2    = 'ENSG00000105971',
-           rna.expr = rnaExpr,
-           metadata = metaMatrix.RNA)
-```
-
-![](figures/gdcCorPlot.png)
-
 
 ### Correlation plot on a local webpage by shinyCorplot
 
@@ -548,19 +480,10 @@ survOutput <- gdcSurvivalAnalysis(gene     = rownames(deALL),
 ```
 
 ## KM analysis visualization
-### KM plot
-KM survival curves are ploted using the `gdcKMPlot()` function which is based on the R package [survminer](https://cran.r-project.org/web/packages/survminer/index.html).
-```{r km plot, fig.align='center', fig.width=7, message=FALSE, warning=FALSE, eval=FALSE}
-gdcKMPlot(gene     = 'ENSG00000197275', 
-          rna.expr = rnaExpr, 
-          metadata = metaMatrix.RNA, 
-          sep      = 'median')
-```
-
-![](figures/gdcKMPlot.png)
 
 ### KM plot on a local webpage by shinyKMPlot
-The `shinyKMPlot()` function is also a simply `shiny` app which allow users view KM plots of all genes of interests on a local webpackage conveniently.
+The `shinyKMPlot()` function is also a simply `shiny` app which allow users view KM plots (based on the R package [survminer](https://cran.r-project.org/web/packages/survminer/index.html).) of all genes of interests on a local webpackage conveniently.
+
 ```{r shiny km plot, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
 shinyKMPlot(gene = rownames(deALL), rna.expr = rnaExpr, metadata = metaMatrix.RNA)
 ```
@@ -591,78 +514,25 @@ The output generated by `gdcEnrichAnalysis()` can be used for visualization in t
 data(enrichOutput)
 ```
 
-
-### GO barplot
+### Barplot
 ```{r go bar, fig.height=8, fig.width=15.5, message=FALSE, warning=FALSE}
 gdcEnrichPlot(enrichOutput, type = 'bar', category = 'GO', num.terms = 10)
 ```
 
 
-### GO bubble plot
+### Bubble plot
 ```{r go bubble, echo=TRUE, fig.height=8, fig.width=12.5, message=FALSE, warning=FALSE}
 gdcEnrichPlot(enrichOutput, type='bubble', category='GO', num.terms = 10)
 ```
-
-### KEGG/DO barplot
-```{r kegg bar, fig.height=3.5, fig.width=12.5, message=FALSE, warning=FALSE}
-gdcEnrichPlot(enrichment = enrichOutput, 
-              type       = 'bar', 
-              category   = 'KEGG', 
-              bar.color  = 'chocolate1', 
-              num.terms  = 20)
-```
-
-
-
-```{r do bar, fig.height=3, fig.width=10, message=FALSE, warning=FALSE}
-gdcEnrichPlot(enrichment = enrichOutput, 
-              type       = 'bar', 
-              category   = 'DO', 
-              bar.color  = 'dodgerblue', 
-              num.terms  = 20)
-```
-
-
-
-### KEGG/DO bubble plot
-```{r kegg bubble, fig.height=5, fig.width=10.5, message=FALSE, warning=FALSE}
-gdcEnrichPlot(enrichOutput, category='KEGG',type = 'bubble', num.terms = 20)
-```
-
-
-
-```{r do bubble, fig.height=5, fig.width=8.3, message=FALSE, warning=FALSE}
-gdcEnrichPlot(enrichOutput, category='DO',type = 'bubble', num.terms = 20)
-```
-
-
-### Pathview
-
-Users can visualize a pathway map with `pathview()` function in the [pathview](https://bioconductor.org/packages/release/bioc/html/pathview.html)[@LuoPathviewBioconductorpackage2013] package. It displays related many-genes-to-many-terms on 2-D view, shows by genes on BioCarta & KEGG pathway maps. Gradient colors can be used to indicate if genes are up-regulated or down-regulated.
-
-```{r pathview, message=FALSE, warning=FALSE, eval=TRUE}
-deg <- deALL$logFC
-names(deg) <- rownames(deALL)
-```
-
-
-```{r pathview2, message=FALSE, warning=FALSE, eval=FALSE}
-library(pathview)
-hsa04022 <- pathview(gene.data   = deg,
-                     pathway.id  = "hsa04022",
-                     species     = "hsa",
-                     gene.idtype = 'ENSEMBL',
-                     limit       = list(gene=max(abs(geneList)), cpd=1))
-```
-
-
-![](figures/hsa04022.pathview.png)
 
 
 ### View pathway maps on a local webpage by shinyPathview
 `shinyPathview()` allows users view and download pathways of interests by simply selecting the pathway terms on a local webpage.
 
 ```{r shiny pathview, message=FALSE, warning=FALSE, include=FALSE}
+library(pathview)
+deg <- deALL$logFC
+names(deg) <- rownames(deALL)
 pathways <- as.character(enrichOutput$Terms[enrichOutput$Category=='KEGG'])
 ```
 
@@ -670,7 +540,6 @@ pathways <- as.character(enrichOutput$Terms[enrichOutput$Category=='KEGG'])
 ```{r shiny pathview2, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
 shinyPathview(deg, pathways = pathways, directory = 'pathview')
 ```
-
 ![](figures/TCGA-PRAD.shinyPathview.gif)
 
 
