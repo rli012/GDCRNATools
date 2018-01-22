@@ -373,7 +373,9 @@ where $M$ is the total number of shared miRNAs, $k$ is the $k$th shared miRNAs, 
 ***
 The hypergeometric test of shared miRNAs, expression correlation analysis of lncRNA-mRNA pair, and regulation pattern analysis of shared miRNAs are all implemented in the `gdcCEAnalysis()` function.
 
+Users can either use the internally incoporated databases of miRNA-mRNA and miRNA-lncRNA interactions, or provide there own interaction datasets, such as miRNA-target interactions predicted by [TargetScan](http://www.targetscan.org/vert_71/), [miRanda](www.microrna.org/), and [DIANA TOOLS](http://diana.imis.athena-innovation.gr/DianaTools/index.php?r=site/index), etc.
 
+* ceRNA network analysis using internal database
 ```{r ce, message=FALSE, warning=FALSE, eval=FALSE}
 ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
                           pc          = rownames(dePC), 
@@ -381,24 +383,28 @@ ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC),
                           pc.targets  = 'starBase', 
                           rna.expr    = rnaExpr, 
                           mir.expr    = mirExpr)
+datatable(as.data.frame(ceOutput), 
+          options = list(scrollX = TRUE, pageLength = 5))
 ```
 
 
+* ceRNA network analysis using user-provided dataset
 ```{r ce 2, message=FALSE, warning=FALSE, eval=FALSE}
 data(lncTarget)
-
+lncTarget[1:5]
 
 data(pcTarget)
-
+pcTarget[1:5]
 
 ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
                           pc          = rownames(dePC), 
-                          lnc.targets = 'starBase', 
-                          pc.targets  = 'starBase', 
+                          lnc.targets = lncTarget', 
+                          pc.targets  = pcTarget, 
                           rna.expr    = rnaExpr, 
                           mir.expr    = mirExpr)
+datatable(as.data.frame(ceOutput), 
+          options = list(scrollX = TRUE, pageLength = 5))
 ```
-
 
 
 
