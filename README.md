@@ -69,4 +69,4 @@ install.packages('DT')
 
 
 # Manual
-The comprehensive manual of `GDCRNATools` is available here: [GDCRNATools manual](http://htmlpreview.github.io/?https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html)
+The comprehensive manual of `GDCRNATools` is available here: [GDCRNATools Manual](http://htmlpreview.github.io/?https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html)
