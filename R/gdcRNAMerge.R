@@ -4,6 +4,10 @@
 ##' @param metadata metadata parsed from \code{\link{gdcParseMetadata}}
 ##' @param path path to downloaded files for merging
 ##' @param data.type one of \code{'RNAseq'} and \code{'miRNAs'}
+##' @param organized logical, whether the raw counts data have already
+##'     been organized into a single folder (eg., data downloaded by the
+##'     'GenomicDataCommons' method are already organized). 
+##'     Default is \code{TRUE}.
 ##' @return A dataframe or numeric matrix of raw counts data with rows 
 ##'     are genes or miRNAs and columns are samples
 ##' @export
@@ -14,14 +18,19 @@
 ##'     data.type='RNAseq')
 ##' \dontrun{rnaExpr <- gdcRNAMerge(metadata=metaMatrix, path='RNAseq/', 
 ##'     data.type='RNAseq')}
-gdcRNAMerge <- function(metadata, path, data.type) {
+gdcRNAMerge <- function(metadata, path, data.type, organized=TRUE) {
     
     #if (endsWith(path, '/')) {
     #  path = substr(path, 1, nchar(path)-1)
     #}
     
-    filenames <- file.path(path, metadata$file_id, metadata$file_name, 
-        fsep = .Platform$file.sep)
+    if (organized==TRUE) {
+        filenames <- file.path(path, metadata$file_name, 
+            fsep = .Platform$file.sep)
+    } else {
+        filenames <- file.path(path, metadata$file_id, metadata$file_name, 
+            fsep = .Platform$file.sep)
+    }
     
     if (data.type=='RNAseq') {
         message ('############### Merging RNAseq data ################\n',

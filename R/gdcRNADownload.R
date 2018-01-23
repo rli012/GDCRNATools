@@ -17,7 +17,7 @@
 ##'     \code{'GenomicDataCommons'} which is a well established method 
 ##'     developed in the \pkg{GenomicDataCommons'} package, or alternatively 
 ##'     \code{'gdc-client'} which uses the \code{gdc-client} tool developed 
-##'     by GDC. Default is 'GenomicDataCommons'.
+##'     by GDC. Default is \code{'GenomicDataCommons'}.
 ##' @importFrom GenomicDataCommons gdcdata
 ##' @importFrom DT datatable
 ##' @return Downloaded files in the specified directory
@@ -102,6 +102,8 @@ manifestDownloadFun <- function(manifest=manifest,directory) {
     if (! file.exists('gdc-client') & !file.exists('gdc-client.exe')) {
         downloadClientFun(Sys.info()[1])
     }
+    
+    Sys.chmod('gdc-client')
     
     manifestDa <- read.table(manifest, sep='\t', header=TRUE, 
         stringsAsFactors = FALSE)

@@ -11,6 +11,11 @@
 ##' @param directory the folder to save downloaded files. 
 ##'     Default is \code{'Clinical'}
 ##' @param write.manifest logical, whether to write out the manifest file
+##' @param method method that is used to download data. Either 
+##'     \code{'GenomicDataCommons'} which is a well established method 
+##'     developed in the \pkg{GenomicDataCommons'} package, or alternatively 
+##'     \code{'gdc-client'} which uses the \code{gdc-client} tool developed 
+##'     by GDC. Default is \code{'GenomicDataCommons'}.
 ##' @return downloaded files in the specified directory
 ##' @export
 ##' @author Ruidong Li and Han Qu
@@ -26,7 +31,7 @@
 ##'                     write.manifest = TRUE,
 ##'                     directory      = 'Clinical')}
 gdcClinicalDownload <- function(manifest=NULL, project.id, 
-    directory='Clinical', write.manifest=FALSE) {
+    directory='Clinical', write.manifest=FALSE, method='GenomicDataCommons') {
 
     data.type = 'Clinical'
     
@@ -47,7 +52,13 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
         write.table(manifest, file=manifile, row.names=FALSE, 
             sep='\t', quote=FALSE)
         
-        manifestDownloadFun(manifest=manifile,directory=directory)
+        if (method=='GenomicDataCommons') {
+            fnames = lapply(manifest$id,gdcdata,
+                destination_dir=directory,overwrite=FALSE,
+                progress=TRUE)
+        } else if (method=='gdc-client') {
+            manifestDownloadFun(manifest=manifile,directory=directory)
+        }
         
         if (write.manifest == FALSE) {
             invisible(file.remove(manifile))
@@ -63,7 +74,11 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
 ##' @param path path to downloaded files for merging
 ##' @param key.info logical, whether to return the key clinical 
 ##'     information only. If \code{TRUE}, only clinical information 
-##'     such as age, stage, grade, overall survial, etc. will be returned 
+##'     such as age, stage, grade, overall survial, etc. will be returned
+##' @param organized logical, whether the clinical data have already
+##'     been organized into a single folder (eg., data downloaded by the
+##'     'GenomicDataCommons' method are already organized). 
+##'     Default is \code{TRUE}.
 ##' @importFrom XML xmlParse
 ##' @importFrom XML xmlApply
 ##' @importFrom XML getNodeSet
@@ -77,7 +92,7 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
 ##' ####### Merge clinical data #######
 ##' path <- 'Clinical/'
 ##' \dontrun{clinicalDa <- gdcClinicalMerge(path=path, key.info=TRUE)}
-gdcClinicalMerge <- function(path, key.info=TRUE) {
+gdcClinicalMerge <- function(path, key.info=TRUE, organized=TRUE) {
 
     options(stringsAsFactors = FALSE)
     
@@ -87,12 +102,14 @@ gdcClinicalMerge <- function(path, key.info=TRUE) {
     
     message ('############### Merging Clinical data ###############\n')
     
-    folders <- file.path(path, dir(path), fsep = .Platform$file.sep)
-    
-    folders <- folders[dir.exists(folders)]
-    
-    filenames <- file.path(folders, unlist(lapply(folders, function(v) 
-        getXMLFile(v))), fsep = .Platform$file.sep)
+    if (organized==TRUE) {
+        filenames <- file.path(path, getXMLFile(path), fsep = .Platform$file.sep)
+    } else {
+        folders <- file.path(path, dir(path), fsep = .Platform$file.sep)
+        folders <- folders[dir.exists(folders)]
+        filenames <- file.path(folders, unlist(lapply(folders, function(v) 
+            getXMLFile(v))), fsep = .Platform$file.sep)
+    }
     
     df <- lapply(filenames, function(fl) parseXMLFun(fl))
     traits <- unique(names(unlist(df)))
