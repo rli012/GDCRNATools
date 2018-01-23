@@ -1,16 +1,16 @@
 ##' @title Download clinical data in GDC
 ##' @description Download clinical data in GDC 
-##'   either by providing the manifest file or specifying the project id and data type
-##' @param manifest menifest file that is downloaded from the GDC cart. If provided, files whose UUIDs 
-##'   are in the manifest file will be downloaded via gdc-client, 
-##'   otherwise, \code{project id} argument should be provided to download data automatically. 
-##'   Default is \code{NULL}
+##'     either by providing the manifest file or 
+##'     specifying the project id and data type
+##' @param manifest menifest file that is downloaded from the GDC cart. 
+##'     If provided, files whose UUIDs are in the manifest file will be 
+##'     downloaded via gdc-client, otherwise, \code{project id} argument 
+##'     should be provided to download data automatically. 
+##'     Default is \code{NULL}
 ##' @param project.id project id in GDC
-##' @param directory the folder to save downloaded files. Default is \code{'Clinical'}
+##' @param directory the folder to save downloaded files. 
+##'     Default is \code{'Clinical'}
 ##' @param write.manifest logical, whether to write out the manifest file
-##' @param method method that is used to download data. Either \code{'GenomicDataCommons'} which is a well established method developed in
-##'   the \pkg{GenomicDataCommons'} package, or alternatively \code{'gdc-client'} which uses the \code{gdc-client} tool developed by GDC.
-##'   Default is 'GenomicDataCommons'.
 ##' @return downloaded files in the specified directory
 ##' @export
 ##' @author Ruidong Li and Han Qu
@@ -26,7 +26,7 @@
 ##'                     write.manifest = TRUE,
 ##'                     directory      = 'Clinical')}
 gdcClinicalDownload <- function(manifest=NULL, project.id, 
-    directory='Clinical', write.manifest=FALSE, method='GenomicDataCommons') {
+    directory='Clinical', write.manifest=FALSE) {
 
     data.type = 'Clinical'
     
@@ -42,16 +42,12 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
         systime <- gsub(' ', 'T', Sys.time())
         systime <- gsub(':', '-', systime)
         
-        manifile <- paste(project.id, data.type, 'gdc_manifest', systime, 'txt', sep='.')
-        write.table(manifest, file=manifile, row.names=FALSE, sep='\t', quote=FALSE)
+        manifile <- paste(project.id, data.type, 'gdc_manifest', 
+            systime, 'txt', sep='.')
+        write.table(manifest, file=manifile, row.names=FALSE, 
+            sep='\t', quote=FALSE)
         
-        if (method=='GenomicDataCommons') {
-            fnames = lapply(manifest$id,gdcdata,
-                destination_dir=directory,overwrite=FALSE,
-                progress=TRUE)
-        } else if (method=='gdc-client') {
-            manifestDownloadFun(manifest=manifile,directory=directory)
-        }
+        manifestDownloadFun(manifest=manifile,directory=directory)
         
         if (write.manifest == FALSE) {
             invisible(file.remove(manifile))
@@ -62,16 +58,19 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
 
 
 ##' @title Merge clinical data
-##' @description Merge clinical data in \code{.xml} files that are downloaded from GDC to a dataframe
+##' @description Merge clinical data in \code{.xml} files 
+##'     that are downloaded from GDC to a dataframe
 ##' @param path path to downloaded files for merging
-##' @param key.info logical, whether to return the key clinical information only. If \code{TRUE}, 
-##'   only clinical information such as age, stage, grade, overall survial, etc. will be returned 
+##' @param key.info logical, whether to return the key clinical 
+##'     information only. If \code{TRUE}, only clinical information 
+##'     such as age, stage, grade, overall survial, etc. will be returned 
 ##' @importFrom XML xmlParse
 ##' @importFrom XML xmlApply
 ##' @importFrom XML getNodeSet
 ##' @importFrom XML xmlValue
 ##' @importFrom XML xmlName
-##' @return A dataframe of clinical data with rows are patients and columns are clinical traits
+##' @return A dataframe of clinical data with rows are patients 
+##'     and columns are clinical traits
 ##' @export
 ##' @author Ruidong Li and Han Qu
 ##' @examples 
@@ -79,7 +78,7 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
 ##' path <- 'Clinical/'
 ##' \dontrun{clinicalDa <- gdcClinicalMerge(path=path, key.info=TRUE)}
 gdcClinicalMerge <- function(path, key.info=TRUE) {
-  
+
     options(stringsAsFactors = FALSE)
     
     #if (endsWith(path, '/')) {
@@ -104,10 +103,11 @@ gdcClinicalMerge <- function(path, key.info=TRUE) {
     xmlMatrix[xmlMatrix==""]<- "NA"
     xmlMatrix<- data.frame(xmlMatrix)
     if (key.info== TRUE){
-        line1<- xmlMatrix[c("age_at_initial_pathologic_diagnosis","ethnicity", "gender", "race",
-            "clinical_stage", "clinical_T","clinical_N", "clinical_M", "gleason_grading",
-            "gleason_score", "primary_pattern","secondary_pattern","tertiary_pattern",
-            "psa","psa_value","days_to_psa"),]
+        line1<- xmlMatrix[c("age_at_initial_pathologic_diagnosis",
+            "ethnicity", "gender", "race","clinical_stage", 
+            "clinical_T","clinical_N", "clinical_M", "gleason_grading",
+            "gleason_score", "primary_pattern","secondary_pattern",
+            "tertiary_pattern","psa","psa_value","days_to_psa"),]
         
         
         ### days_to_death
@@ -143,14 +143,16 @@ gdcClinicalMerge <- function(path, key.info=TRUE) {
         
         ### age_at_initial_pathologic_diagnosis
         
-        line6<- xmlMatrix[c("initial_pathologic_diagnosis_method", "lymphnodes_examined",
-            "number_of_lymphnodes_examined","number_of_lymphnodes_positive_by_he",
-            "pathologic_categories", "pathologic_stage","pathologic_T", "pathologic_M","pathologic_N",
+        line6<- xmlMatrix[c("initial_pathologic_diagnosis_method", 
+            "lymphnodes_examined","number_of_lymphnodes_examined",
+            "number_of_lymphnodes_positive_by_he","pathologic_categories", 
+            "pathologic_stage","pathologic_T", "pathologic_M","pathologic_N",
             "new_tumor_event"),]
         
         ### days_to_new_tumor_event_after_initial_treatment
         
-        num5<- grep("^days_to_new_tumor_event_after_initial_treatment", rownames(xmlMatrix))
+        num5<- grep("^days_to_new_tumor_event_after_initial_treatment", 
+            rownames(xmlMatrix))
         t5<- xmlMatrix[num5,]
         t5[is.na(t5)]<-"0"
         
@@ -179,7 +181,8 @@ gdcClinicalMerge <- function(path, key.info=TRUE) {
         
         ### new_tumor_event_after_initial_treatment
         
-        num7<- grep("^new_tumor_event_after_initial_treatment", rownames(xmlMatrix))
+        num7<- grep("^new_tumor_event_after_initial_treatment", 
+            rownames(xmlMatrix))
         t7<- xmlMatrix[num7,]
         t7[is.na(t7)]<-"0"
         
@@ -224,13 +227,15 @@ gdcClinicalMerge <- function(path, key.info=TRUE) {
         
         ########## rbind #########
         
-        cleantable<- rbind(line1, line2, line3, line5, line6, line7, line8, line9, line10, line11)
+        cleantable<- rbind(line1, line2, line3, line5, line6, line7, 
+            line8, line9, line10, line11)
         #names(cleantable)<- names(line3)
         #colnames(line7)<- names(line3)
         #cleantable<- rbind(cleantable, line3, line7)
         cleantable <- data.frame(t(cleantable), stringsAsFactors = FALSE)
         
-        rownames(cleantable) <- gsub('.', '-', rownames(cleantable), fixed=TRUE)
+        rownames(cleantable) <- gsub('.', '-', rownames(cleantable), 
+            fixed=TRUE)
         
         filter <- grep('^NA',colnames(cleantable))
         
