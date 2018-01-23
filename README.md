@@ -17,7 +17,7 @@ This user-friendly package allows researchers perform the analysis by simply run
 `GDCRNATools` is now under review in Bioconductor. Users can install the package locally.
 
 ## On Windows system
-* Download the package [GDCRNATools_0.99.0.tar.gz](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_0.99.0.tar.gz)
+* Download the package [GDCRNATools_0.99.5.tar.gz](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_0.99.5.tar.gz)
 * Make sure you have [Rtools](https://cran.r-project.org/bin/windows/Rtools/) installed
 * ADD R and Rtools to the Path Variable on the Environment Variables panel, including
 
@@ -29,12 +29,12 @@ This user-friendly package allows researchers perform the analysis by simply run
 
   c:\program files\R\R.3.x.x\bin\x64 
 
-* Open a command prompt. Type R CMD INSTALL GDCRNATools_0.99.0.tar.gz
+* Open a command prompt. Type R CMD INSTALL GDCRNATools_0.99.5.tar.gz
 
 ## On Linux and Mac systems
 Run the following command in R
 ```R
-install.packages('GDCRNATools_0.99.0.tar.gz', repos = NULL, type='source')
+install.packages('GDCRNATools_0.99.5.tar.gz', repos = NULL, type='source')
 ```
 
 If `GDCRNATools` cannot be installed due to the lack of dependencies, please run the following code ahead to install those pacakges simutaneously or separately:
@@ -42,8 +42,8 @@ If `GDCRNATools` cannot be installed due to the lack of dependencies, please run
 source("https://bioconductor.org/biocLite.R")
 
 ### install packages simutaneously ###
-biocLite(c('limma', 'edgeR', 'DESeq2', 'clusterProfiler', 'DOSE', 'org.Hs.eg.db', 'biomaRt', 'BiocParallel'))
-install.packages(c('shiny', 'jsonlite', 'rjson', 'survival', 'survminer', 'ggplot2', 'gplots', 'Hmisc'))
+biocLite(c('limma', 'edgeR', 'DESeq2', 'clusterProfiler', 'DOSE', 'org.Hs.eg.db', 'biomaRt', 'BiocParallel','GenomicDataCommons'))
+install.packages(c('shiny', 'jsonlite', 'rjson', 'survival', 'survminer', 'ggplot2', 'gplots', 'Hmisc', 'DT'))
 
 ### install packages seperately ###
 biocLite('limma')
@@ -54,6 +54,7 @@ biocLite('DOSE')
 biocLite('org.Hs.eg.db')
 biocLite('biomaRt')
 biocLite('BiocParallel')
+biocLite('GenomicDataCommons')
 
 install.packages('shiny')
 install.packages('jsonlite')
@@ -63,12 +64,12 @@ install.packages('survminer')
 install.packages('ggplot2')
 install.packages('gplots')
 install.packages('Hmisc')
+install.packages('DT')
 ```
 
 
-
 # Manual
-A simply manual of `GDCRNATools` is available below. Users are also highly recommended to download the comprhensive manual in _.html_ format and view on local computer [GDCRNATools Manual](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html)
+A simply manual of `GDCRNATools` is available below. Users are also highly recommended to download the comprhensive manual in _.html_ format and view on local computer [GDCRNATools Manual](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools.html)
 
 
 
