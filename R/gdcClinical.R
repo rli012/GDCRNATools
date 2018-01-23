@@ -8,6 +8,9 @@
 ##' @param project.id project id in GDC
 ##' @param directory the folder to save downloaded files. Default is \code{'Clinical'}
 ##' @param write.manifest logical, whether to write out the manifest file
+##' @param method method that is used to download data. Either \code{'GenomicDataCommons'} which is a well established method developed in
+##'   the \pkg{GenomicDataCommons'} package, or alternatively \code{'gdc-client'} which uses the \code{gdc-client} tool developed by GDC.
+##'   Default is 'GenomicDataCommons'.
 ##' @return downloaded files in the specified directory
 ##' @export
 ##' @author Ruidong Li and Han Qu
@@ -23,7 +26,7 @@
 ##'                     write.manifest = TRUE,
 ##'                     directory      = 'Clinical')}
 gdcClinicalDownload <- function(manifest=NULL, project.id, 
-    directory='Clinical', write.manifest=FALSE) {
+    directory='Clinical', write.manifest=FALSE, method='GenomicDataCommons') {
 
     data.type = 'Clinical'
     
@@ -42,7 +45,13 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
         manifile <- paste(project.id, data.type, 'gdc_manifest', systime, 'txt', sep='.')
         write.table(manifest, file=manifile, row.names=FALSE, sep='\t', quote=FALSE)
         
-        manifestDownloadFun(manifest=manifile,directory=directory)
+        if (method=='GenomicDataCommons') {
+            fnames = lapply(manifest$id,gdcdata,
+                destination_dir=directory,overwrite=FALSE,
+                progress=TRUE)
+        } else if (method=='gdc-client') {
+            manifestDownloadFun(manifest=manifile,directory=directory)
+        }
         
         if (write.manifest == FALSE) {
             invisible(file.remove(manifile))
