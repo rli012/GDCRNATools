@@ -11,6 +11,8 @@
 ##' @param method method that is used to download data. Either \code{'GenomicDataCommons'} which is a well established method developed in
 ##'   the \pkg{GenomicDataCommons'} package, or alternatively \code{'gdc-client'} which uses the \code{gdc-client} tool developed by GDC.
 ##'   Default is 'GenomicDataCommons'.
+##' @importFrom GenomicDataCommons gdcdata
+##' @importFrom DT datatable
 ##' @return Downloaded files in the specified directory
 ##' @export
 ##' @author Ruidong Li and Han Qu
