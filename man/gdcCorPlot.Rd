@@ -19,20 +19,22 @@ gdcCorPlot(gene1, gene2, rna.expr, metadata)
 A scatter plot with line of best fit
 }
 \description{
-Scatter plot showing the expression correlation between two genes/miRNAs
+Scatter plot showing the expression correlation 
+    between two genes/miRNAs
 }
 \examples{
 genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
-           'ENSG00000001084','ENSG00000001167','ENSG00000001460')
+        'ENSG00000001084','ENSG00000001167','ENSG00000001460')
 
-samples <- c('TCGA-2F-A9KO-01',	'TCGA-2F-A9KP-01',
-             'TCGA-2F-A9KQ-01',	'TCGA-2F-A9KR-11',	
-             'TCGA-2F-A9KT-11',	'TCGA-2F-A9KW-11')
+samples <- c('TCGA-2F-A9KO-01', 'TCGA-2F-A9KP-01', 
+            'TCGA-2F-A9KQ-01', 'TCGA-2F-A9KR-11', 
+            'TCGA-2F-A9KT-11', 'TCGA-2F-A9KW-11')
              
-metaMatrix <- data.frame(sample_type=rep(c('PrimaryTumor','SolidTissueNormal'),each=3),
-                         sample=samples,
-                         days_to_death=seq(100,600,100),
-                         days_to_last_follow_up=rep(NA,6))
+metaMatrix <- data.frame(sample_type=rep(c('PrimaryTumor',
+                        'SolidTissueNormal'),each=3),
+                        sample=samples,
+                        days_to_death=seq(100,600,100),
+                        days_to_last_follow_up=rep(NA,6))
 
 rnaExpr <- matrix(c(2.7,7.0,4.9,6.9,4.6,2.5,
                     0.5,2.5,5.7,6.5,4.9,3.8,
@@ -42,10 +44,10 @@ rnaExpr <- matrix(c(2.7,7.0,4.9,6.9,4.6,2.5,
                     2.4,3.8,6.2,3.8,3.8,4.2),6,6)
 rownames(rnaExpr) <- genes
 colnames(rnaExpr) <- samples
-gdcCorPlot(gene1    = 'ENSG00000000938', 
-           gene2    = 'ENSG00000001084',
-           rna.expr = rnaExpr,
-           metadata = metaMatrix)
+gdcCorPlot(gene1 = 'ENSG00000000938', 
+        gene2    = 'ENSG00000001084',
+        rna.expr = rnaExpr,
+        metadata = metaMatrix)
 }
 \author{
 Ruidong Li and Han Qu

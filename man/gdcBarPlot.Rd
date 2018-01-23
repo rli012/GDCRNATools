@@ -7,9 +7,11 @@
 gdcBarPlot(deg, angle = 0, data.type)
 }
 \arguments{
-\item{deg}{a dataframe generated from \code{\link{gdcDEReport}} containing DE genes/miRNAs ids, logFC, etc.}
+\item{deg}{a dataframe generated from \code{\link{gdcDEReport}} 
+containing DE genes/miRNAs ids, logFC, etc.}
 
-\item{angle}{a numeric value specifying the angle of text on x-axis. Default is \code{0}}
+\item{angle}{a numeric value specifying the angle of text on x-axis. 
+Default is \code{0}}
 
 \item{data.type}{one of \code{'RNAseq'} and \code{'miRNAs'}}
 }
@@ -17,12 +19,13 @@ gdcBarPlot(deg, angle = 0, data.type)
 A bar plot
 }
 \description{
-A bar plot showing the number of down-regulated and up-regulated DE genes/miRNAs of different biotypes
+A bar plot showing the number of down-regulated and 
+    up-regulated DE genes/miRNAs of different biotypes
 }
 \examples{
 genes <- c('ENSG00000231806','ENSG00000261211','ENSG00000260920',
-          'ENSG00000228594','ENSG00000125170','ENSG00000179909',
-          'ENSG00000280012','ENSG00000134612','ENSG00000213071')
+        'ENSG00000228594','ENSG00000125170','ENSG00000179909',
+        'ENSG00000280012','ENSG00000134612','ENSG00000213071')
 symbol <- c('PCAT7','AL031123.2','AL031985.3',
             'FNDC10','DOK4','ZNF154',
             'RPL23AP61','FOLH1B','LPAL2')

@@ -4,9 +4,13 @@
 \name{GDCRNATools-package}
 \alias{GDCRNATools-package}
 \alias{GDCRNATools}
-\title{This is an easy-to-use package for downloading, organizing, and integrative analyzing RNA expression 
-data in GDC with an emphasis on deciphering the lncRNA-mRNA related ceRNA regulatory network in cancer.}
+\title{This is an easy-to-use package for downloading, organizing, 
+and integrative analyzing RNA expression data in GDC with an 
+emphasis on deciphering the lncRNA-mRNA related ceRNA regulatory 
+network in cancer.}
 \description{
-This is an easy-to-use package for downloading, organizing, and integrative analyzing RNA expression 
-data in GDC with an emphasis on deciphering the lncRNA-mRNA related ceRNA regulatory network in cancer.
+This is an easy-to-use package for downloading, organizing, 
+and integrative analyzing RNA expression data in GDC with an 
+emphasis on deciphering the lncRNA-mRNA related ceRNA regulatory 
+network in cancer.
 }

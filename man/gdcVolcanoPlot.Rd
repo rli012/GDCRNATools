@@ -7,8 +7,9 @@
 gdcVolcanoPlot(deg.all, fc = 2, pval = 0.01)
 }
 \arguments{
-\item{deg.all}{a dataframe generated from \code{\link{gdcDEAnalysis}} containing all 
-genes of analysis no matter they are differentially expressed or not}
+\item{deg.all}{a dataframe generated from \code{\link{gdcDEAnalysis}} 
+containing all genes of analysis no matter they are differentially 
+expressed or not}
 
 \item{fc}{a numeric value specifying the threshold of fold change}
 
@@ -22,8 +23,8 @@ A volcano plot showing differentially expressed genes/miRNAs
 }
 \examples{
 genes <- c('ENSG00000231806','ENSG00000261211','ENSG00000260920',
-          'ENSG00000228594','ENSG00000125170','ENSG00000179909',
-          'ENSG00000280012','ENSG00000134612','ENSG00000213071')
+        'ENSG00000228594','ENSG00000125170','ENSG00000179909',
+        'ENSG00000280012','ENSG00000134612','ENSG00000213071')
 symbol <- c('PCAT7','AL031123.2','AL031985.3',
             'FNDC10','DOK4','ZNF154',
             'RPL23AP61','FOLH1B','LPAL2')

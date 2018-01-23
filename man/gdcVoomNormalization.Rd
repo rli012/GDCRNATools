@@ -9,14 +9,18 @@ gdcVoomNormalization(counts, filter = TRUE)
 \arguments{
 \item{counts}{raw counts of RNA/miRNA expression data}
 
-\item{filter}{logical, whether to filter out low-expression genes. If \code{TRUE}, only genes 
-with \code{cpm > 1} in more than half of the samples will be kept. Default is \code{TRUE}}
+\item{filter}{logical, whether to filter out low-expression genes. 
+If \code{TRUE}, only genes with \code{cpm > 1} in more than half 
+of the samples will be kept. Default is \code{TRUE}}
 }
 \value{
-A dataframe or numeric matrix of TMM normalized and \code{\link[limma]{voom}} transformed expression values on the log2 scale
+A dataframe or numeric matrix of TMM normalized and 
+    \code{\link[limma]{voom}} transformed expression values on 
+    the log2 scale
 }
 \description{
-Normalize raw counts data by TMM implemented in \pkg{edgeR} and then transform it by \code{\link[limma]{voom}} in \pkg{limma}
+Normalize raw counts data by TMM implemented in \pkg{edgeR} 
+    and then transform it by \code{\link[limma]{voom}} in \pkg{limma}
 }
 \examples{
 ####### Normalization #######
@@ -24,10 +28,12 @@ rnaMatrix <- matrix(sample(1:100,100), 4, 25)
 rnaExpr <- gdcVoomNormalization(counts=rnaMatrix, filter=FALSE)
 }
 \references{
-Robinson MD, McCarthy DJ, Smyth GK. edgeR: a Bioconductor package for differential expression analysis 
-  of digital gene expression data. Bioinformatics. 2010 Jan 1;26(1):139-40. \cr
-  Law CW, Chen Y, Shi W, Smyth GK. Voom: precision weights unlock linear model analysis tools for 
-  RNA-seq read counts. Genome biology. 2014 Feb 3;15(2):R29.
+Robinson MD, McCarthy DJ, Smyth GK. edgeR: a Bioconductor package 
+    for differential expression analysis of digital gene expression data. 
+    Bioinformatics. 2010 Jan 1;26(1):139-40. \cr
+    Law CW, Chen Y, Shi W, Smyth GK. Voom: precision weights unlock 
+    linear model analysis tools for RNA-seq read counts. Genome biology. 
+    2014 Feb 3;15(2):R29.
 }
 \author{
 Ruidong Li and Han Qu

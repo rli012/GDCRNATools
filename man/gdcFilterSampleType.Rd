@@ -10,10 +10,12 @@ gdcFilterSampleType(metadata)
 \item{metadata}{metadata parsed from \code{\link{gdcParseMetadata}}}
 }
 \value{
-A filtered dataframe of metadata with \emph{Solid Tissue Normal} and \emph{Primary Tumor} samples only
+A filtered dataframe of metadata with \emph{Solid Tissue Normal} 
+    and \emph{Primary Tumor} samples only
 }
 \description{
-Filter out samples that are neither \emph{Solid Tissue Normal} nor \emph{Primary Tumor}
+Filter out samples that are neither 
+    \emph{Solid Tissue Normal} nor \emph{Primary Tumor}
 }
 \examples{
 ####### Parse metadata by project id and data type #######

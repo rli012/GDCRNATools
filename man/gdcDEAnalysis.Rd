@@ -8,50 +8,61 @@ gdcDEAnalysis(counts, group, comparison, method = "limma", n.cores = NULL,
   filter = TRUE)
 }
 \arguments{
-\item{counts}{a dataframe or numeric matrix of raw counts data generated from \code{\link{gdcRNAMerge}}}
+\item{counts}{a dataframe or numeric matrix of raw counts data generated 
+from \code{\link{gdcRNAMerge}}}
 
 \item{group}{a vector giving the group that each sample belongs to}
 
-\item{comparison}{a character string specifying the two groups being compared. \cr
+\item{comparison}{a character string specifying the two groups 
+being compared. \cr
 Example: \code{comparison='PrimaryTumor-SolidTissueNormal'}}
 
-\item{method}{one of \code{'limma'}, \code{'edgeR'}, and \code{'DESeq2'}. Default is \code{'limma'} \cr
-Note: It may takes long time for \code{method='DESeq2'} with a single core}
+\item{method}{one of \code{'limma'}, \code{'edgeR'}, and 
+\code{'DESeq2'}. Default is \code{'limma'} \cr
+Note: It may takes long time for \code{method='DESeq2'} 
+with a single core}
 
-\item{n.cores}{a numeric value of cores to be used for \code{method='DESeq2'} to accelate the analysis process. Default is \code{NULL}}
+\item{n.cores}{a numeric value of cores to be used for 
+\code{method='DESeq2'} to accelate the analysis process. 
+Default is \code{NULL}}
 
-\item{filter}{logical, whether to filter out low expression genes. If \code{TRUE}, only genes 
-with \code{cpm > 1} in more than half of the samples will be kept. Default is \code{TRUE}}
+\item{filter}{logical, whether to filter out low expression genes. 
+If \code{TRUE}, only genes 
+with \code{cpm > 1} in more than half of the samples will be kept. 
+Default is \code{TRUE}}
 }
 \value{
-A dataframe containing Ensembl gene ids/miRBase v21 mature miRNA ids, gene symbols, 
-  biotypes, fold change on the log2 scale, p value, and FDR etc. of all genes/miRNAs of analysis.
+A dataframe containing Ensembl gene ids/miRBase v21 mature 
+    miRNA ids, gene symbols, biotypes, fold change on the log2 scale, 
+    p value, and FDR etc. of all genes/miRNAs of analysis.
 }
 \description{
-Performs differential gene expression analysis by \pkg{limma}, \pkg{edgeR}, and \pkg{DESeq2}
+Performs differential gene expression analysis by 
+    \pkg{limma}, \pkg{edgeR}, and \pkg{DESeq2}
 }
 \note{
-It may takes long time for \code{method='DESeq2'} with a single core. Please use 
-  multiple cores if possible
+It may takes long time for \code{method='DESeq2'} with a 
+    single core. Please use multiple cores if possible
 }
 \examples{
 genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
-           'ENSG00000001084','ENSG00000001167','ENSG00000001460')
+        'ENSG00000001084','ENSG00000001167','ENSG00000001460')
 
-samples <- c('TCGA-2F-A9KO-01',	'TCGA-2F-A9KP-01',
-             'TCGA-2F-A9KQ-01',	'TCGA-2F-A9KR-11',	
-             'TCGA-2F-A9KT-11',	'TCGA-2F-A9KW-11')
-             
-metaMatrix <- data.frame(sample_type=rep(c('PrimaryTumor','SolidTissueNormal'),each=3),
-                         sample=samples,
-                         days_to_death=seq(100,600,100),
-                         days_to_last_follow_up=rep(NA,6))
+samples <- c('TCGA-2F-A9KO-01', 'TCGA-2F-A9KP-01',
+            'TCGA-2F-A9KQ-01', 'TCGA-2F-A9KR-11', 
+            'TCGA-2F-A9KT-11', 'TCGA-2F-A9KW-11')
+
+metaMatrix <- data.frame(sample_type=rep(c('PrimaryTumor',
+                    'SolidTissueNormal'),each=3),
+                    sample=samples,
+                    days_to_death=seq(100,600,100),
+                    days_to_last_follow_up=rep(NA,6))
 rnaMatrix <- matrix(c(6092,11652,5426,4383,3334,2656,
-                      8436,2547,7943,3741,6302,13976,
-                      1506,6467,5324,3651,1566,2780,
-                      834,4623,10275,5639,6183,4548,
-                      24702,43,1987,269,3322,2410,
-                      2815,2089,3804,230,883,5415), 6,6)
+                    8436,2547,7943,3741,6302,13976,
+                    1506,6467,5324,3651,1566,2780,
+                    834,4623,10275,5639,6183,4548,
+                    24702,43,1987,269,3322,2410,
+                    2815,2089,3804,230,883,5415), 6,6)
 rownames(rnaMatrix) <- genes
 colnames(rnaMatrix) <- samples
 DEGAll <- gdcDEAnalysis(counts     = rnaMatrix, 
@@ -60,13 +71,16 @@ DEGAll <- gdcDEAnalysis(counts     = rnaMatrix,
                         method     = 'limma')
 }
 \references{
-Robinson MD, McCarthy DJ, Smyth GK. edgeR: a Bioconductor package for differential expression 
-  analysis of digital gene expression data. Bioinformatics. 2010 Jan 1;26(1):139-40. \cr
-  Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK. limma powers differential 
-  expression analyses for RNA-sequencing and microarray studies. Nucleic acids research. 
-  2015 Jan 20;43(7):e47-e47. \cr
-  Love MI, Huber W, Anders S. Moderated estimation of fold change and dispersion for 
-  RNA-seq data with DESeq2. Genome biology. 2014 Dec 5;15(12):550.
+Robinson MD, McCarthy DJ, Smyth GK. edgeR: a Bioconductor package 
+    for differential expression analysis of digital gene expression data. 
+    Bioinformatics. 2010 Jan 1;26(1):139-40. \cr
+    Ritchie ME, Phipson B, Wu D, Hu Y, Law CW, Shi W, Smyth GK. 
+    limma powers differential expression analyses for RNA-sequencing and 
+    microarray studies. Nucleic acids research. 2015 Jan 20;
+    43(7):e47-e47. \cr
+    Love MI, Huber W, Anders S. Moderated estimation of fold change and 
+    dispersion for RNA-seq data with DESeq2. Genome biology. 2014 Dec 5;
+    15(12):550.
 }
 \author{
 Ruidong Li and Han Qu

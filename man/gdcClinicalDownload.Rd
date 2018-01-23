@@ -8,14 +8,16 @@ gdcClinicalDownload(manifest = NULL, project.id, directory = "Clinical",
   write.manifest = FALSE)
 }
 \arguments{
-\item{manifest}{menifest file that is downloaded from the GDC cart. If provided, files whose UUIDs 
-are in the manifest file will be downloaded via gdc-client, 
-otherwise, \code{project id} argument should be provided to download data automatically. 
+\item{manifest}{menifest file that is downloaded from the GDC cart. 
+If provided, files whose UUIDs are in the manifest file will be 
+downloaded via gdc-client, otherwise, \code{project id} argument 
+should be provided to download data automatically. 
 Default is \code{NULL}}
 
 \item{project.id}{project id in GDC}
 
-\item{directory}{the folder to save downloaded files. Default is \code{'Clinical'}}
+\item{directory}{the folder to save downloaded files. 
+Default is \code{'Clinical'}}
 
 \item{write.manifest}{logical, whether to write out the manifest file}
 }
@@ -24,7 +26,8 @@ downloaded files in the specified directory
 }
 \description{
 Download clinical data in GDC 
-  either by providing the manifest file or specifying the project id and data type
+    either by providing the manifest file or 
+    specifying the project id and data type
 }
 \examples{
 ####### Download Clinical data by manifest file #######

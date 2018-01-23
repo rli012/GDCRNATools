@@ -5,27 +5,38 @@
 \title{Download RNA data in GDC}
 \usage{
 gdcRNADownload(manifest = NULL, project.id, data.type, directory = "Data",
-  write.manifest = FALSE)
+  write.manifest = FALSE, method = "GenomicDataCommons")
 }
 \arguments{
-\item{manifest}{menifest file that is downloaded from the GDC cart. If provided, files whose UUIDs are in the manifest file 
-will be downloaded via gdc-client, otherwise, \code{project} and \code{data.type} arguments should be provided to download 
+\item{manifest}{menifest file that is downloaded from the GDC cart. 
+If provided, files whose UUIDs are in the manifest file 
+will be downloaded via gdc-client, otherwise, \code{project} and 
+\code{data.type} arguments should be provided to download 
 data automatically. Default is \code{NULL}}
 
 \item{project.id}{project id in GDC}
 
 \item{data.type}{one of \code{'RNAseq'} and \code{'miRNAs'}}
 
-\item{directory}{the folder to save downloaded files. Default is \code{'Data'}}
+\item{directory}{the folder to save downloaded files. 
+Default is \code{'Data'}}
 
 \item{write.manifest}{logical, whether to write out the manifest file}
+
+\item{method}{method that is used to download data. Either 
+\code{'GenomicDataCommons'} which is a well established method 
+developed in the \pkg{GenomicDataCommons'} package, or alternatively 
+\code{'gdc-client'} which uses the \code{gdc-client} tool developed 
+by GDC. Default is 'GenomicDataCommons'.}
 }
 \value{
 Downloaded files in the specified directory
 }
 \description{
-Download gene expression quantification and isoform expression quantification data from GDC 
-  either by providing the manifest file or by sepcifying the project id and data type
+Download gene expression quantification 
+    and isoform expression quantification data from GDC 
+    either by providing the manifest file or by sepcifying 
+    the project id and data type
 }
 \examples{
 ####### Download RNA data by menifest file #######
