@@ -77,12 +77,18 @@ gdcParseMetadata <- function(metafile=NULL, project.id, data.type, write.meta=FA
     
     age_at_diagnosis <- suppressWarnings(as.numeric(as.character(vapply(seq_len(nSam), 
         function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$age_at_diagnosis, character(1)))))
-    days_to_death <- suppressWarnings(as.numeric(as.character(vapply(seq_len(nSam), 
-        function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_death, character(1)))))
-    days_to_last_follow_up <- suppressWarnings(as.numeric(as.character(vapply(seq_len(nSam), 
-        function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_last_follow_up, character(1)))))
-    vital_status <- null2naFun(sapply(vapply(seq_len(nSam), function(i) 
-        metadata[[i]]$cases[[1]]$diagnoses[[1]]$vital_status, character(1))))
+    #days_to_death <- suppressWarnings(as.numeric(as.character(vapply(seq_len(nSam), 
+    #    function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_death, numeric(1)))))
+    #days_to_last_follow_up <- suppressWarnings(as.numeric(as.character(vapply(seq_len(nSam), 
+    #    function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_last_follow_up, numeric(1)))))
+    
+    days_to_death <- suppressWarnings(as.numeric(as.character(sapply(seq_len(nSam), 
+        function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_death))))
+    days_to_last_follow_up <- suppressWarnings(as.numeric(as.character(sapply(seq_len(nSam), 
+        function(i) metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_last_follow_up))))
+    
+    vital_status <- null2naFun(vapply(seq_len(nSam), function(i) 
+        metadata[[i]]$cases[[1]]$diagnoses[[1]]$vital_status, character(1)))
     
     metaMatrix <- data.frame(file_name,file_id,patient,sample,submitter_id,entity_submitter_id,
         sample_type, gender,age_at_diagnosis,tumor_stage,tumor_grade,days_to_death,
