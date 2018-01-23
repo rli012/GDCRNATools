@@ -25,7 +25,7 @@ Default is \code{'Clinical'}}
 \code{'GenomicDataCommons'} which is a well established method 
 developed in the \pkg{GenomicDataCommons'} package, or alternatively 
 \code{'gdc-client'} which uses the \code{gdc-client} tool developed 
-by GDC. Default is 'GenomicDataCommons'.}
+by GDC. Default is \code{'GenomicDataCommons'}.}
 }
 \value{
 downloaded files in the specified directory
@@ -39,12 +39,13 @@ Download clinical data in GDC
 ####### Download Clinical data by manifest file #######
 manifest <- 'Clinical.manifest.txt'
 \dontrun{gdcClinicalDownload(manifest  = manifest,
-directory = 'Clinical')}
+                    directory = 'Clinical')}
                    
 ####### Download Clinical data by project id #######
 project <- 'TCGA-PRAD'
-\dontrun{gdcClinicalDownload(project.id = project, 
-write.manifest = TRUE, directory = 'Clinical')}
+\dontrun{gdcClinicalDownload(project.id     = project, 
+                    write.manifest = TRUE,
+                    directory      = 'Clinical')}
 }
 \author{
 Ruidong Li and Han Qu

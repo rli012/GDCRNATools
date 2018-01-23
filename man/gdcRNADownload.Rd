@@ -5,7 +5,7 @@
 \title{Download RNA data in GDC}
 \usage{
 gdcRNADownload(manifest = NULL, project.id, data.type, directory = "Data",
-  write.manifest = FALSE, method = "GenomicDataCommons")
+    write.manifest = FALSE, method = "GenomicDataCommons")
 }
 \arguments{
 \item{manifest}{menifest file that is downloaded from the GDC cart. 
@@ -27,7 +27,7 @@ Default is \code{'Data'}}
 \code{'GenomicDataCommons'} which is a well established method 
 developed in the \pkg{GenomicDataCommons'} package, or alternatively 
 \code{'gdc-client'} which uses the \code{gdc-client} tool developed 
-by GDC. Default is 'GenomicDataCommons'.}
+by GDC. Default is \code{'GenomicDataCommons'}.}
 }
 \value{
 Downloaded files in the specified directory

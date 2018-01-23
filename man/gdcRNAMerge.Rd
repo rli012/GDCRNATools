@@ -4,7 +4,7 @@
 \alias{gdcRNAMerge}
 \title{Merge RNA/miRNAs raw counts data}
 \usage{
-gdcRNAMerge(metadata, path, data.type)
+gdcRNAMerge(metadata, path, data.type, organized = TRUE)
 }
 \arguments{
 \item{metadata}{metadata parsed from \code{\link{gdcParseMetadata}}}
@@ -12,6 +12,11 @@ gdcRNAMerge(metadata, path, data.type)
 \item{path}{path to downloaded files for merging}
 
 \item{data.type}{one of \code{'RNAseq'} and \code{'miRNAs'}}
+
+\item{organized}{logical, whether the raw counts data have already
+been organized into a single folder (eg., data downloaded by the
+'GenomicDataCommons' method are already organized). 
+Default is \code{TRUE}.}
 }
 \value{
 A dataframe or numeric matrix of raw counts data with rows 
