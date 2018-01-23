@@ -1,16 +1,19 @@
 ##' @title Merge RNA/miRNAs raw counts data
-##' @description Merge raw counts data that is downloaded from GDC to a single expression matrix
+##' @description Merge raw counts data that is downloaded from GDC to a 
+##'     single expression matrix
 ##' @param metadata metadata parsed from \code{\link{gdcParseMetadata}}
 ##' @param path path to downloaded files for merging
 ##' @param data.type one of \code{'RNAseq'} and \code{'miRNAs'}
-##' @return A dataframe or numeric matrix of raw counts data with rows are genes or miRNAs and 
-##'   columns are samples
+##' @return A dataframe or numeric matrix of raw counts data with rows 
+##'     are genes or miRNAs and columns are samples
 ##' @export
 ##' @author Ruidong Li and Han Qu
 ##' @examples 
 ##' ####### Merge RNA expression data #######
-##' metaMatrix <- gdcParseMetadata(project.id='TARGET-RT', data.type='RNAseq')
-##' \dontrun{rnaExpr <- gdcRNAMerge(metadata=metaMatrix, path='RNAseq/', data.type='RNAseq')}
+##' metaMatrix <- gdcParseMetadata(project.id='TARGET-RT', 
+##'     data.type='RNAseq')
+##' \dontrun{rnaExpr <- gdcRNAMerge(metadata=metaMatrix, path='RNAseq/', 
+##'     data.type='RNAseq')}
 gdcRNAMerge <- function(metadata, path, data.type) {
     
     #if (endsWith(path, '/')) {
@@ -24,10 +27,11 @@ gdcRNAMerge <- function(metadata, path, data.type) {
         message ('############### Merging RNAseq data ################\n',
             '### This step may take a few minutes ###\n')
         
-        rnaMatrix <- do.call("cbind", lapply(filenames, function(fl) read.table(gzfile(fl))$V2))
+        rnaMatrix <- do.call("cbind", lapply(filenames, function(fl) 
+            read.table(gzfile(fl))$V2))
         rownames(rnaMatrix) <- read.table(gzfile(filenames[1]))$V1
-        rownames(rnaMatrix) <- unlist(lapply(strsplit(rownames(rnaMatrix), '.', fixed=TRUE), 
-            function(gene) gene[1]))
+        rownames(rnaMatrix) <- unlist(lapply(strsplit(rownames(rnaMatrix), 
+            '.', fixed=TRUE), function(gene) gene[1]))
         colnames(rnaMatrix) <- metadata$sample
         
         rnaMatrix <- rnaMatrix[biotype$ensemblID,]
@@ -45,7 +49,8 @@ gdcRNAMerge <- function(metadata, path, data.type) {
         mirMatrix <- lapply(filenames, function(fl) cleanMirFun(fl))
         #mirs <- sort(unique(names(unlist(mirMatrix))))
         mirs <- rownames(mirbase)
-        mirMatrix <- do.call('cbind', lapply(mirMatrix, function(expr) expr[mirs]))
+        mirMatrix <- do.call('cbind', lapply(mirMatrix, 
+            function(expr) expr[mirs]))
         
         rownames(mirMatrix) <- mirbase$v21[match(mirs,rownames(mirbase))]
         colnames(mirMatrix) <- metadata$sample

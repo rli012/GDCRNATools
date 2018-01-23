@@ -19,9 +19,11 @@ gdcFilterDuplicate <- function(metadata) {
 
 
 ##' @title Filter out other type of samples
-##' @description Filter out samples that are neither \emph{Solid Tissue Normal} nor \emph{Primary Tumor}
+##' @description Filter out samples that are neither 
+##'     \emph{Solid Tissue Normal} nor \emph{Primary Tumor}
 ##' @param metadata metadata parsed from \code{\link{gdcParseMetadata}}
-##' @return A filtered dataframe of metadata with \emph{Solid Tissue Normal} and \emph{Primary Tumor} samples only
+##' @return A filtered dataframe of metadata with \emph{Solid Tissue Normal} 
+##'     and \emph{Primary Tumor} samples only
 ##' @export
 ##' @author Ruidong Li and Han Qu
 ##' @examples 
@@ -29,7 +31,8 @@ gdcFilterDuplicate <- function(metadata) {
 ##' metaMatrix <- gdcParseMetadata(project.id='TARGET-RT', data.type='RNAseq')
 ##' metaMatrix <- gdcFilterSampleType(metadata=metaMatrix)
 gdcFilterSampleType <- function(metadata) {
-    filter <- which(! metadata$sample_type %in% c('PrimaryTumor', 'SolidTissueNormal'))
+    filter <- which(! metadata$sample_type %in% 
+        c('PrimaryTumor', 'SolidTissueNormal'))
     if (length(filter) != 0) {
         metadata <- metadata[-filter,]
     }

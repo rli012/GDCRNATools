@@ -1,15 +1,18 @@
 ##' @title Bar plot of differentially expressed genes/miRNAs
-##' @description A bar plot showing the number of down-regulated and up-regulated DE genes/miRNAs of different biotypes
-##' @param deg a dataframe generated from \code{\link{gdcDEReport}} containing DE genes/miRNAs ids, logFC, etc.
-##' @param angle a numeric value specifying the angle of text on x-axis. Default is \code{0}
+##' @description A bar plot showing the number of down-regulated and 
+##'     up-regulated DE genes/miRNAs of different biotypes
+##' @param deg a dataframe generated from \code{\link{gdcDEReport}} 
+##'     containing DE genes/miRNAs ids, logFC, etc.
+##' @param angle a numeric value specifying the angle of text on x-axis. 
+##'     Default is \code{0}
 ##' @param data.type one of \code{'RNAseq'} and \code{'miRNAs'}
 ##' @return A bar plot
 ##' @export
 ##' @author Ruidong Li and Han Qu
 ##' @examples 
 ##' genes <- c('ENSG00000231806','ENSG00000261211','ENSG00000260920',
-##'           'ENSG00000228594','ENSG00000125170','ENSG00000179909',
-##'           'ENSG00000280012','ENSG00000134612','ENSG00000213071')
+##'         'ENSG00000228594','ENSG00000125170','ENSG00000179909',
+##'         'ENSG00000280012','ENSG00000134612','ENSG00000213071')
 ##' symbol <- c('PCAT7','AL031123.2','AL031985.3',
 ##'             'FNDC10','DOK4','ZNF154',
 ##'             'RPL23AP61','FOLH1B','LPAL2')
@@ -20,7 +23,7 @@
 ##' rownames(deg) <- genes
 ##' gdcBarPlot(deg, angle=45, data.type='RNAseq')
 gdcBarPlot <- function(deg, angle=0, data.type) {
-  
+
     if (data.type=='miRNAs') {
         down <- sum(deg$logFC < 0)
         up <- sum(deg$logFC > 0)
@@ -31,9 +34,10 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
             levels=c('Up-regulated','Down-regulated')))
         
         if (angle==0) {
-            ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
-                geom_bar(stat = 'identity') + 
-                scale_x_discrete(limits=d$geneClass) + scale_fill_discrete(name = "") +
+            ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, 
+                fill=Regulation)) + geom_bar(stat = 'identity') + 
+                scale_x_discrete(limits=d$geneClass) + 
+                scale_fill_discrete(name = "") +
                 ylab('No. of Differentially Expressed miRNAs') +xlab('') +
                 #theme(axis.text.x = element_text(angle = angle)) + 
                 theme_bw()+theme(axis.line = element_line(colour = "black"),
@@ -44,17 +48,20 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
                     axis.text.x = element_text(angle = angle,size=10),
                     axis.text.y=element_text(size=10))
         } else {
-            ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
-                geom_bar(stat = 'identity') + 
-                scale_x_discrete(limits=d$geneClass) + scale_fill_discrete(name = "") +
+            ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, 
+                fill=Regulation)) + geom_bar(stat = 'identity') + 
+                scale_x_discrete(limits=d$geneClass) + 
+                scale_fill_discrete(name = "") +
                 ylab('No. of Differentially Expressed miRNAs') +xlab('') +
-                #theme(axis.text.x = element_text(angle = angle, vjust = 1, hjust=1)) +
+                #theme(axis.text.x = 
+                #element_text(angle = angle, vjust = 1, hjust=1)) +
                 theme_bw()+theme(axis.line = element_line(colour = "black"),
                     panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
                     panel.border = element_rect(colour='white'),
                     panel.background = element_blank(),
-                    axis.text.x = element_text(angle = angle, vjust = 1, hjust=1,size=10),
+                    axis.text.x = element_text(angle = angle, vjust = 1, 
+                        hjust=1,size=10),
                     axis.text.y=element_text(size=10))
         }
         
@@ -78,20 +85,22 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
         #names(gr)[names(gr) == 'TR'] <- 'T-cell receptor gene'
         #names(gr)[names(gr) == 'TEC'] <- 'To be experimentally confirmed'
         
-        o <- order(unlist(lapply(gr, function(v) v[['all']])), decreasing=TRUE)
+        o <- order(unlist(lapply(gr, function(v) v[['all']])), 
+            decreasing=TRUE)
         
         d <- data.frame(geneClass = rep(names(gr)[o], 2),
             geneNums = c(unlist(lapply(gr, function(v) v[['up']]))[o],
                 unlist(lapply(gr, function(v) v[['down']]))[o]), 
-            Regulation = factor(rep(c('Up-regulated','Down-regulated'), each=length(gr)), 
-                levels=c('Up-regulated','Down-regulated')))
+            Regulation = factor(rep(c('Up-regulated','Down-regulated'), 
+                each=length(gr)), levels=c('Up-regulated','Down-regulated')))
         
         if (angle==0) {
-            ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
-                geom_bar(stat = 'identity') + 
+            ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, 
+                fill=Regulation)) + geom_bar(stat = 'identity') + 
                 scale_x_discrete(limits=d$geneClass[seq_len(nrow(d)/2)]) + 
                 scale_fill_discrete(name = "") +
-                ylab('No. of Differentially Expressed Genes') +xlab('Type of genes') +
+                ylab('No. of Differentially Expressed Genes') +
+                xlab('Type of genes') +
                 #theme(axis.text.x = element_text(angle = angle)) +
                 theme_bw()+theme(axis.line = element_line(colour = "black"),
                     panel.grid.major = element_blank(),
@@ -101,20 +110,24 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
                     axis.text.x = element_text(angle = angle,size=14),
                     axis.text.y=element_text(size=14))
         } else {
-            ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, fill=Regulation)) + 
-                geom_bar(stat = 'identity') + 
-                scale_x_discrete(limits=d$geneClass[seq_len(nrow(d)/2)]) + scale_fill_discrete(name = "") +
-                ylab('No. of Differentially Expressed Genes') +xlab('Type of genes') +
-                #theme(axis.text.x = element_text(angle = angle, vjust = 1, hjust=1)) +
+            ggplot(data=d, aes(x=d$geneClass, y=d$geneNums, 
+                fill=Regulation)) + geom_bar(stat = 'identity') + 
+                scale_x_discrete(limits=d$geneClass[seq_len(nrow(d)/2)]) + 
+                scale_fill_discrete(name = "") +
+                ylab('No. of Differentially Expressed Genes') +
+                xlab('Type of genes') +
+                #theme(axis.text.x = 
+                #element_text(angle = angle, vjust = 1, hjust=1)) +
                 theme_bw()+theme(axis.line = element_line(colour = "black"),
                     panel.grid.major = element_blank(),
                     panel.grid.minor = element_blank(),
                     panel.border = element_rect(colour='white'),
                     panel.background = element_blank(),
-                    axis.text.x = element_text(angle = angle, vjust = 1, hjust=1,size=14),
+                    axis.text.x = element_text(angle = angle, vjust = 1, 
+                        hjust=1,size=14),
                     axis.text.y=element_text(size=14)) +
-                theme(axis.title=element_text(size=16), legend.text = element_text(size=14))
-            
+                theme(axis.title=element_text(size=16), 
+                    legend.text = element_text(size=14))
         }
     }
 }
@@ -123,8 +136,9 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
 
 ##' @title Volcano plot of differentially expressed genes/miRNAs
 ##' @description A volcano plot showing differentially expressed genes/miRNAs
-##' @param deg.all a dataframe generated from \code{\link{gdcDEAnalysis}} containing all 
-##'   genes of analysis no matter they are differentially expressed or not
+##' @param deg.all a dataframe generated from \code{\link{gdcDEAnalysis}} 
+##'     containing all genes of analysis no matter they are differentially 
+##'     expressed or not
 ##' @param fc a numeric value specifying the threshold of fold change
 ##' @param pval a nuemric value specifying the threshold of p value
 ##' @return A volcano plot
@@ -132,8 +146,8 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
 ##' @author Ruidong Li and Han Qu
 ##' @examples 
 ##' genes <- c('ENSG00000231806','ENSG00000261211','ENSG00000260920',
-##'           'ENSG00000228594','ENSG00000125170','ENSG00000179909',
-##'           'ENSG00000280012','ENSG00000134612','ENSG00000213071')
+##'         'ENSG00000228594','ENSG00000125170','ENSG00000179909',
+##'         'ENSG00000280012','ENSG00000134612','ENSG00000213071')
 ##' symbol <- c('PCAT7','AL031123.2','AL031985.3',
 ##'             'FNDC10','DOK4','ZNF154',
 ##'             'RPL23AP61','FOLH1B','LPAL2')
@@ -155,13 +169,14 @@ gdcVolcanoPlot <- function(deg.all, fc=2, pval=0.01) {
     
     lim <- max(max(geneList$logFC), abs(min(geneList$logFC)))+0.5
     
-    volcano <- ggplot(data=geneList, aes(x=geneList$logFC, y = -log10(geneList$FDR)))
-    #volcano <- ggplot(data=geneList, aes(x=-log10(geneList$FDR), y = geneList$logFC))
+    volcano <- ggplot(data=geneList, aes(x=geneList$logFC, 
+        y = -log10(geneList$FDR)))
     volcano+geom_point(aes(color=geneList$threshold), alpha=1, size=0.8) + 
         xlab("log2(Fold Change)") + ylab("-log10(FDR)") +
-        scale_colour_manual(breaks = geneList$threshold, values = c('red','black','green3')) + 
-        xlim(c(-lim,lim)) +
-        geom_vline(xintercept = c(-log(fc,2),log(fc,2)), color='darkgreen', linetype=3) + 
+        scale_colour_manual(breaks = geneList$threshold, 
+            values = c('red','black','green3')) + xlim(c(-lim,lim)) +
+        geom_vline(xintercept = c(-log(fc,2),log(fc,2)), 
+            color='darkgreen', linetype=3) + 
         geom_hline(yintercept = -log(pval,10), color='darkgreen',linetype=3)+
         theme_bw() +
         theme(axis.line = element_line(colour = "black"),
@@ -170,14 +185,16 @@ gdcVolcanoPlot <- function(deg.all, fc=2, pval=0.01) {
             panel.border = element_rect(colour='black'),
             panel.background = element_blank()) +
         theme(legend.position="none") +
-        theme(axis.text=element_text(size=14), axis.title=element_text(size=16))
+        theme(axis.text=element_text(size=14), 
+            axis.title=element_text(size=16))
 }
 
 
 
 ##' @title Heatmap of differentially expressed genes/miRNAs
 ##' @description A heatmap showing unsupervised hierarchical clustering of 
-##'   DE genes/miRNAs by \code{\link[gplots]{heatmap.2}} in the \pkg{gplots} package
+##'     DE genes/miRNAs by \code{\link[gplots]{heatmap.2}} in the 
+##'     \pkg{gplots} package
 ##' @param deg.id a vector of Ensembl gene ids or miRBase v21 mature miRNA ids
 ##' @param metadata metadata parsed from \code{\link{gdcParseMetadata}}
 ##' @param rna.expr \code{\link[limma]{voom}} transformed expression data
@@ -185,22 +202,22 @@ gdcVolcanoPlot <- function(deg.all, fc=2, pval=0.01) {
 ##' @importFrom gplots colorpanel
 ##' @importFrom gplots bluered
 ##' @return A heatmap with rows are DE genes/miRNAs and columns are samples.
-##'   \emph{Solid Tissue Normal} samples are labeled with blue and \emph{Primary Tumor} samples are 
-##'   labeled with red
+##'     \emph{Solid Tissue Normal} samples are labeled with blue and 
+##'     \emph{Primary Tumor} samples are labeled with red
 ##' @export
 ##' @author Ruidong Li and Han Qu
 ##' @examples 
 ##' genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
-##'            'ENSG00000001084','ENSG00000001167','ENSG00000001460')
+##'         'ENSG00000001084','ENSG00000001167','ENSG00000001460')
 ##' 
-##' samples <- c('TCGA-2F-A9KO-01',	'TCGA-2F-A9KP-01',
-##'              'TCGA-2F-A9KQ-01',	'TCGA-2F-A9KR-01',	
-##'              'TCGA-2F-A9KT-01',	'TCGA-2F-A9KW-01')
+##' samples <- c('TCGA-2F-A9KO-01', 'TCGA-2F-A9KP-01',
+##'             'TCGA-2F-A9KQ-01', 'TCGA-2F-A9KR-01',
+##'              'TCGA-2F-A9KT-01', 'TCGA-2F-A9KW-01')
 ##'              
 ##' metaMatrix <- data.frame(sample_type=rep('PrimaryTumor',6),
-##'                          sample=samples,
-##'                          days_to_death=seq(100,600,100),
-##'                          days_to_last_follow_up=rep(NA,6))
+##'                         sample=samples,
+##'                         days_to_death=seq(100,600,100),
+##'                         days_to_last_follow_up=rep(NA,6))
 ##' rnaExpr <- matrix(c(2.7,7.0,4.9,6.9,4.6,2.5,
 ##'                     0.5,2.5,5.7,6.5,4.9,3.8,
 ##'                     2.1,2.9,5.9,5.7,4.5,3.5,
@@ -211,18 +228,20 @@ gdcVolcanoPlot <- function(deg.all, fc=2, pval=0.01) {
 ##' colnames(rnaExpr) <- samples
 ##' gdcHeatmap(deg.id=genes, metadata=metaMatrix, rna.expr=rnaExpr)
 gdcHeatmap <- function(deg.id, metadata, rna.expr) {
-  
+
     degDa <- rna.expr[deg.id,]
     
-    sampleCol <- ifelse(metadata$sample_type=='SolidTissueNormal', 'blue', 'red')
+    sampleCol <- ifelse(metadata$sample_type=='SolidTissueNormal', 
+        'blue', 'red')
     #col=colorpanel(75,"darkblue","white","orangered")
     lmat = rbind(c(4,3),c(2,1))
     lwid = c(2,4)
     lhei = c(1,5)
     
-    heatmap.2(as.matrix(degDa), col=bluered(75), trace='none', cexCol=0.32, cexRow=0.1,
-       dendrogram='both', srtCol=90, adjCol=c(0.8,0.15), density.info="none", labRow=NA,
-       key.title=NA,na.color=NA,lwid=lwid, lhei=lhei,  margins =c(3,3), labCol=NA,
-       key.xlab='Normalized intensity', scale='row', ColSideColors = sampleCol)
-  
+    heatmap.2(as.matrix(degDa), col=bluered(75), trace='none', 
+        cexCol=0.32, cexRow=0.1,dendrogram='both', srtCol=90, 
+        adjCol=c(0.8,0.15), density.info="none", labRow=NA,
+        key.title=NA,na.color=NA,lwid=lwid, lhei=lhei,  
+        margins =c(3,3), labCol=NA, key.xlab='Normalized intensity', 
+        scale='row', ColSideColors = sampleCol)
 }
