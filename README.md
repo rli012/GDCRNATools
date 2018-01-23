@@ -13,6 +13,10 @@ Many analyses can be perfomed using `GDCRNATools`, including differential gene e
 This user-friendly package allows researchers perform the analysis by simply running a few functions and integrate their own pipelines such as molecular subtype classification, [weighted correlation network analysis (WGCNA)](https://labs.genetics.ucla.edu/horvath/CoexpressionNetwork/Rpackages/WGCNA/)(Langfelder and Horvath 2008), and TF-miRNA co-regulatory network analysis, etc. into the workflow easily.
 
 
+# Manual
+The comprehensive manual of `GDCRNATools` is available here: [GDCRNATools Manual](http://htmlpreview.github.io/?https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html)
+
+
 # Installation
 `GDCRNATools` is now under review in Bioconductor. Users can install the package locally.
 
@@ -67,6 +71,3 @@ install.packages('Hmisc')
 install.packages('DT')
 ```
 
-
-# Manual
-The comprehensive manual of `GDCRNATools` is available here: [GDCRNATools Manual](http://htmlpreview.github.io/?https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html)
