@@ -42,8 +42,8 @@ rnaExpr <- matrix(c(2.7,7.0,4.9,6.9,4.6,2.5,
                     2.4,3.8,6.2,3.8,3.8,4.2),6,6)
 rownames(rnaExpr) <- genes
 colnames(rnaExpr) <- samples
-shinyCorPlot(gene1=genes[1:3], gene2=genes[4:5], rna.expr=rnaExpr, 
-    metadata=metaMatrix)
+\dontrun{shinyCorPlot(gene1=genes[1:3], gene2=genes[4:5], rna.expr=rnaExpr, 
+    metadata=metaMatrix)}
 }
 \author{
 Ruidong Li and Han Qu

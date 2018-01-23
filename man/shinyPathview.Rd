@@ -22,6 +22,21 @@ a local webpage for visualization of KEGG maps
 A simple \pkg{shiny} app to show pathways genetrated by 
     \pkg{pathview} package on local web browser
 }
+\examples{
+genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
+        'ENSG00000001084','ENSG00000001167','ENSG00000001460')
+pathways <- c("hsa05414~Dilated cardiomyopathy (DCM)",
+            "hsa05410~Hypertrophic cardiomyopathy (HCM)",
+            "hsa05412~Arrhythmogenic right ventricular cardiomyopathy"
+            "hsa04512~ECM-receptor interaction",
+            "hsa04510~Focal adhesion",
+            "hsa04360~Axon guidance",
+            "hsa04270~Vascular smooth muscle contraction",
+            "hsa05205~Proteoglycans in cancer",
+            "hsa04022~cGMP-PKG signaling pathway",
+            "hsa00480~Glutathione metabolism")
+\dontrun{shinyPathview(gene=genes, pathways=pathways)}
+}
 \author{
 Ruidong Li and Han Qu
 }
