@@ -5,7 +5,7 @@
 \title{Univariate survival analysis of multiple genes}
 \usage{
 gdcSurvivalAnalysis(gene, rna.expr, metadata, method = "coxph",
-  sep = "median")
+    sep = "median")
 }
 \arguments{
 \item{gene}{a vector of Ensembl gene ids}
