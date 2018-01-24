@@ -103,7 +103,8 @@ gdcClinicalMerge <- function(path, key.info=TRUE, organized=TRUE) {
     message ('############### Merging Clinical data ###############\n')
     
     if (organized==TRUE) {
-        filenames <- file.path(path, getXMLFile(path), fsep = .Platform$file.sep)
+        filenames <- file.path(path, getXMLFile(path), 
+            fsep = .Platform$file.sep)
     } else {
         folders <- file.path(path, dir(path), fsep = .Platform$file.sep)
         folders <- folders[dir.exists(folders)]
