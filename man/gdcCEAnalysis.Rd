@@ -5,7 +5,7 @@
 \title{Competing endogenous RNAs (ceRNAs) analysis}
 \usage{
 gdcCEAnalysis(lnc, pc, deMIR = NULL, lnc.targets = "starBase",
-  pc.targets = "starBase", rna.expr, mir.expr)
+    pc.targets = "starBase", rna.expr, mir.expr)
 }
 \arguments{
 \item{lnc}{a vector of Ensembl long non-coding gene ids}
