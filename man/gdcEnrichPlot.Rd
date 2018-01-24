@@ -5,7 +5,7 @@
 \title{Plots for enrichment analysis}
 \usage{
 gdcEnrichPlot(enrichment, type = "bar", category = "KEGG", num.terms = 10,
-  bar.color = "black")
+    bar.color = "black")
 }
 \arguments{
 \item{enrichment}{a dataframe generated from 
