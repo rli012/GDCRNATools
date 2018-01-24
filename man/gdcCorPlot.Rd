@@ -29,7 +29,7 @@ genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
 samples <- c('TCGA-2F-A9KO-01', 'TCGA-2F-A9KP-01', 
             'TCGA-2F-A9KQ-01', 'TCGA-2F-A9KR-11', 
             'TCGA-2F-A9KT-11', 'TCGA-2F-A9KW-11')
-             
+
 metaMatrix <- data.frame(sample_type=rep(c('PrimaryTumor',
                         'SolidTissueNormal'),each=3),
                         sample=samples,
