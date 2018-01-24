@@ -40,7 +40,7 @@ Download clinical data in GDC
 manifest <- 'Clinical.manifest.txt'
 \dontrun{gdcClinicalDownload(manifest  = manifest,
                     directory = 'Clinical')}
-                   
+
 ####### Download Clinical data by project id #######
 project <- 'TCGA-PRAD'
 \dontrun{gdcClinicalDownload(project.id     = project, 
