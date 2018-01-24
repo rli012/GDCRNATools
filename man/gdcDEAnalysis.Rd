@@ -5,7 +5,7 @@
 \title{Differential gene expression analysis}
 \usage{
 gdcDEAnalysis(counts, group, comparison, method = "limma", n.cores = NULL,
-  filter = TRUE)
+    filter = TRUE)
 }
 \arguments{
 \item{counts}{a dataframe or numeric matrix of raw counts data generated 
