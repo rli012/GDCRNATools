@@ -18,4 +18,5 @@ biocLite("GDCRNATools")
 
 ## Manual and R script
 The comprehensive manual of `GDCRNATools` is available here: [GDCRNATools Manual](http://htmlpreview.github.io/?https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_manual.html)
+
 R code of the workflow is available here: [GDCRNATools Workflow](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools.workflow.R)
