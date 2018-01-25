@@ -4,7 +4,8 @@ long non-coding genes, and microRNAs in GDC'
 author: 'Ruidong Li and Han Qu'
 date: "Last update: `r format(Sys.time(), '%d %B, %Y')`" 
 vignette: >
-    %\VignetteIndexEntry{'GDCRNATools: integrative analysis of protein coding genes, long non-coding genes, and microRNAs in GDC'}
+    %\VignetteIndexEntry{'GDCRNATools: integrative analysis of 
+    protein coding genes, long non-coding genes, and microRNAs in GDC'}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output:
@@ -19,7 +20,7 @@ bibliography: bibliography.bib
 
 # Introduction
 
-`GDCRNATools` is an R package which provides a standard, easy-to-use and comprehensive pipeline for downloading, organizing, and integrative analyzing RNA expression data in the GDC portal with an emphasis on deciphering the lncRNA-mRNA related ceRNA regulatory network in cancer.
+`GDCRNATools` is an R package which provides a standard, easy-to-use and comprehensive pipeline for downloading, organizing, and integrative analyzing RNA expression data in the GDC portal with an emphasis on deciphering the lncRNA-mRNA related ceRNAs regulatory network in cancer.
 
 Competing endogenous RNAs (ceRNAs) are RNAs that indirectly regulate other transcripts by competing for shared miRNAs. Although only a fraction of long non-coding RNAs has been functionally characterized, increasing evidences show that lncRNAs harboring multiple miRNA response elements (MREs) can act as ceRNAs to sequester miRNA activity and thus reduce the inhibition of miRNA on its targets. Deregulation of ceRNAs network may lead to human diseases.
 
@@ -50,12 +51,13 @@ library(GDCRNATools)
 In `GDCRNATools`, some functions are built for users to download and process GDC data efficiently.
 Users can also use their own data that is processed by other tools such as the [UCSC Xena GDC hub](https://xenabrowser.net/datapages/?host=https://gdc.xenahubs.net), [TCGAbiolinks](https://bioconductor.org/packages/release/bioc/html/TCGAbiolinks.html)[@ColapricoTCGAbiolinksBioconductorpackage2016], or [TCGA-Assembler](http://www.compgenome.org/TCGA-Assembler/)[@ZhuTCGAAssemblerOpenSourcePipeline2014], etc.
 
-Here we use a small dataset to show the most basic steps for ceRNA network analysis. More detailed instruction of each step is in the [Case Study](#case) section.
+Here we use a small dataset to show the most basic steps for ceRNAs network analysis. More detailed instruction of each step is in the [Case Study](#case) section.
 
-
-## Normalization of HTSeq-Counts data
+## Data preparation
+### Normalization of HTSeq-Counts data
 ```{r load data q, message=FALSE, warning=FALSE, eval=TRUE}
 library(DT)
+
 ### load RNA counts data
 data(rnaCounts)
 
@@ -64,58 +66,50 @@ data(mirCounts)
 ```
 
 ```{r normalization q, message=FALSE, warning=FALSE, eval=TRUE}
-####### RNAseq data #######
+####### Normalization of RNAseq data #######
 rnaExpr <- gdcVoomNormalization(counts = rnaCounts, filter = FALSE)
 
-####### miRNAs data #######
+####### Normalization of miRNAs data #######
 mirExpr <- gdcVoomNormalization(counts = mirCounts, filter = FALSE)
 ```
 
 
 
-## Parse metadata
+### Parse metadata
 ```{r parse meta2 q, message=FALSE, warning=FALSE, eval=TRUE}
-####### Parse RNAseq metadata #######
+####### Parse and filter RNAseq metadata #######
 metaMatrix.RNA <- gdcParseMetadata(project.id = 'TCGA-CHOL',
                                    data.type  = 'RNAseq', 
                                    write.meta = FALSE)
 
 metaMatrix.RNA <- gdcFilterDuplicate(metaMatrix.RNA)
 metaMatrix.RNA <- gdcFilterSampleType(metaMatrix.RNA)
-datatable(as.data.frame(metaMatrix.RNA[1:5,]), extensions = 'Scroller',
-        options = list(scrollX = TRUE, deferRender = TRUE, scroller = TRUE))
+metaMatrix.RNA[1:5,]
 
 ```
 
-```{r parse meta3 q, message=FALSE, warning=FALSE, eval=TRUE}
-####### Parse miRNAs metadata #######
-metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-CHOL',
-                                   data.type  = 'miRNAs', 
-                                   write.meta = FALSE)
 
-metaMatrix.MIR <- gdcFilterDuplicate(metaMatrix.MIR)
-metaMatrix.MIR <- gdcFilterSampleType(metaMatrix.MIR)
-```
-
-
-## Differential gene expression analysis
+## ceRNAs network analysis
+### Identification of differentially expressed genes (DEGs)
 ```{r deg q, message=FALSE, warning=FALSE, eval=TRUE}
 DEGAll <- gdcDEAnalysis(counts     = rnaCounts, 
                         group      = metaMatrix.RNA$sample_type, 
                         comparison = 'PrimaryTumor-SolidTissueNormal', 
                         method     = 'limma')
-datatable(as.data.frame(DEGAll), 
-        options = list(scrollX = TRUE, pageLength = 5))
+DEGAll[1:5,]
 
-#### DE long-noncoding
+### All DEGs
+deALL <- gdcDEReport(deg = DEGAll, gene.type = 'all')
+
+### DE long-noncoding
 deLNC <- gdcDEReport(deg = DEGAll, gene.type = 'long_non_coding')
 
-#### DE protein coding genes
+### DE protein coding genes
 dePC <- gdcDEReport(deg = DEGAll, gene.type = 'protein_coding')
 ```
 
 
-## ceRNAs network analysis
+### ceRNAs network analysis of DEGs
 ```{r ce q, message=TRUE, warning=FALSE, eval=TRUE}
 ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
                           pc          = rownames(dePC), 
@@ -124,30 +118,32 @@ ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC),
                           rna.expr    = rnaExpr, 
                           mir.expr    = mirExpr)
 
-datatable(as.data.frame(ceOutput), 
-          options = list(scrollX = TRUE, pageLength = 5))
+ceOutput[1:5,]
 ```
 
-## Report ceRNA network to Cytoscape
-```{r edges q, message=FALSE, warning=FALSE, eval=TRUE}
+### Export ceRNAs network to Cytoscape
+```{r sig q, message=FALSE, warning=FALSE, eval=TRUE}
 ceOutput2 <- ceOutput[ceOutput$hyperPValue<0.01 
     & ceOutput$corPValue<0.01 & ceOutput$regSim != 0,]
+```
 
+```{r edges q, message=FALSE, warning=FALSE, eval=TRUE}
+### Export edges
 edges <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'edges')
-datatable(as.data.frame(edges), 
-        options = list(scrollX = TRUE, pageLength = 5))
+edges[1:5,]
+
 ```
 
 ```{r nodes q, message=FALSE, warning=FALSE, eval=TRUE}
+### Export nodes
 nodes <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'nodes')
-datatable(as.data.frame(nodes), 
-        options = list(scrollX = TRUE, pageLength = 5))
+nodes[1:5,]
 ```
 
 ***
 
-# Case study: TCGA-PRAD {#case}
-In this section, we use data from the TCGA-PRAD project as an example to illustrate how the `GDCRNATools` works in detail.
+# Case study: TCGA-CHOL {#case}
+In this section, we use the whole datasets of TCGA-CHOL project as an example to illustrate how `GDCRNATools` works in detail.
 
 ## Data download
 > Two methods are provided for downloading Gene Expression Quantification (HTSeq-Counts), Isoform Expression Quantification (BCGSC miRNA Profiling), and Clinical (Clinical Supplement) data:
@@ -156,18 +152,18 @@ In this section, we use data from the TCGA-PRAD project as an example to illustr
 To provide users a convenient method for data download, by default, we used the API method developed in the `GenomicDataCommons` package to download data automatically by specifying `data.type` and `project.id` arguments. An alternative method using the `gdc-client` for automatic download is also provided in case that the API method fails.
 
 ```{r manual, eval=FALSE, message=FALSE, warning=FALSE}
-testdir <- tempdir()
-rnadir <- paste(testdir, 'RNAseq', sep='/')
-mirdir <- paste(testdir, 'miRNAs', sep='/')
+project <- 'TCGA-CHOL'
+rnadir <- paste(project, 'RNAseq', sep='/')
+mirdir <- paste(project, 'miRNAs', sep='/')
 
 ####### Download RNAseq data #######
-gdcRNADownload(project.id     = 'TCGA-PRAD', 
+gdcRNADownload(project.id     = 'TCGA-CHOL', 
                data.type      = 'RNAseq', 
                write.manifest = FALSE,
                directory      = rnadir)
 
 ####### Download miRNAs data #######
-gdcRNADownload(project.id     = 'TCGA-PRAD', 
+gdcRNADownload(project.id     = 'TCGA-CHOL', 
                data.type      = 'miRNAs', 
                write.manifest = FALSE,
                directory      = mirdir)
@@ -194,17 +190,13 @@ Samples that are neither Primary Tumor (code: 01) nor Solid Tissue Normal (code:
 
 ```{r parse meta2, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Parse RNAseq metadata #######
-metaMatrix.RNA <- gdcParseMetadata(project.id = 'TCGA-PRAD',
+metaMatrix.RNA <- gdcParseMetadata(project.id = 'TCGA-CHOL',
                                    data.type  = 'RNAseq', 
                                    write.meta = FALSE)
-```
 
-```{r filter meta, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Filter duplicated samples in RNAseq metadata #######
 metaMatrix.RNA <- gdcFilterDuplicate(metaMatrix.RNA)
-```
 
-```{r filter meta3, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Filter non-Primary Tumor and non-Solid Tissue Normal samples in RNAseq metadata #######
 metaMatrix.RNA <- gdcFilterSampleType(metaMatrix.RNA)
 ```
@@ -213,18 +205,13 @@ metaMatrix.RNA <- gdcFilterSampleType(metaMatrix.RNA)
 
 ```{r parse meta3, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Parse miRNAs metadata #######
-metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-PRAD',
+metaMatrix.MIR <- gdcParseMetadata(project.id = 'TCGA-CHOL',
                                    data.type  = 'miRNAs', 
                                    write.meta = FALSE)
-```
 
-```{r filter meta2, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Filter duplicated samples in miRNAs metadata #######
 metaMatrix.MIR <- gdcFilterDuplicate(metaMatrix.MIR)
-```
 
-
-```{r filter meta4, message=FALSE, warning=FALSE, eval=TRUE}
 ####### Filter non-Primary Tumor and non-Solid Tissue Normal samples in miRNAs metadata #######
 metaMatrix.MIR <- gdcFilterSampleType(metaMatrix.MIR)
 ```
@@ -253,10 +240,10 @@ By running `gdcVoomNormalization()` function, raw counts data would be normalize
 
 
 ```{r normalization, message=FALSE, warning=FALSE, eval=FALSE}
-####### RNAseq data #######
+####### Normalization of RNAseq data #######
 rnaExpr <- gdcVoomNormalization(counts = rnaCounts, filter = FALSE)
 
-####### miRNAs data #######
+####### Normalization of miRNAs data #######
 mirExpr <- gdcVoomNormalization(counts = mirCounts, filter = FALSE)
 ```
 
@@ -285,15 +272,11 @@ data(DEGAll)
 ```{r extract, message=FALSE, warning=FALSE, eval=TRUE}
 ### All DEGs
 deALL <- gdcDEReport(deg = DEGAll, gene.type = 'all')
-```
 
-```{r extract2, message=FALSE, warning=FALSE, eval=TRUE}
-#### DE long-noncoding
+### DE long-noncoding
 deLNC <- gdcDEReport(deg = DEGAll, gene.type = 'long_non_coding')
-```
 
-```{r extract3, message=FALSE, warning=FALSE, eval=TRUE}
-#### DE protein coding genes
+### DE protein coding genes
 dePC <- gdcDEReport(deg = DEGAll, gene.type = 'protein_coding')
 ```
 
@@ -356,7 +339,7 @@ where $M$ is the total number of shared miRNAs, $k$ is the $k$th shared miRNAs, 
 The hypergeometric test of shared miRNAs, expression correlation analysis of lncRNA-mRNA pair, and regulation pattern analysis of shared miRNAs are all implemented in the `gdcCEAnalysis()` function. 
 
 #### ceRNAs network analysis using internal databases
-Users can use the internally incoporated databases of miRNA-mRNA (starBase v2.0, miRcode, and mirTarBase v7.0) and miRNA-lncRNA (starBase v2.0, miRcode, spongeScan) interactions to perform the ceRNA network analysis.
+Users can use the internally incoporated databases of miRNA-mRNA (starBase v2.0, miRcode, and mirTarBase v7.0) and miRNA-lncRNA (starBase v2.0, miRcode, spongeScan) interactions to perform the ceRNAs network analysis.
 
 ```{r ce, message=FALSE, warning=FALSE, eval=FALSE}
 ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC), 
@@ -369,13 +352,13 @@ ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC),
 
 
 #### ceRNAs network analysis using user-provided datasets
-`gdcCEAnalysis()` can also take user-provided miRNA-mRNA and miRNA-lncRNA interaction datasets, such as miRNA-target interactions predicted by [TargetScan](http://www.targetscan.org/vert_71/), [miRanda](www.microrna.org/), and [Diana Tools](http://diana.imis.athena-innovation.gr/DianaTools/index.php?r=site/index), etc. for the ceRNA network analysis.
+`gdcCEAnalysis()` can also take user-provided miRNA-mRNA and miRNA-lncRNA interaction datasets, such as miRNA-target interactions predicted by [TargetScan](http://www.targetscan.org/vert_71/), [miRanda](www.microrna.org/), and [Diana Tools](http://diana.imis.athena-innovation.gr/DianaTools/index.php?r=site/index), etc. for the ceRNAs network analysis.
 
 ```{r ce 2, message=FALSE, warning=FALSE, eval=TRUE}
-#### load miRNA-lncRNA interactions
+### load miRNA-lncRNA interactions
 data(lncTarget)
 
-#### load miRNA-mRNA interactions
+### load miRNA-mRNA interactions
 data(pcTarget)
 pcTarget[1:3]
 ```
@@ -423,7 +406,7 @@ shinyCorPlot(gene1    = rownames(deLNC),
              metadata = metaMatrix.RNA)
 ```
 
-![](figures/TCGA-PRAD.shinyCorPlot.gif)
+![](figures/TCGA-CHOL.shinyCorPlot.gif)
 
 
 ## Other downstream analyses
@@ -465,7 +448,7 @@ shinyKMPlot(gene = rownames(deALL), rna.expr = rnaExpr,
             metadata = metaMatrix.RNA)
 ```
 
-![](figures/TCGA-PRAD.shinyKMPlot.gif)
+![](figures/TCGA-CHOL.shinyKMPlot.gif)
 
 
 
@@ -500,8 +483,9 @@ gdcEnrichPlot(enrichOutput, type='bubble', category='GO', num.terms = 10)
 #### View pathway maps on a local webpage
 `shinyPathview()` allows users view and download pathways of interests by simply selecting the pathway terms on a local webpage.
 
-```{r shiny pathview, message=FALSE, warning=FALSE, include=FALSE, eval=TRUE}
+```{r shiny pathview, message=FALSE, warning=FALSE, eval=FALSE}
 library(pathview)
+
 deg <- deALL$logFC
 names(deg) <- rownames(deALL)
 pathways <- as.character(enrichOutput$Terms[enrichOutput$Category=='KEGG'])
@@ -511,7 +495,7 @@ pathways <- as.character(enrichOutput$Terms[enrichOutput$Category=='KEGG'])
 ```{r shiny pathview2, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
 shinyPathview(deg, pathways = pathways, directory = 'pathview')
 ```
-![](figures/TCGA-PRAD.shinyPathview.gif)
+![](figures/TCGA-CHOL.shinyPathview.gif)
 
 ***
 
