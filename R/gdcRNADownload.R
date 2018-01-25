@@ -52,9 +52,30 @@ gdcRNADownload <- function(manifest=NULL, project.id, data.type,
             sep='\t', quote=FALSE)
         
         if (method=='GenomicDataCommons') {
-            fnames = lapply(manifest$id,gdcdata,
-                destination_dir=directory,overwrite=FALSE,
-                progress=TRUE)
+            ex <- manifest$filename %in% dir(directory)
+            nonex <- ! ex
+            numFiles <- sum(ex)
+            
+            if(numFiles > 0) {
+                message (paste('Already exists',numFiles,'files !',sep=' '))
+                
+                if (sum(nonex) > 0 ) {
+                    message (paste('Download the other', 
+                        sum(nonex), 'files !', sep=' '))
+                    manifest <- manifest[nonex,]
+                    fnames = lapply(manifest$id,gdcdata,
+                        destination_dir=directory,overwrite=FALSE,
+                        progress=TRUE)
+                } else {
+                    return(invisible())
+                }
+                
+            } else {
+                fnames = lapply(manifest$id,gdcdata,
+                    destination_dir=directory,overwrite=FALSE,
+                    progress=TRUE)
+            }
+            
         } else if (method=='gdc-client') {
             manifestDownloadFun(manifest=manifile,directory=directory)
         }
