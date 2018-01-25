@@ -31,7 +31,7 @@
 ##' @author Ruidong Li and Han Qu
 ##' @examples 
 ##' ####### GO, KEGG, DO enrichment analysis #######
-##' genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
+##' deg <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
 ##'         'ENSG00000001084','ENSG00000001167','ENSG00000001460')
 ##' \dontrun{enrichOutput <- gdcEnrichAnalysis(gene=deg, simplify=TRUE)}
 gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
@@ -55,7 +55,7 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         goBP <- simplify(goBP, cutoff=0.7, by="p.adjust", select_fun=min)
     }
     
-    message ('Step 1/5: BP analysis done!\n')
+    message ('Step 1/5: BP analysis done!')
     
     goCC <- enrichGO(gene = gene,
         universe = biotype$ensemblID,
@@ -74,7 +74,7 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         goCC <- simplify(goCC, cutoff=0.7, by="p.adjust", select_fun=min)
     }
     
-    message ('Step 2/5: CC analysis done!\n')
+    message ('Step 2/5: CC analysis done!')
     
     goMF <- enrichGO(gene = gene,
         universe = biotype$ensemblID,
@@ -93,14 +93,18 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         goMF <- simplify(goMF, cutoff=0.7, by="p.adjust", select_fun=min)
     }
     
-    message ('Step 3/5: MF analysis done!\n')
+    message ('Step 3/5: MF analysis done!')
     
-    ensembl = useMart("ensembl",dataset="hsapiens_gene_ensembl")
-    genes <- getBM(attributes = c('ensembl_gene_id','entrezgene'), 
-        values=gene, filters='ensembl_gene_id', mart=ensembl)
+    genes <- biotype[match(gene, biotype$ensemblID),]
     genes <- genes[! is.na(genes$entrezgene),]
-    universe <- getBM(attributes = c('ensembl_gene_id','entrezgene'), 
-        values=biotype$ensemblID, filters='ensembl_gene_id', mart=ensembl)
+    universe <- biotype[!is.na(biotype$entrezgene),]
+    
+    #ensembl = useMart("ensembl",dataset="hsapiens_gene_ensembl")
+    #genes <- getBM(attributes = c('ensembl_gene_id','entrezgene'), 
+    #    values=gene, filters='ensembl_gene_id', mart=ensembl)
+    #genes <- genes[! is.na(genes$entrezgene),]
+    #universe <- getBM(attributes = c('ensembl_gene_id','entrezgene'), 
+    #    values=biotype$ensemblID, filters='ensembl_gene_id', mart=ensembl)
     
     kegg <- enrichKEGG(gene = as.character(genes$entrezgene),
         organism = 'hsa',
@@ -117,7 +121,7 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         paste(genes$ensembl_gene_id[match(strsplit(v, '/', fixed=TRUE)[[1]],
             genes$entrezgene)], collapse = '/')))
     
-    message ('Step 4/5: KEGG analysis done!\n')
+    message ('Step 4/5: KEGG analysis done!')
     
     do <- enrichDO(gene = as.character(genes$entrezgene),
         universe = as.character(unique(
@@ -133,7 +137,7 @@ gdcEnrichAnalysis <- function(gene, simplify=TRUE, level=0) {
         paste(genes$ensembl_gene_id[match(strsplit(v, '/', fixed=TRUE)[[1]], 
             genes$entrezgene)], collapse = '/')))
     
-    message ('Step 5/5: DO analysis done!\n')
+    message ('Step 5/5: DO analysis done!')
     
     goBP <- organizeEnrichFun(data.frame(goBP@result))
     goCC <- organizeEnrichFun(data.frame(goCC@result))
