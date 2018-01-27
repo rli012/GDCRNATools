@@ -1,11 +1,9 @@
 ---
-title: 'GDCRNATools: integrative analysis of protein coding genes, 
-long non-coding genes, and microRNAs in GDC'
+title: 'GDCRNATools: integrative analysis of protein coding genes, long non-coding genes, and microRNAs in GDC'
 author: 'Ruidong Li and Han Qu'
 date: "Last update: `r format(Sys.time(), '%d %B, %Y')`" 
 vignette: >
-    %\VignetteIndexEntry{'GDCRNATools: integrative analysis of 
-    protein coding genes, long non-coding genes, and microRNAs in GDC'}
+    %\VignetteIndexEntry{'GDCRNATools: integrative analysis of protein coding genes, long non-coding genes, and microRNAs in GDC'}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output:
@@ -84,7 +82,8 @@ metaMatrix.RNA <- gdcParseMetadata(project.id = 'TCGA-CHOL',
 
 metaMatrix.RNA <- gdcFilterDuplicate(metaMatrix.RNA)
 metaMatrix.RNA <- gdcFilterSampleType(metaMatrix.RNA)
-metaMatrix.RNA[1:5,]
+datatable(as.data.frame(metaMatrix.RNA[1:5,]), extensions = 'Scroller',
+        options = list(scrollX = TRUE, deferRender = TRUE, scroller = TRUE))
 
 ```
 
@@ -96,7 +95,8 @@ DEGAll <- gdcDEAnalysis(counts     = rnaCounts,
                         group      = metaMatrix.RNA$sample_type, 
                         comparison = 'PrimaryTumor-SolidTissueNormal', 
                         method     = 'limma')
-DEGAll[1:5,]
+datatable(as.data.frame(DEGAll), 
+        options = list(scrollX = TRUE, pageLength = 5))
 
 ### All DEGs
 deALL <- gdcDEReport(deg = DEGAll, gene.type = 'all')
@@ -118,7 +118,8 @@ ceOutput <- gdcCEAnalysis(lnc         = rownames(deLNC),
                           rna.expr    = rnaExpr, 
                           mir.expr    = mirExpr)
 
-ceOutput[1:5,]
+datatable(as.data.frame(ceOutput), 
+          options = list(scrollX = TRUE, pageLength = 5))
 ```
 
 ### Export ceRNAs network to Cytoscape
@@ -130,14 +131,15 @@ ceOutput2 <- ceOutput[ceOutput$hyperPValue<0.01
 ```{r edges q, message=FALSE, warning=FALSE, eval=TRUE}
 ### Export edges
 edges <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'edges')
-edges[1:5,]
-
+datatable(as.data.frame(edges), 
+        options = list(scrollX = TRUE, pageLength = 5))
 ```
 
 ```{r nodes q, message=FALSE, warning=FALSE, eval=TRUE}
 ### Export nodes
 nodes <- gdcExportNetwork(ceNetwork = ceOutput2, net = 'nodes')
-nodes[1:5,]
+datatable(as.data.frame(nodes), 
+        options = list(scrollX = TRUE, pageLength = 5))
 ```
 
 ***
@@ -488,9 +490,13 @@ library(pathview)
 
 deg <- deALL$logFC
 names(deg) <- rownames(deALL)
-pathways <- as.character(enrichOutput$Terms[enrichOutput$Category=='KEGG'])
 ```
 
+
+```{r pathway, message=FALSE, warning=FALSE, eval=TRUE}
+pathways <- as.character(enrichOutput$Terms[enrichOutput$Category=='KEGG'])
+pathways
+```
 
 ```{r shiny pathview2, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
 shinyPathview(deg, pathways = pathways, directory = 'pathview')
