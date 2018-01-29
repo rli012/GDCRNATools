@@ -23,7 +23,7 @@ Please download the compressed package here: [GDCRNATools_0.99.16.tar.gz](https:
 
 
 
-### On Windows system
+### 3.1 On Windows system
 * Make sure that your R is installed in 'c:\program files'  
 * Install [Rtools](https://cran.r-project.org/bin/windows/Rtools/) in 'c:\program files'  
 * Add R and Rtools to the Path Variable on the Environment Variables panel, including  
@@ -41,13 +41,13 @@ Please download the compressed package here: [GDCRNATools_0.99.16.tar.gz](https:
 install.packages('GDCRNATools_0.99.16.tar.gz', repos = NULL, type='source')
 ```
 
-### On Linux and Mac systems
+### 3.2 On Linux and Mac systems
 Just run the following code in R
 ```R
 install.packages('GDCRNATools_0.99.16.tar.gz', repos = NULL, type='source')
 ```
 
-### Note
+### 3.3 Note
 If `GDCRNATools` cannot be installed due to the lack of dependencies, please run the following code ahead to install those pacakges either simutaneously or separately:
 ```R
 source("https://bioconductor.org/biocLite.R")
