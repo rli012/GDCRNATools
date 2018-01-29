@@ -1,6 +1,6 @@
 Package: GDCRNATools
 Title: GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, mRNA, and miRNA data in GDC
-Version: 0.99.15
+Version: 0.99.16
 Author: Ruidong Li,
 	Han Qu,
 	Shibo Wang,
