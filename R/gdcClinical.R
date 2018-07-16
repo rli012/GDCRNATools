@@ -65,7 +65,7 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
                         sum(nonex), 'files !', sep=' '))
                     manifest <- manifest[nonex,]
                     fnames = lapply(manifest$id,gdcdata,
-                        destination_dir=directory,overwrite=FALSE,
+                        destination_dir=directory,overwrite=TRUE,
                         progress=TRUE)
                 } else {
                     return(invisible())
@@ -73,7 +73,7 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
                 
             } else {
                 fnames = lapply(manifest$id,gdcdata,
-                    destination_dir=directory,overwrite=FALSE,
+                    destination_dir=directory,overwrite=TRUE,
                     progress=TRUE)
             }
         } else if (method=='gdc-client') {
@@ -152,10 +152,11 @@ gdcClinicalMerge <- function(path, key.info=TRUE, organized=TRUE) {
         
         num3<- grep("^days_to_death", rownames(xmlMatrix))
         t3<- xmlMatrix[num3,]
+        t3[t3=='NA']<-NA
         t3[is.na(t3)]<-"0"
         
-        line2<- data.frame(t(apply(t3, 2, max)))
-        line2[line2=="0"]<- "NA"
+        line2<- data.frame(t(apply(t3, 2, function(v) max(as.numeric(v)))))
+        line2[line2<=0]<- NA
         rownames(line2)<- "days_to_death"
         
         
@@ -163,20 +164,24 @@ gdcClinicalMerge <- function(path, key.info=TRUE, organized=TRUE) {
         
         num4<- grep("^days_to_last_followup", rownames(xmlMatrix))
         t4<- xmlMatrix[num4,]
+        
+        t4[t4=='NA']<-NA
         t4[is.na(t4)]<-"0"
         
-        line3<- data.frame(t(apply(t4, 2, max)))
-        line3[line3=="0"]<- "NA"
+        line3<- data.frame(t(apply(t4, 2, function(v) max(as.numeric(v)))))
+        line3[line3<=0]<- NA
         rownames(line3)<- "days_to_last_followup"
         
         
         ### vital_status
         num11<- grep("^vital_status", rownames(xmlMatrix))
         t11<- xmlMatrix[num11,]
+        
+        t11[t11=='NA']<-NA
         t11[is.na(t11)]<-"0"
         
         line5<- data.frame(t(apply(t11, 2, max)))
-        line5[line5=="0"]<- "NA"
+        line5[line5=='0']<- NA
         rownames(line5)<- "vital_status"
         
         ### age_at_initial_pathologic_diagnosis
@@ -189,87 +194,111 @@ gdcClinicalMerge <- function(path, key.info=TRUE, organized=TRUE) {
         
         ### days_to_new_tumor_event_after_initial_treatment
         
-        num5<- grep("^days_to_new_tumor_event_after_initial_treatment", 
-            rownames(xmlMatrix))
-        t5<- xmlMatrix[num5,]
-        t5[is.na(t5)]<-"0"
         
-        line7<- data.frame(t(apply(t4, 2, min)))
-        line7[line7=="0"]<- "NA"
-        rownames(line7)<- "days_to_new_tumor_event_after_initial_treatment"
-        
-        
-        ### new_neoplasm_event_type
-        
-        num6<- grep("^new_neoplasm_event_type", rownames(xmlMatrix))
-        t6<- xmlMatrix[num6,]
-        # t6[is.na(t6)]<-"0"
-        line8<- NULL
-        
-        for (i in seq_len(ncol(t6))) {
-            t6.1<- t6[which(t6[,i] != "NA"),i]
-            t6.1<- paste(t6.1,collapse=",")
-            line8<- append(line8,t6.1)
+        if (xmlMatrix['disease_code',1]=='LAML') {
+            #line7 <- data.frame(t(rep(NA, ncol(xmlMatrix))))
+            #rownames(line7)<- "days_to_new_tumor_event_after_initial_treatment"
+            
+            cleantable<- rbind(line1, line2, line3, line5, line6)
+            
+            
+        } else {
+            num5<- grep("^days_to_new_tumor_event_after_initial_treatment", 
+                        rownames(xmlMatrix))
+            t5<- xmlMatrix[num5,]
+            
+            t5[t5=='NA']<-NA
+            t5[is.na(t5)]<-"999999"
+            
+            line7<- data.frame(t(apply(t5, 2, function(v) min(as.numeric(v)))))
+            line7[line7==999999 | line7<=0]<- NA
+            
+            rownames(line7)<- "days_to_new_tumor_event_after_initial_treatment"
+            
+            
+            ### new_neoplasm_event_type
+            
+            num6<- grep("^new_neoplasm_event_type", rownames(xmlMatrix))
+            t6<- xmlMatrix[num6,]
+            # t6[is.na(t6)]<-"0"
+            line8<- NULL
+            
+            for (i in seq_len(ncol(t6))) {
+                t6.1<- t6[which(t6[,i] != "NA"),i]
+                t6.1<- paste(t6.1,collapse=",")
+                line8<- append(line8,t6.1)
+            }
+            line8<-data.frame(t(line8))
+            line8[line8==""]<- "NA"
+            rownames(line8)<-"new_neoplasm_event_type"
+            colnames(line8) <- colnames(t6)
+            
+            
+            ### new_tumor_event_after_initial_treatment
+            
+            num7<- grep("^new_tumor_event_after_initial_treatment", 
+                        rownames(xmlMatrix))
+            t7<- xmlMatrix[num7,]
+            t7[t7=='NA']<-NA
+            
+            t7[is.na(t7)]<-"0"
+            
+            t7.1<- data.frame(t((colSums(t7=="YES"))))
+            rownames(t7.1)<- "new_tumor_event_after_initial_treatment_yes"
+            
+            t7.2<- data.frame(t((colSums(t7=="NO"))))
+            rownames(t7.2)<- "new_tumor_event_after_initial_treatment_no"
+            
+            line9<- rbind(t7.1,t7.2)
+            
+            
+            if (xmlMatrix['disease_code',1] %in% c('DLBC','PCPG','TGCT')) {
+                cleantable<- rbind(line1, line2, line3, line5, line6, line7, line8, line9)
+            } else {
+                #### additional_pharmaceutical_therapy
+                num<- grep("^additional_pharmaceutical_therapy", rownames(xmlMatrix))
+                t1<- xmlMatrix[num,]
+                
+                t1[t1=='NA']<-NA
+                t1[is.na(t1)]<-"0"
+                
+                t1.1<- data.frame(t((colSums(t1=="YES"))))
+                rownames(t1.1)<- "additional_pharmaceutical_therapy_yes"
+                
+                t1.2<- data.frame(t((colSums(t1=="NO"))))
+                rownames(t1.2)<- "additional_pharmaceutical_therapy_no"
+                
+                line10<- rbind(t1.1,t1.2)
+                
+                
+                ### additional_radiation_therapy
+                
+                num2<- grep("^additional_radiation_therapy", rownames(xmlMatrix))
+                t2<- xmlMatrix[num2,]
+                t2[t2=='NA']<-NA
+                
+                t2[is.na(t2)]<-"0"
+                
+                t2.1<- data.frame(t((colSums(t2=="YES"))))
+                rownames(t2.1)<- "additional_radiation_therapy_yes"
+                
+                t2.2<- data.frame(t((colSums(t2=="NO"))))
+                rownames(t2.2)<- "additional_radiation_therapy_no"
+                
+                line11<- rbind(t2.1,t2.2)
+                
+                ########## rbind #########
+                
+                cleantable<- rbind(line1, line2, line3, line5, line6, line7, 
+                                   line8, line9, line10, line11)
+                #names(cleantable)<- names(line3)
+                #colnames(line7)<- names(line3)
+                #cleantable<- rbind(cleantable, line3, line7)
+                
+            }
+            
         }
-        line8<-data.frame(t(line8))
-        line8[line8==""]<- "NA"
-        rownames(line8)<-"new_neoplasm_event_type"
-        colnames(line8) <- colnames(t6)
         
-        
-        ### new_tumor_event_after_initial_treatment
-        
-        num7<- grep("^new_tumor_event_after_initial_treatment", 
-            rownames(xmlMatrix))
-        t7<- xmlMatrix[num7,]
-        t7[is.na(t7)]<-"0"
-        
-        t7.1<- data.frame(t((colSums(t7=="YES"))))
-        rownames(t7.1)<- "new_tumor_event_after_initial_treatment_yes"
-        
-        t7.2<- data.frame(t((colSums(t7=="NO"))))
-        rownames(t7.2)<- "new_tumor_event_after_initial_treatment_no"
-        
-        line9<- rbind(t7.1,t7.2)
-        
-        
-        #### additional_pharmaceutical_therapy
-        num<- grep("^additional_pharmaceutical_therapy", rownames(xmlMatrix))
-        t1<- xmlMatrix[num,]
-        t1[is.na(t1)]<-"0"
-        
-        t1.1<- data.frame(t((colSums(t1=="YES"))))
-        rownames(t1.1)<- "additional_pharmaceutical_therapy_yes"
-        
-        t1.2<- data.frame(t((colSums(t1=="NO"))))
-        rownames(t1.2)<- "additional_pharmaceutical_therapy_no"
-        
-        line10<- rbind(t1.1,t1.2)
-        
-        
-        ### additional_radiation_therapy
-        
-        num2<- grep("^additional_radiation_therapy", rownames(xmlMatrix))
-        t2<- xmlMatrix[num2,]
-        t2[is.na(t2)]<-"0"
-        
-        t2.1<- data.frame(t((colSums(t2=="YES"))))
-        rownames(t2.1)<- "additional_radiation_therapy_yes"
-        
-        t2.2<- data.frame(t((colSums(t2=="NO"))))
-        rownames(t2.2)<- "additional_radiation_therapy_no"
-        
-        line11<- rbind(t2.1,t2.2)
-        
-        
-        
-        ########## rbind #########
-        
-        cleantable<- rbind(line1, line2, line3, line5, line6, line7, 
-            line8, line9, line10, line11)
-        #names(cleantable)<- names(line3)
-        #colnames(line7)<- names(line3)
-        #cleantable<- rbind(cleantable, line3, line7)
         cleantable <- data.frame(t(cleantable), stringsAsFactors = FALSE)
         
         rownames(cleantable) <- gsub('.', '-', rownames(cleantable), 
@@ -307,3 +336,5 @@ getXMLFile <- function(folder) {
     xmlFile <- files[endsWith(files, '.xml')]
     return (xmlFile)
 }
+
+

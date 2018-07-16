@@ -52,6 +52,25 @@ gdcRNAMerge <- function(metadata, path, data.type, organized=TRUE) {
             paste('Number of genes: ', nGenes, '\n', sep=''))
         
         return (rnaMatrix)
+    } else if (data.type=='pre-miRNAs') {
+        message ('############### Merging pre-miRNAs data ################\n',
+                 '### This step may take a few minutes ###\n')
+        
+        rnaMatrix <- do.call("cbind", lapply(filenames, function(fl) 
+            read.delim(fl)$read_count))
+        rownames(rnaMatrix) <- read.delim(filenames[1])$miRNA_ID
+        
+        colnames(rnaMatrix) <- metadata$sample
+        
+        nSamples = ncol(rnaMatrix)
+        nGenes = nrow(rnaMatrix)
+        
+        message (paste('Number of samples: ', nSamples, '\n', sep=''),
+                 paste('Number of genes: ', nGenes, '\n', sep=''))
+        
+        return (rnaMatrix)
+        
+        
     } else if (data.type=='miRNAs') {
         message ('############### Merging miRNAs data ###############\n')
         
@@ -77,7 +96,6 @@ gdcRNAMerge <- function(metadata, path, data.type, organized=TRUE) {
         return ('error !!!')
     }
 }
-
 
 
 cleanMirFun <- function(fl) {

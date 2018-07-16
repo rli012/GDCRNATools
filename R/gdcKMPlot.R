@@ -75,7 +75,11 @@ gdcKMPlot <- function(gene, rna.expr, metadata, sep='median') {
     xpos = max(daysToDeath, na.rm=TRUE)/2
     ypos = 1.05
     
-    ggsurvplot(fit, data=survDa, pval = FALSE, pval.coord = c(2200, 1),
+    label = paste(ensembl2symbolFun(gene), ' (p=', pValue, ')', sep='')
+    
+    
+    ggsurvplot(fit, data=survDa, pval = label, pval.coord = xpos,
+        pval.size=5.2,
         font.main = c(14, 'bold', 'blue'), conf.int = FALSE, 
         legend = c(0.15, 0.2), 
         legend.labs = c('Low expression', 'High expression'),  
@@ -88,8 +92,8 @@ gdcKMPlot <- function(gene, rna.expr, metadata, sep='median') {
             panel.grid.minor = element_blank(),
             panel.border = element_rect(colour='black'),
             panel.background = element_blank(),
-            legend.text = element_text(size=14))) +
-        ggplot2::annotate("text", x = xpos, y = ypos,
-            label = paste(ensembl2symbolFun(gene), 
-                ' (p=', pValue, ')', sep=''), size = 5.2)
+            legend.text = element_text(size=14)))# +
+        #ggplot2::annotate("text", x = xpos, y = ypos,
+        #    label = paste(ensembl2symbolFun(gene), 
+        #        ' (p=', pValue, ')', sep=''), size = 5.2)
 }

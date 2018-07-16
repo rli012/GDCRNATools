@@ -64,7 +64,7 @@ gdcRNADownload <- function(manifest=NULL, project.id, data.type,
                         sum(nonex), 'files !', sep=' '))
                     manifest <- manifest[nonex,]
                     fnames = lapply(manifest$id,gdcdata,
-                        destination_dir=directory,overwrite=FALSE,
+                        destination_dir=directory,overwrite=TRUE,
                         progress=TRUE)
                 } else {
                     return(invisible())
@@ -72,7 +72,7 @@ gdcRNADownload <- function(manifest=NULL, project.id, data.type,
                 
             } else {
                 fnames = lapply(manifest$id,gdcdata,
-                    destination_dir=directory,overwrite=FALSE,
+                    destination_dir=directory,overwrite=TRUE,
                     progress=TRUE)
             }
             
@@ -192,6 +192,10 @@ gdcGetURL <- function(project.id, data.type) {
         data.category <- 'Clinical'
         data.type <- 'Clinical Supplement'
         workflow.type <- NA
+    } else if (data.type=='pre-miRNAs') {
+        data.category <- 'Transcriptome Profiling'
+        data.type <- 'miRNA Expression Quantification'
+        workflow.type <- 'BCGSC miRNA Profiling'
     }
     
     project <- paste('{"op":"in","content":{"field":"cases.',
