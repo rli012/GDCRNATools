@@ -78,7 +78,7 @@ gdcKMPlot <- function(gene, rna.expr, metadata, sep='median') {
     label = paste(ensembl2symbolFun(gene), ' (p=', pValue, ')', sep='')
     
     
-    ggsurvplot(fit, data=survDa, pval = label, pval.coord = xpos,
+    ggsurvplot(fit, data=survDa, pval = label, pval.coord = c(xpos,ypos),
         pval.size=5.2,
         font.main = c(14, 'bold', 'blue'), conf.int = FALSE, 
         legend = c(0.15, 0.2), 
