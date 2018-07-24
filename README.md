@@ -27,7 +27,7 @@ biocLite("GDCRNATools")
 ```
 
 ### 3.2 Installation locally
-Please download the compressed package here: [GDCRNATools_1.1.3.tar.gz](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_1.1.3.tar.gz)
+Please download the compressed package here: [GDCRNATools_0.99.16.tar.gz](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_0.99.16.tar.gz)
 
 
 #### 3.2.1 On Windows system
@@ -45,13 +45,13 @@ Please download the compressed package here: [GDCRNATools_1.1.3.tar.gz](https://
 
 * Run the following code in R
 ```R
-install.packages('GDCRNATools_1.1.3.tar.gz', repos = NULL, type='source')
+install.packages('GDCRNATools_0.99.16.tar.gz', repos = NULL, type='source')
 ```
 
 #### 3.2.2 On Linux and Mac systems
 Just run the following code in R
 ```R
-install.packages('GDCRNATools_1.1.3.tar.gz', repos = NULL, type='source')
+install.packages('GDCRNATools_0.99.16.tar.gz', repos = NULL, type='source')
 ```
 
 ### 3.3 Note
