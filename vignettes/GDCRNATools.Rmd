@@ -39,13 +39,20 @@ Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W.
 
 # `GDCRNATools` package installation 
 
-The R software for running `GDCRNATools` can be downloaded from [The Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/). The `GDCRNATools` package can be installed from [Bioconductor](https://www.bioconductor.org/).
+The stable release version can be installed by running:
+```{r stable version, eval=FALSE, message=FALSE, warning=FALSE}
+## try http:// if https:// URLs are not supported
+source("https://bioconductor.org/biocLite.R")
+biocLite("GDCRNATools")
+```
 
-```{r installation3, eval=FALSE, message=FALSE, warning=FALSE}
+To install the development version, please update your R and Biocondutor to the latest version and run:
+```{r stable version, eval=FALSE, message=FALSE, warning=FALSE}
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
 BiocManager::install("GDCRNATools")
 ```
+
 
 ```{r load, eval=TRUE, message=FALSE, warning=FALSE}
 library(GDCRNATools)
@@ -200,7 +207,7 @@ Users can also download data manually by providing the manifest file that is dow
 
 Step1: Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool) on the GDC website  
 Step2: Add data to the GDC cart, then download manifest file and metadata of the cart  
-Step3: Download data using `gdcRNADownload()` or `gdcClinicalDownload` functions by providing the manifest file 
+Step3: Download data using `gdcRNADownload()` or `gdcClinicalDownload()` functions by providing the manifest file 
 
 
 
