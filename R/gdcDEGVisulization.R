@@ -100,7 +100,7 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
                 scale_x_discrete(limits=d$geneClass[seq_len(nrow(d)/2)]) + 
                 scale_fill_discrete(name = "") +
                 ylab('No. of Differentially Expressed Genes') +
-                xlab('Type of genes') +
+                xlab('') +
                 #theme(axis.text.x = element_text(angle = angle)) +
                 theme_bw()+theme(axis.line = element_line(colour = "black"),
                     panel.grid.major = element_blank(),
@@ -115,7 +115,7 @@ gdcBarPlot <- function(deg, angle=0, data.type) {
                 scale_x_discrete(limits=d$geneClass[seq_len(nrow(d)/2)]) + 
                 scale_fill_discrete(name = "") +
                 ylab('No. of Differentially Expressed Genes') +
-                xlab('Type of genes') +
+                xlab('') +
                 #theme(axis.text.x = 
                 #element_text(angle = angle, vjust = 1, hjust=1)) +
                 theme_bw()+theme(axis.line = element_line(colour = "black"),

@@ -15,7 +15,7 @@
 ##'     \code{'GenomicDataCommons'} which is a well established method 
 ##'     developed in the \pkg{GenomicDataCommons'} package, or alternatively 
 ##'     \code{'gdc-client'} which uses the \code{gdc-client} tool developed 
-##'     by GDC. Default is \code{'GenomicDataCommons'}.
+##'     by GDC. Default is \code{'gdc-client'}.
 ##' @return downloaded files in the specified directory
 ##' @export
 ##' @author Ruidong Li and Han Qu
@@ -31,7 +31,7 @@
 ##'                     write.manifest = TRUE,
 ##'                     directory      = 'Clinical')}
 gdcClinicalDownload <- function(manifest=NULL, project.id, 
-    directory='Clinical', write.manifest=FALSE, method='GenomicDataCommons') {
+    directory='Clinical', write.manifest=FALSE, method='gdc-client') {
 
     data.type = 'Clinical'
     
@@ -98,7 +98,7 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
 ##' @param organized logical, whether the clinical data have already
 ##'     been organized into a single folder (eg., data downloaded by the
 ##'     'GenomicDataCommons' method are already organized). 
-##'     Default is \code{TRUE}.
+##'     Default is \code{FALSE}.
 ##' @importFrom XML xmlParse
 ##' @importFrom XML xmlApply
 ##' @importFrom XML getNodeSet
@@ -112,7 +112,7 @@ gdcClinicalDownload <- function(manifest=NULL, project.id,
 ##' ####### Merge clinical data #######
 ##' path <- 'Clinical/'
 ##' \dontrun{clinicalDa <- gdcClinicalMerge(path=path, key.info=TRUE)}
-gdcClinicalMerge <- function(path, key.info=TRUE, organized=TRUE) {
+gdcClinicalMerge <- function(path, key.info=TRUE, organized=FALSE) {
 
     options(stringsAsFactors = FALSE)
     

@@ -4,7 +4,7 @@
 \alias{gdcClinicalMerge}
 \title{Merge clinical data}
 \usage{
-gdcClinicalMerge(path, key.info = TRUE, organized = TRUE)
+gdcClinicalMerge(path, key.info = TRUE, organized = FALSE)
 }
 \arguments{
 \item{path}{path to downloaded files for merging}
@@ -16,7 +16,7 @@ such as age, stage, grade, overall survial, etc. will be returned}
 \item{organized}{logical, whether the clinical data have already
 been organized into a single folder (eg., data downloaded by the
 'GenomicDataCommons' method are already organized). 
-Default is \code{TRUE}.}
+Default is \code{FALSE}.}
 }
 \value{
 A dataframe of clinical data with rows are patients 

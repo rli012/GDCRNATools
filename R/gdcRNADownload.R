@@ -17,7 +17,7 @@
 ##'     \code{'GenomicDataCommons'} which is a well established method 
 ##'     developed in the \pkg{GenomicDataCommons'} package, or alternatively 
 ##'     \code{'gdc-client'} which uses the \code{gdc-client} tool developed 
-##'     by GDC. Default is \code{'GenomicDataCommons'}.
+##'     by GDC. Default is \code{'gdc-client'}.
 ##' @importFrom GenomicDataCommons gdcdata
 ##' @importFrom DT datatable
 ##' @return Downloaded files in the specified directory
@@ -32,7 +32,7 @@
 ##' project <- 'TCGA-PRAD'
 ##' \dontrun{gdcRNADownload(project.id=project, data.type='RNAseq')}
 gdcRNADownload <- function(manifest=NULL, project.id, data.type, 
-    directory='Data', write.manifest=FALSE, method='GenomicDataCommons') {
+    directory='Data', write.manifest=FALSE, method='gdc-client') {
 
     if (! is.null(manifest)) {
         manifestDownloadFun(manifest=manifest,directory=directory)
