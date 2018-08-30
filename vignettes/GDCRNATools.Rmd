@@ -42,8 +42,9 @@ Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W.
 The R software for running `GDCRNATools` can be downloaded from [The Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/). The `GDCRNATools` package can be installed from [Bioconductor](https://www.bioconductor.org/).
 
 ```{r installation3, eval=FALSE, message=FALSE, warning=FALSE}
-source("https://bioconductor.org/biocLite.R")
-biocLite("GDCRNATools")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("GDCRNATools")
 ```
 
 ```{r load, eval=TRUE, message=FALSE, warning=FALSE}

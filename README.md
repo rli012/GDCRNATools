@@ -22,8 +22,9 @@ R code of the workflow is available here: [GDCRNATools Workflow](https://github.
 
 ```R
 ## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("GDCRNATools")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("GDCRNATools")
 ```
 
 ### 3.2 Installation locally
@@ -57,22 +58,23 @@ install.packages('GDCRNATools_0.99.16.tar.gz', repos = NULL, type='source')
 ### 3.3 Note
 If `GDCRNATools` cannot be installed due to the lack of dependencies, please run the following code ahead to install those pacakges either simutaneously or separately:
 ```R
-source("https://bioconductor.org/biocLite.R")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
 
 ### install packages simutaneously ###
-biocLite(c('limma', 'edgeR', 'DESeq2', 'clusterProfiler', 'DOSE', 'org.Hs.eg.db', 'biomaRt', 'BiocParallel', 'GenomicDataCommons'))
+BiocManager::install(c('limma', 'edgeR', 'DESeq2', 'clusterProfiler', 'DOSE', 'org.Hs.eg.db', 'biomaRt', 'BiocParallel', 'GenomicDataCommons'))
 install.packages(c('shiny', 'jsonlite', 'rjson', 'survival', 'survminer', 'ggplot2', 'gplots', 'Hmisc', 'DT', 'matrixStats', 'xml2'))
 
 ### install packages seperately ###
-biocLite('limma')
-biocLite('edgeR')
-biocLite('DESeq2')
-biocLite('clusterProfiler')
-biocLite('DOSE')
-biocLite('org.Hs.eg.db')
-biocLite('biomaRt')
-biocLite('BiocParallel')
-biocLite('GenomicDataCommons')
+BiocManager::install('limma')
+BiocManager::install('edgeR')
+BiocManager::install('DESeq2')
+BiocManager::install('clusterProfiler')
+BiocManager::install('DOSE')
+BiocManager::install('org.Hs.eg.db')
+BiocManager::install('biomaRt')
+BiocManager::install('BiocParallel')
+BiocManager::install('GenomicDataCommons')
 
 install.packages('shiny')
 install.packages('jsonlite')
