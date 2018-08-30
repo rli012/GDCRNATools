@@ -7,7 +7,7 @@
 ##' @param organized logical, whether the raw counts data have already
 ##'     been organized into a single folder (eg., data downloaded by the
 ##'     'GenomicDataCommons' method are already organized). 
-##'     Default is \code{TRUE}.
+##'     Default is \code{FALSE}.
 ##' @return A dataframe or numeric matrix of raw counts data with rows 
 ##'     are genes or miRNAs and columns are samples
 ##' @export
@@ -18,7 +18,7 @@
 ##'     data.type='RNAseq')
 ##' \dontrun{rnaExpr <- gdcRNAMerge(metadata=metaMatrix, path='RNAseq/', 
 ##'     data.type='RNAseq')}
-gdcRNAMerge <- function(metadata, path, data.type, organized=TRUE) {
+gdcRNAMerge <- function(metadata, path, data.type, organized=FALSE) {
     
     #if (endsWith(path, '/')) {
     #  path = substr(path, 1, nchar(path)-1)

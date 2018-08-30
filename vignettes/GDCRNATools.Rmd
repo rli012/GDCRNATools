@@ -30,6 +30,13 @@ This user-friendly package allows researchers perform the analysis by simply run
 
 ***
 
+# Citation
+If you use `GDCRNATools` in your published research, please cite:
+
+Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W., and Jia, Z. (2018). GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, miRNA and mRNA data in GDC. Bioinformatics 34, 2515-2517. https://doi.org/10.1093/bioinformatics/bty124.
+
+***
+
 # `GDCRNATools` package installation 
 
 The R software for running `GDCRNATools` can be downloaded from [The Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/). The `GDCRNATools` package can be installed from [Bioconductor](https://www.bioconductor.org/).
@@ -150,10 +157,11 @@ In this section, we use the whole datasets of TCGA-CHOL project as an example to
 ## Data download
 > Two methods are provided for downloading Gene Expression Quantification (HTSeq-Counts), Isoform Expression Quantification (BCGSC miRNA Profiling), and Clinical (Clinical Supplement) data:
 
-### Automatic download  
-To provide users a convenient method for data download, by default, we used the API method developed in the `GenomicDataCommons` package to download data automatically by specifying `data.type` and `project.id` arguments. An alternative method using the `gdc-client` for automatic download is also provided in case that the API method fails.
+### Automatic download 
+#### Download RNA and mature miRNA expression data
+To provide users a convenient method for data download, by default, we used the `gdc-client` method to download data automatically by specifying `data.type` and `project.id` arguments. The API method developed in the `GenomicDataCommons` package is also provided.
 
-```{r manual, eval=FALSE, message=FALSE, warning=FALSE}
+```{r auto rna, eval=FALSE, message=FALSE, warning=FALSE}
 project <- 'TCGA-CHOL'
 rnadir <- paste(project, 'RNAseq', sep='/')
 mirdir <- paste(project, 'miRNAs', sep='/')
@@ -162,22 +170,36 @@ mirdir <- paste(project, 'miRNAs', sep='/')
 gdcRNADownload(project.id     = 'TCGA-CHOL', 
                data.type      = 'RNAseq', 
                write.manifest = FALSE,
+               method         = 'gdc-client',
                directory      = rnadir)
 
-####### Download miRNAs data #######
+####### Download mature miRNA data #######
 gdcRNADownload(project.id     = 'TCGA-CHOL', 
                data.type      = 'miRNAs', 
                write.manifest = FALSE,
+               method         = 'gdc-client',
                directory      = mirdir)
 
 ```
+
+#### Download clinical data
+```{r auto clinical, eval=FALSE, message=FALSE, warning=FALSE}
+####### Download clinical data #######
+clinicaldir <- paste(project, 'Clinical', sep='/')
+gdcClinicalDownload(project.id     = 'TCGA-CHOL', 
+                    write.manifest = FALSE,
+                    method         = 'gdc-client',
+                    directory      = clinicaldir)
+
+```
+
 
 ### Manual download  
 Users can also download data manually by providing the manifest file that is downloaded from the GDC cart
 
 Step1: Download [GDC Data Transfer Tool](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool) on the GDC website  
 Step2: Add data to the GDC cart, then download manifest file and metadata of the cart  
-Step3: Download data using `gdcRNADownload()` function by providing the manifest file 
+Step3: Download data using `gdcRNADownload()` or `gdcClinicalDownload` functions by providing the manifest file 
 
 
 
@@ -221,20 +243,29 @@ metaMatrix.MIR <- gdcFilterSampleType(metaMatrix.MIR)
 
 ### Merge raw counts data
 
-`gdcRNAMerge()` merges raw counts data of RNAseq to a single expression matrix with rows are *Ensembl id* and columns are *samples*. Total read counts for 5p and 3p strands of miRNAs can be processed from isoform quantification files and then merged to a single expression matrix with rows are *miRBase v21 identifiers* and columns are *samples*.
+`gdcRNAMerge()` merges raw counts data of RNAseq to a single expression matrix with rows are *Ensembl id* and columns are *samples*. Total read counts for 5p and 3p strands of miRNAs can be processed from isoform quantification files and then merged to a single expression matrix with rows are *miRBase v21 identifiers* and columns are *samples*. If data for different samples are in separate folders, specify `organized=FALSE`, otherwise, specify `organized=TRUE`.
 
 ```{r merge RNAseq, message=FALSE, warning=FALSE, eval=FALSE}
 ####### Merge RNAseq data #######
 rnaCounts <- gdcRNAMerge(metadata  = metaMatrix.RNA, 
-                         path      = rnadir, 
+                         path      = rnadir, # the folder in which the data stored
+                         organized = FALSE, # if the data are in separate folders
                          data.type = 'RNAseq')
 
 ####### Merge miRNAs data #######
 mirCounts <- gdcRNAMerge(metadata  = metaMatrix.MIR,
-                         path      = mirdir,
+                         path      = mirdir, # the folder in which the data stored
+                         organized = FALSE, # if the data are in separate folders
                          data.type = 'miRNAs')
 ```
 
+### Merge clinical data
+By specifying `key.info=TRUE`, only common clinical information will be organized and reported. Otherwise, all the clinical information from the XML files will be extracted.
+```{r merge clinical, message=FALSE, warning=FALSE, eval=FALSE}
+####### Merge clinical data #######
+clinicalDa <- gdcClinicalMerge(path = clinicaldir, key.info = TRUE)
+clinicalDa[1:6,5:10]
+```
 
 ### TMM normalization and voom transformation
 
@@ -281,6 +312,32 @@ deLNC <- gdcDEReport(deg = DEGAll, gene.type = 'long_non_coding')
 ### DE protein coding genes
 dePC <- gdcDEReport(deg = DEGAll, gene.type = 'protein_coding')
 ```
+
+
+### DEG visualization
+Volcano plot and bar plot are used to visualize DE analysis results in different manners by `gdcVolcanoPlot()` and `gdcBarPlot()` functions, respectively . Hierarchical clustering on the expression matrix of DEGs can be analyzed and plotted by the `gdcHeatmap()` function.
+
+#### Volcano plot
+```{r volcano, fig.align='center', fig.width=5, message=FALSE, warning=FALSE, eval=TRUE}
+gdcVolcanoPlot(DEGAll)
+```
+
+
+
+#### Barplot
+```{r barplot, fig.align='center', fig.height=6, message=FALSE, warning=FALSE, eval=TRUE}
+gdcBarPlot(deg = deALL, angle = 45, data.type = 'RNAseq')
+```
+
+
+#### Heatmap
+Heatmap is generated based on the `heatmap.2()` function in [gplots](https://cran.r-project.org/web/packages/gplots/index.html) package.
+```{r heatmap, message=FALSE, warning=FALSE, eval=FALSE}
+degName = rownames(deALL)
+gdcHeatmap(deg.id = degName, metadata = metaMatrix.RNA, rna.expr = rnaExpr)
+```
+
+![](figures/gdcHeatmap.png)
 
 
 ## Competing endogenous RNAs network analysis
@@ -394,8 +451,6 @@ write.table(nodes, file='nodes.txt', sep='\t', quote=F)
 
 
 ![](figures/network.png)
-
-
 
 ### Correlation plot on a local webpage
 

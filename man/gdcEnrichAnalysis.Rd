@@ -29,7 +29,7 @@ Performs Gene Ontology (GO), Kyoto Encyclopedia of Genes
 }
 \examples{
 ####### GO, KEGG, DO enrichment analysis #######
-genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
+deg <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
         'ENSG00000001084','ENSG00000001167','ENSG00000001460')
 \dontrun{enrichOutput <- gdcEnrichAnalysis(gene=deg, simplify=TRUE)}
 }

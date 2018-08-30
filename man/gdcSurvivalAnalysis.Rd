@@ -5,7 +5,7 @@
 \title{Univariate survival analysis of multiple genes}
 \usage{
 gdcSurvivalAnalysis(gene, rna.expr, metadata, method = "coxph",
-    sep = "median")
+  sep = "median")
 }
 \arguments{
 \item{gene}{a vector of Ensembl gene ids}
@@ -37,7 +37,7 @@ genes <- c('ENSG00000000938','ENSG00000000971','ENSG00000001036',
 samples <- c('TCGA-2F-A9KO-01', 'TCGA-2F-A9KP-01',
             'TCGA-2F-A9KQ-01', 'TCGA-2F-A9KR-01',
             'TCGA-2F-A9KT-01', 'TCGA-2F-A9KW-01')
-
+             
 metaMatrix <- data.frame(sample_type=rep('PrimaryTumor',6),
                         sample=samples,
                         days_to_death=seq(100,600,100),

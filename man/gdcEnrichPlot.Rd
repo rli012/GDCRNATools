@@ -4,8 +4,8 @@
 \alias{gdcEnrichPlot}
 \title{Plots for enrichment analysis}
 \usage{
-gdcEnrichPlot(enrichment, type = "bar", category = "KEGG", num.terms = 10,
-    bar.color = "black")
+gdcEnrichPlot(enrichment, type = "bar", category = "KEGG",
+  num.terms = 10, bar.color = "black")
 }
 \arguments{
 \item{enrichment}{a dataframe generated from 

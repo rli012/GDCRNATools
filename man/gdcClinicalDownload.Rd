@@ -4,8 +4,9 @@
 \alias{gdcClinicalDownload}
 \title{Download clinical data in GDC}
 \usage{
-gdcClinicalDownload(manifest = NULL, project.id, directory = "Clinical",
-    write.manifest = FALSE, method = "GenomicDataCommons")
+gdcClinicalDownload(manifest = NULL, project.id,
+  directory = "Clinical", write.manifest = FALSE,
+  method = "gdc-client")
 }
 \arguments{
 \item{manifest}{menifest file that is downloaded from the GDC cart. 
@@ -25,7 +26,7 @@ Default is \code{'Clinical'}}
 \code{'GenomicDataCommons'} which is a well established method 
 developed in the \pkg{GenomicDataCommons'} package, or alternatively 
 \code{'gdc-client'} which uses the \code{gdc-client} tool developed 
-by GDC. Default is \code{'GenomicDataCommons'}.}
+by GDC. Default is \code{'gdc-client'}.}
 }
 \value{
 downloaded files in the specified directory
@@ -40,7 +41,7 @@ Download clinical data in GDC
 manifest <- 'Clinical.manifest.txt'
 \dontrun{gdcClinicalDownload(manifest  = manifest,
                     directory = 'Clinical')}
-
+                   
 ####### Download Clinical data by project id #######
 project <- 'TCGA-PRAD'
 \dontrun{gdcClinicalDownload(project.id     = project, 

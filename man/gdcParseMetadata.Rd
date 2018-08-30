@@ -4,7 +4,8 @@
 \alias{gdcParseMetadata}
 \title{Parse metadata}
 \usage{
-gdcParseMetadata(metafile = NULL, project.id, data.type, write.meta = FALSE)
+gdcParseMetadata(metafile = NULL, project.id, data.type,
+  write.meta = FALSE)
 }
 \arguments{
 \item{metafile}{metadata file in \code{.json} format download 
