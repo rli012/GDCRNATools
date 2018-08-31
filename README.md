@@ -1,42 +1,10 @@
 # *GDCRNATools* - an R/Bioconductor package for downloading, organizing, and integrative analyzing lncRNA, mRNA, and miRNA data in GDC
 
-## Frequently Asked Questions.
-**Q1:** gdcRNADownload() function doesn't work with the following error:  
-Error in FUN(X[[i]], ...):  
-    unused arguments(desination_dir=directory, overwrite=TRUE)  
-**A1:** This error occurs when the default API method for downloading fails. Please add   `method='gdc-client'` to the gdcRNADownload() function.
-
-```R
-####### Download RNAseq data #######
-project <- 'TCGA-CHOL'
-rnadir <- paste(project, 'RNAseq', sep='/')
-gdcRNADownload(project.id     = 'TCGA-CHOL', 
-               data.type      = 'RNAseq', 
-               write.manifest = FALSE,
-               method         = 'gdc-client', ### use 'gdc-client' to download data
-               directory      = rnadir)
-```
-
-**Q2:** gdcRNAMerge() doesn't work with the following error:  
-Error in open.connection(file, 'rt'): cannot open the connection  
-In addition: Warning message:  
-In open.connection(file, 'rt'):  
-    cannot open compressed file 'TCGA-XXXX/RNAseq/xxx-xxx-xxx-xxx.htseq.counts.gz', probable reason 'No such file or directory'.  
-**A2:** This is usually because the data for different samples are downloaded in separate   folders. Please add `organized=FALSE` to the gdcRNAMerge() function.
-
-```R
-####### Merge RNAseq data #######
-rnaCounts <- gdcRNAMerge(metadata  = metaMatrix.RNA, 
-                         path      = rnadir,
-                         organized = FALSE, # if the data are in separate folders
-                         data.type = 'RNAseq')
-```
-
-**Q3:** How to cite `GDCRNATools` ?  
-**A2:** If you use `GDCRNATools` in your published research, please cite:  
-Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W., and Jia, Z. (2018). GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, miRNA and mRNA data in GDC. Bioinformatics 34, 2515-2517. https://doi.org/10.1093/bioinformatics/bty124.
 
 **The [GDCRNATools Manual](http://bioconductor.org/packages/devel/bioc/vignettes/GDCRNATools/inst/doc/GDCRNATools.html) and R code of the [GDCRNATools Workflow](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools.workflow.R) has been updated in 08-30-2018.**
+
+**If you use `GDCRNATools` in your published research, please cite:**  
+Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W., and Jia, Z. (2018). GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, miRNA and mRNA data in GDC. Bioinformatics 34, 2515-2517. https://doi.org/10.1093/bioinformatics/bty124.
 
 **Please add my WeChat: li-rui-dong or email to rli012@ucr.edu if you have further questions**
 
@@ -127,4 +95,37 @@ install.packages('Hmisc')
 install.packages('DT')
 install.packages('matrixStats')
 install.packages('xml2')
+```
+
+
+## 4. Frequently Asked Questions.
+**Q1: gdcRNADownload() function doesn't work with the following error:**  
+Error in FUN(X[[i]], ...):  
+    unused arguments(desination_dir=directory, overwrite=TRUE)  
+**A1:** This error occurs when the default API method for downloading fails. Please add   `method='gdc-client'` to the gdcRNADownload() function.
+
+```R
+####### Download RNAseq data #######
+project <- 'TCGA-CHOL'
+rnadir <- paste(project, 'RNAseq', sep='/')
+gdcRNADownload(project.id     = 'TCGA-CHOL', 
+               data.type      = 'RNAseq', 
+               write.manifest = FALSE,
+               method         = 'gdc-client', ### use 'gdc-client' to download data
+               directory      = rnadir)
+```
+
+**Q2: gdcRNAMerge() doesn't work with the following error:**  
+Error in open.connection(file, 'rt'): cannot open the connection  
+In addition: Warning message:  
+In open.connection(file, 'rt'):  
+    cannot open compressed file 'TCGA-XXXX/RNAseq/xxx-xxx-xxx-xxx.htseq.counts.gz', probable reason 'No such file or directory'.  
+**A2:** This is usually because the data for different samples are downloaded in separate   folders. Please add `organized=FALSE` to the gdcRNAMerge() function.
+
+```R
+####### Merge RNAseq data #######
+rnaCounts <- gdcRNAMerge(metadata  = metaMatrix.RNA, 
+                         path      = rnadir,
+                         organized = FALSE, # if the data are in separate folders
+                         data.type = 'RNAseq')
 ```
