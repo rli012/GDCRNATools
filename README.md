@@ -1,13 +1,16 @@
 # *GDCRNATools* - an R/Bioconductor package for downloading, organizing, and integrative analyzing lncRNA, mRNA, and miRNA data in GDC
 
 
-**The [GDCRNATools Manual](http://bioconductor.org/packages/devel/bioc/vignettes/GDCRNATools/inst/doc/GDCRNATools.html) and R code of the [GDCRNATools Workflow](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools.workflow.R) has been updated in 08-30-2018.**
+**The [GDCRNATools Manual](http://bioconductor.org/packages/devel/bioc/vignettes/GDCRNATools/inst/doc/GDCRNATools.html) and R code of the [GDCRNATools Workflow](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools.workflow.R) has been updated in 08-31-2018.**
+
+**It's recommended to install the development version of GDCRNATools.**
 
 **If you use `GDCRNATools` in your published research, please cite:**  
 Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W., and Jia, Z. (2018). GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, miRNA and mRNA data in GDC. Bioinformatics 34, 2515-2517. https://doi.org/10.1093/bioinformatics/bty124.
 
 **Please add my WeChat: li-rui-dong or email to rli012@ucr.edu if you have further questions**
 
+***
 
 ## 1. Introduction
 
@@ -29,14 +32,19 @@ R code of the workflow is available here: [GDCRNATools Workflow](https://github.
 *[`GDCRNATools`](http://bioconductor.org/packages/devel/bioc/html/GDCRNATools.html) requires R(>=3.5.0) and Bioconductor(>=3.7)*. To install this package, start R and enter:
 
 ```R
+### The stable release version can be installed by running:
 ## try http:// if https:// URLs are not supported
+source("https://bioconductor.org/biocLite.R")
+biocLite("GDCRNATools")
+
+### To install the development version, please update your R and Biocondutor to the latest version and run:
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
-BiocManager::install("GDCRNATools")
+BiocManager::install("GDCRNATools", version = "devel")
 ```
 
 ### 3.2 Installation locally
-Please download the compressed package here: [GDCRNATools_1.1.4.tar.gz](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_1.1.4.tar.gz)
+Please download the compressed package here: [GDCRNATools_1.1.5.tar.gz](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_1.1.5.tar.gz)
 
 
 #### 3.2.1 On Windows system
@@ -54,13 +62,13 @@ Please download the compressed package here: [GDCRNATools_1.1.4.tar.gz](https://
 
 * Run the following code in R
 ```R
-install.packages('GDCRNATools_1.1.4.tar.gz', repos = NULL, type='source')
+install.packages('GDCRNATools_1.1.5.tar.gz', repos = NULL, type='source')
 ```
 
 #### 3.2.2 On Linux and Mac systems
 Just run the following code in R
 ```R
-install.packages('GDCRNATools_1.1.4.tar.gz', repos = NULL, type='source')
+install.packages('GDCRNATools_1.1.5.tar.gz', repos = NULL, type='source')
 ```
 
 ### 3.3 Note

@@ -47,10 +47,10 @@ biocLite("GDCRNATools")
 ```
 
 To install the development version, please update your R and Biocondutor to the latest version and run:
-```{r stable version, eval=FALSE, message=FALSE, warning=FALSE}
+```{r development version, eval=FALSE, message=FALSE, warning=FALSE}
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
-BiocManager::install("GDCRNATools")
+BiocManager::install("GDCRNATools", version = "devel")
 ```
 
 
@@ -460,6 +460,17 @@ write.table(nodes, file='nodes.txt', sep='\t', quote=F)
 
 ![](figures/network.png)
 
+### Correlation plot
+```{r cor plot, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE}
+gdcCorPlot(gene1    = 'ENSG00000251165', 
+           gene2    = 'ENSG00000091831', 
+           rna.expr = rnaExpr, 
+           metadata = metaMatrix.RNA)
+```
+
+![](figures/cor.png)
+
+
 ### Correlation plot on a local webpage
 
 `shinyCorPlot()` , a interactive plot function based on `shiny` package, can be easily operated by just clicking the genes in each drop down box (in the GUI window). By running `shinyCorPlot()` function, a local webpage would pop up and correlation plot between a lncRNA and mRNA would be automatically shown.
@@ -505,8 +516,18 @@ survOutput <- gdcSurvivalAnalysis(gene     = rownames(deALL),
 ```
 
 
+#### KM plot
+```{r km plot, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
+gdcKMPlot(gene     = 'ENSG00000136193',
+          rna.expr = rnaExpr,
+          metadata = metaMatrix.RNA,
+          sep      = 'median')
+```
+
+![](figures/TCGA-CHOL.KMPlot.png)
+
 #### KM plot on a local webpage by shinyKMPlot
-The `shinyKMPlot()` function is also a simply `shiny` app which allow users view KM plots (based on the R package [survminer](https://cran.r-project.org/web/packages/survminer/index.html).) of all genes of interests on a local webpackage conveniently.
+The `shinyKMPlot()` function is also a simple `shiny` app which allow users view KM plots (based on the R package [survminer](https://cran.r-project.org/web/packages/survminer/index.html).) of all genes of interests on a local webpackage conveniently.
 
 ```{r shiny km plot, eval=FALSE, echo=TRUE, message=FALSE, warning=FALSE, eval=FALSE}
 shinyKMPlot(gene = rownames(deALL), rna.expr = rnaExpr, 
