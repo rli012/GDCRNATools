@@ -8,7 +8,7 @@
 **\* If you use `GDCRNATools` in your published research, please cite:**  
 Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W., and Jia, Z. (2018). GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, miRNA and mRNA data in GDC. Bioinformatics 34, 2515-2517. https://doi.org/10.1093/bioinformatics/bty124.
 
-**\* Please add my WeChat: li-rui-dong or email to rli012@ucr.edu if you have further questions**
+**\* Please add my WeChat: li-rui-dong or email to rli012@ucr.edu if you have further questions.**
 
 ***
 
@@ -29,15 +29,17 @@ R code of the workflow is available here: [GDCRNATools Workflow](https://github.
 
 ## 3. Installation
 ### 3.1 Installation via Bioconductor
-*[`GDCRNATools`](http://bioconductor.org/packages/devel/bioc/html/GDCRNATools.html) requires R(>=3.5.0) and Bioconductor(>=3.7)*. To install this package, start R and enter:
+* The stable release version of [`GDCRNATools`](https://bioconductor.org/packages/release/bioc/html/GDCRNATools.html) requires R(>=3.5.0) and Bioconductor(>=3.7)*. To install this package, start R and enter:
 
 ```R
-### The stable release version can be installed by running:
 ## try http:// if https:// URLs are not supported
 source("https://bioconductor.org/biocLite.R")
 biocLite("GDCRNATools")
+```
 
-### To install the development version, please update your R and Biocondutor to the latest version and run:
+* To install the development version of [`GDCRNATools`](https://bioconductor.org/packages/devel/bioc/html/GDCRNATools.html), please update your R and Biocondutor to the latest version and run:
+
+```R
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
 BiocManager::install("GDCRNATools", version = "devel")
