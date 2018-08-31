@@ -29,7 +29,7 @@ R code of the workflow is available here: [GDCRNATools Workflow](https://github.
 
 ## 3. Installation
 ### 3.1 Installation via Bioconductor
-* The stable release version of [`GDCRNATools`](https://bioconductor.org/packages/release/bioc/html/GDCRNATools.html) requires R(>=3.5.0) and Bioconductor(>=3.7)*. To install this package, start R and enter:
+* The stable release version of [`GDCRNATools`](https://bioconductor.org/packages/release/bioc/html/GDCRNATools.html) requires R(>=3.5.0) and Bioconductor(>=3.7)*. Start R and enter:
 
 ```R
 ## try http:// if https:// URLs are not supported
