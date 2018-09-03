@@ -46,7 +46,11 @@ BiocManager::install("GDCRNATools", version = "devel")
 ```
 
 ### 3.2 Installation locally
+<<<<<<< HEAD
 Please download the compressed package here: [GDCRNATools_1.1.5.tar.gz](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_1.1.5.tar.gz)
+=======
+Please download the compressed package here: [GDCRNATools_1.1.4.tar.gz](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools_1.1.4.tar.gz)
+>>>>>>> RELEASE_3_7
 
 
 #### 3.2.1 On Windows system
@@ -64,13 +68,21 @@ Please download the compressed package here: [GDCRNATools_1.1.5.tar.gz](https://
 
 * Run the following code in R
 ```R
+<<<<<<< HEAD
 install.packages('GDCRNATools_1.1.5.tar.gz', repos = NULL, type='source')
+=======
+install.packages('GDCRNATools_1.1.4.tar.gz', repos = NULL, type='source')
+>>>>>>> RELEASE_3_7
 ```
 
 #### 3.2.2 On Linux and Mac systems
 Just run the following code in R
 ```R
+<<<<<<< HEAD
 install.packages('GDCRNATools_1.1.5.tar.gz', repos = NULL, type='source')
+=======
+install.packages('GDCRNATools_1.1.4.tar.gz', repos = NULL, type='source')
+>>>>>>> RELEASE_3_7
 ```
 
 ### 3.3 Note
