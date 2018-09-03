@@ -65,12 +65,12 @@ gdcCorPlot <- function(gene1, gene2, rna.expr, metadata) {
         ggplot2::annotate("text", x = xpos, y = ypos, 
             label = paste('cor=', c, ', p=', p, sep=''), size = 5) +
         theme_bw()+theme(legend.title = element_blank(),
-            legend.text = element_text(size=12),
+            legend.text = element_text(size=14),
             axis.line = element_line(colour = "black"),
             panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
             panel.border = element_rect(colour='white'),
             panel.background = element_blank(),
-            axis.text = element_text(size=10),
+            axis.text = element_text(size=14),
             axis.title = element_text(size=14))
 }

@@ -37,11 +37,13 @@
 ##' gdcKMPlot(gene='ENSG00000000938', rna.expr=rnaExpr, 
 ##'     metadata=metaMatrix, sep='median')
 gdcKMPlot <- function(gene, rna.expr, metadata, sep='median') {
+    
     metadata <- metadata[metadata$sample_type=='PrimaryTumor',]
     
     samples = intersect(colnames(rna.expr), metadata$sample)
     
     exprDa=rna.expr[gene,samples]
+    
     
     if (sep=='1stQu') {
         thresh <- as.numeric(summary(exprDa)[2])
@@ -55,6 +57,9 @@ gdcKMPlot <- function(gene, rna.expr, metadata, sep='median') {
     
     exprGroup <- exprDa > thresh
     
+    nH <- sum(exprGroup)
+    nL <- sum(!exprGroup)
+    
     clinicalDa=metadata[match(samples,metadata$sample),]
     
     daysToDeath <- as.numeric(clinicalDa$days_to_death)
@@ -66,34 +71,60 @@ gdcKMPlot <- function(gene, rna.expr, metadata, sep='median') {
     
     survDa <- data.frame(daysToDeath,vitalStatus, exprGroup)
     
-    
     sdf <- survdiff(Surv(daysToDeath, vitalStatus) ~ exprGroup)
     pValue <- format(pchisq(sdf$chisq, length(sdf$n)-1, 
-        lower.tail = FALSE),digits=3)
+                            lower.tail = FALSE),digits=3)
+    #pValue <- format(1-pchisq(sdf$chisq, df=1),digits=3)
+    
+    HR = (sdf$obs[2]/sdf$exp[2])/(sdf$obs[1]/sdf$exp[1])
+    upper95 = exp(log(HR) + qnorm(0.975)*sqrt(1/sdf$exp[2]+1/sdf$exp[1]))
+    lower95 = exp(log(HR) - qnorm(0.975)*sqrt(1/sdf$exp[2]+1/sdf$exp[1]))
+    
+    HR <- format(HR, digits = 3)
+    upper95 <- format(upper95, digits = 3)
+    lower95 <- format(lower95, digits = 3)
+    
+    
+    label1 <- paste('HR = ', HR, ' (', lower95, '-', upper95, ')', sep='')
+    label2 <- paste('logrank P value = ', pValue, sep='')
     
     fit <- survfit(Surv(daysToDeath, vitalStatus) ~ exprGroup, data=survDa)
-    xpos = max(daysToDeath, na.rm=TRUE)/2
-    ypos = 1.05
     
-    label = paste(ensembl2symbolFun(gene), ' (p=', pValue, ')', sep='')
+    lgdXpos <- 1/1.3
+    lgdYpos = 0.9
     
+    xpos = max(daysToDeath, na.rm=TRUE)/1.8
+    ypos1 = 0.8
     
-    ggsurvplot(fit, data=survDa, pval = label, pval.coord = c(xpos,ypos),
-        pval.size=5.2,
-        font.main = c(14, 'bold', 'blue'), conf.int = FALSE, 
-        legend = c(0.15, 0.2), 
-        legend.labs = c('Low expression', 'High expression'),  
-        legend.title='',
-        xlab = 'Overall survival (days)', ylab = 'Survival probability',
-        font.x = c(16), font.y = c(16), ylim=c(0,1.05), 
-        ggtheme = theme_bw()+ theme(axis.line = 
-            element_line(colour = "black"),
-            panel.grid.major = element_blank(),
-            panel.grid.minor = element_blank(),
-            panel.border = element_rect(colour='black'),
-            panel.background = element_blank(),
-            legend.text = element_text(size=14)))# +
-        #ggplot2::annotate("text", x = xpos, y = ypos,
-        #    label = paste(ensembl2symbolFun(gene), 
-        #        ' (p=', pValue, ')', sep=''), size = 5.2)
+    ypos2 = 0.75
+    
+    ggsurvplot(fit, data=survDa, pval = paste(label1, '\n', label2), pval.coord = c(xpos, ypos1),
+               pval.size=5,
+               font.main = c(16, 'bold', 'black'), conf.int = FALSE, 
+               #title = project,
+               legend = c(lgdXpos, lgdYpos), 
+               #color = c('blue', 'green'),
+               palette= c('blue', 'red'),
+               legend.labs = c(paste('lowExp (N=',nL,')',sep=''), 
+                               paste('highExp  (N=',nH,')',sep='')),  
+               legend.title='group',
+               xlab = paste('Overall survival (days)'), ylab = 'Survival probability',
+               #xlab = paste(type,'(months)'), ylab = 'Survival probability',
+               font.x = c(16), font.y = c(16), ylim=c(0,1), #16
+               ggtheme = theme_bw()+ theme(axis.line = element_line(colour = "black"),
+                                           panel.grid.major = element_blank(),
+                                           panel.grid.minor = element_blank(),
+                                           #panel.border = element_rect(colour='black'),
+                                           panel.border = element_blank(),
+                                           panel.background = element_blank(),
+                                           legend.text = element_text(size=12),#14
+                                           legend.title = element_text(size=14),
+                                           axis.text = element_text(size=14, color='black'))) #+
+    #ggplot2::annotate("text", x = xpos, y = ypos1,
+    #                  label = label1, size = 5) + #5.2
+    #ggplot2::annotate("text", x = xpos, y = ypos2,
+    #                  label = label2, size = 5)
+    #ggplot2::geom_text(x = xpos, y = ypos1,label = label1, size=5)
+    
 }
+
