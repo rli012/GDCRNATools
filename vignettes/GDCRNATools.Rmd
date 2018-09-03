@@ -47,11 +47,7 @@ biocLite("GDCRNATools")
 ```
 
 To install the development version, please update your R and Biocondutor to the latest version and run:
-<<<<<<< HEAD
 ```{r development version, eval=FALSE, message=FALSE, warning=FALSE}
-=======
-```{r stable version, eval=FALSE, message=FALSE, warning=FALSE}
->>>>>>> RELEASE_3_7
 if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
 BiocManager::install("GDCRNATools", version = "devel")
