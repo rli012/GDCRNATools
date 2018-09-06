@@ -33,8 +33,9 @@ R code of the workflow is available here: [GDCRNATools Workflow](https://github.
 
 ```R
 ## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("GDCRNATools")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("GDCRNATools")
 ```
 
 * To install the development version of [`GDCRNATools`](https://bioconductor.org/packages/devel/bioc/html/GDCRNATools.html), please update your R and Biocondutor to the latest version and run:
