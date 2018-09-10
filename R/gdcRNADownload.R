@@ -210,7 +210,9 @@ gdcGetURL <- function(project.id, data.type) {
     
     
     if (is.na(workflow.type)) {
-        content <- paste(project, dataCategory, dataType, sep=',')
+        dataFormat <- paste('{"op":"in","content":{"field":"files.',
+            'data_format","value":"', 'BCR XML', '"}}', sep='')
+        content <- paste(project, dataCategory, dataType, dataFormat, sep=',')
     } else {
         content <- paste(project, dataCategory, dataType, 
             workflowType, sep=',')
