@@ -42,8 +42,9 @@ Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W.
 The stable release version can be installed by running:
 ```{r stable version, eval=FALSE, message=FALSE, warning=FALSE}
 ## try http:// if https:// URLs are not supported
-source("https://bioconductor.org/biocLite.R")
-biocLite("GDCRNATools")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+BiocManager::install("GDCRNATools")
 ```
 
 To install the development version, please update your R and Biocondutor to the latest version and run:
