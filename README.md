@@ -1,7 +1,7 @@
 # *GDCRNATools* - an R/Bioconductor package for downloading, organizing, and integrative analyzing lncRNA, mRNA, and miRNA data in GDC
 
 
-* **The [GDCRNATools Manual](http://bioconductor.org/packages/devel/bioc/vignettes/GDCRNATools/inst/doc/GDCRNATools.html) and R code of the [GDCRNATools Workflow](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools.workflow.R) has been updated in 08-31-2018.**
+* **The [GDCRNATools Manual](http://bioconductor.org/packages/devel/bioc/vignettes/GDCRNATools/inst/doc/GDCRNATools.html) and R code of the [GDCRNATools Workflow](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools.workflow.R) has been updated in 10-30-2018.**
 
 * **If you use `GDCRNATools` in your published research, please cite:**  
 Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W., and Jia, Z. (2018). GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, miRNA and mRNA data in GDC. Bioinformatics 34, 2515-2517. https://doi.org/10.1093/bioinformatics/bty124.
@@ -18,7 +18,7 @@ The [Genomic Data Commons (GDC)](https://portal.gdc.cancer.gov/) maintains stand
 
 
 
-## 2. Manual and R script (updated in 08-30-2018)
+## 2. Manual and R script (updated in 10-30-2018)
 The comprehensive manual of `GDCRNATools` is available here: [GDCRNATools Manual](http://bioconductor.org/packages/devel/bioc/vignettes/GDCRNATools/inst/doc/GDCRNATools.html)
 
 R code of the workflow is available here: [GDCRNATools Workflow](https://github.com/Jialab-UCR/Jialab-UCR.github.io/blob/master/GDCRNATools.workflow.R)
@@ -27,7 +27,7 @@ R code of the workflow is available here: [GDCRNATools Workflow](https://github.
 
 ## 3. Installation
 ### 3.1 Installation via Bioconductor
-* The stable release version of [`GDCRNATools`](https://bioconductor.org/packages/release/bioc/html/GDCRNATools.html) requires R(>=3.5.0) and Bioconductor(>=3.7). Please start R and enter:
+* The stable release version of [`GDCRNATools`](https://bioconductor.org/packages/release/bioc/html/GDCRNATools.html) requires R(>=3.5.0) and Bioconductor(>=3.8). Please start R and enter:
 
 ```R
 ## try http:// if https:// URLs are not supported
