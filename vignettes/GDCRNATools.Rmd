@@ -3,7 +3,7 @@ title: 'GDCRNATools: integrative analysis of protein coding genes, long non-codi
 author: 'Ruidong Li and Han Qu'
 date: "Last update: `r format(Sys.time(), '%d %B, %Y')`" 
 vignette: >
-    %\VignetteIndexEntry{'GDCRNATools: integrative analysis of protein coding genes, long non-coding genes, and microRNAs in GDC'}
+    %\VignetteIndexEntry{'GDCRNATools'}
     %\VignetteEngine{knitr::rmarkdown}
     %\VignetteEncoding{UTF-8}
 output:
