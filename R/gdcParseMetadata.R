@@ -94,7 +94,7 @@ gdcParseMetadata <- function(metafile=NULL, project.id,
         num2naFun(metadata[[i]]$cases[[1]]$diagnoses[[1]]$age_at_diagnosis), 
         numeric(1)))
     days_to_death <- suppressWarnings(vapply(seq_len(nSam), function(i) 
-        num2naFun(metadata[[i]]$cases[[1]]$diagnoses[[1]]$days_to_death), 
+        num2naFun(metadata[[i]]$cases[[1]]$demographic$days_to_death), 
         numeric(1)))
     days_to_last_follow_up <- suppressWarnings(vapply(seq_len(nSam), 
         function(i) num2naFun(
@@ -102,7 +102,7 @@ gdcParseMetadata <- function(metafile=NULL, project.id,
         numeric(1)))
     
     vital_status <- null2naFun(vapply(seq_len(nSam), function(i) 
-        chr2naFun(metadata[[i]]$cases[[1]]$diagnoses[[1]]$vital_status), 
+        chr2naFun(metadata[[i]]$cases[[1]]$demographic$vital_status), 
         character(1)))
     
     metaMatrix <- data.frame(file_name,file_id,patient,sample,submitter_id,
