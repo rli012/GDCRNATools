@@ -6,7 +6,7 @@
 * **If you use `GDCRNATools` in your published research, please cite:**  
 Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W., and Jia, Z. (2018). GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, miRNA and mRNA data in GDC. Bioinformatics 34, 2515-2517. https://doi.org/10.1093/bioinformatics/bty124.
 
-* **Please add my WeChat: li-rui-dong or email to rli012@ucr.edu if you have further questions.**
+* **Please add my WeChat: rli012 or email to rli012@ucr.edu if you have further questions.**
 
 ***
 
