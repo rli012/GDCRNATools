@@ -91,27 +91,27 @@ gdcRNADownload <- function(manifest=NULL, project.id, data.type,
 ###
 downloadClientFun <- function(os) {
     if (os == 'Linux') {
-        adress <- paste('https://gdc.cancer.gov/system/files/',
-            'authenticated%20user/0/gdc-client_v1.4.0_Ubuntu14.04_x64.zip',
+        adress <- paste('https://gdc.cancer.gov/files/public/file/',
+            'gdc-client_v1.6.0_Ubuntu_x64-py3.7_0.zip',
             sep='')
         download.file(adress, 
-            destfile = './gdc-client_v1.4.0_Ubuntu14.04_x64.zip')
-        unzip('./gdc-client_v1.4.0_Ubuntu14.04_x64.zip')
+            destfile = './gdc-client_v1.6.0_Ubuntu_x64-py3.7_0.zip')
+        unzip('./gdc-client_v1.6.0_Ubuntu_x64-py3.7_0.zip')
         
     } else if ( os== 'Windows') {
-        adress <- paste('https://gdc.cancer.gov/system/files/',
-            'authenticated%20user/0/gdc-client_v1.4.0_Windows_x64.zip',
+        adress <- paste('https://gdc.cancer.gov/files/public/file/',
+            'gdc-client_v1.6.0_Windows_x64-py3.7_0.zip',
             sep='')
         download.file(adress, 
-            destfile = './gdc-client_v1.4.0_Windows_x64.zip')
-        unzip('./gdc-client_v1.4.0_Windows_x64.zip')
+            destfile = './gdc-client_v1.6.0_Windows_x64-py3.7_0.zip')
+        unzip('./gdc-client_v1.6.0_Windows_x64-py3.7_0.zip')
         
     } else if (os == 'Darwin') {
-        adress <- paste('https://gdc.cancer.gov/system/files/',
-            'authenticated%20user/0/gdc-client_v1.4.0_OSX_x64.zip',
+        adress <- paste('https://gdc.cancer.gov/files/public/file/',
+            'gdc-client_v1.6.0_OSX_x64_1.zip',
             sep='')
-        download.file(adress, destfile = './gdc-client_v1.4.0_OSX_x64.zip')
-        unzip('./gdc-client_v1.4.0_OSX_x64.zip')
+        download.file(adress, destfile = './gdc-client_v1.6.0_OSX_x64_1.zip')
+        unzip('./gdc-client_v1.6.0_OSX_x64_1.zip')
     }
 }
 
