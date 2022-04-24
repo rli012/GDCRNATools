@@ -183,7 +183,8 @@ gdcGetURL <- function(project.id, data.type) {
     if (data.type=='RNAseq') {
         data.category <- 'Transcriptome Profiling'
         data.type <- 'Gene Expression Quantification'
-        workflow.type <- 'HTSeq - Counts'
+        #workflow.type <- 'HTSeq - Counts'
+        workflow.type <- 'STAR - Counts'
     } else if (data.type=='miRNAs') {
         data.category <- 'Transcriptome Profiling'
         data.type <- 'Isoform Expression Quantification'
