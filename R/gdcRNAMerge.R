@@ -37,8 +37,8 @@ gdcRNAMerge <- function(metadata, path, data.type, organized=FALSE) {
             '### This step may take a few minutes ###\n')
         
         rnaMatrix <- do.call("cbind", lapply(filenames, function(fl) 
-            read.table(gzfile(fl))$V2))
-        rownames(rnaMatrix) <- read.table(gzfile(filenames[1]))$V1
+            read.table(fl, header = T, stringsAsFactors = F, sep = '\t', comment.char = '#')$unstranded))
+        rownames(rnaMatrix) <- read.table(filenames[1], header = T, stringsAsFactors = F, sep = '\t', comment.char = '#')$gene_id
         rownames(rnaMatrix) <- unlist(lapply(strsplit(rownames(rnaMatrix), 
             '.', fixed=TRUE), function(gene) gene[1]))
         colnames(rnaMatrix) <- metadata$sample
