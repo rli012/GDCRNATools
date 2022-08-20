@@ -42,11 +42,11 @@ gdcRNAMerge <- function(metadata, path, data.type, organized=FALSE) {
         rownames(rnaMatrix) <- read.table(filenames[1], header = T, 
                                           stringsAsFactors = F, sep = '\t', comment.char = '#')$gene_id
         
-        rownames(rnaMatrix) <- unlist(lapply(strsplit(rownames(rnaMatrix), 
-                                                      '.', fixed=TRUE), function(gene) gene[1]))
-        
         filter <- grep('PAR_Y', rownames(rnaMatrix))
         rnaMatrix <- rnaMatrix[-filter,]
+        
+        rownames(rnaMatrix) <- unlist(lapply(strsplit(rownames(rnaMatrix), 
+                                                      '.', fixed=TRUE), function(gene) gene[1]))
         
         rnaMatrix <- rnaMatrix[biotype$ensemblID,]
         
