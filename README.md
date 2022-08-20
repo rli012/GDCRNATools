@@ -1,7 +1,7 @@
 ### *GDCRNATools* - an R/Bioconductor package for downloading, organizing, and integrative analyzing lncRNA, mRNA, and miRNA data in GDC
 
 
-* **A tutorial is avaialable here: [Wiki page](https://github.com/rli012/GDCRNATools/wiki)**
+* **A tutorial is avaialable here: [GDCRNATools Wiki page](https://github.com/rli012/GDCRNATools/wiki)**
 
 * **If you use `GDCRNATools` in your published research, please cite:**  
 Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W., and Jia, Z. (2018). GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, miRNA and mRNA data in GDC. Bioinformatics 34, 2515-2517. https://doi.org/10.1093/bioinformatics/bty124.
