@@ -38,13 +38,20 @@ gdcRNAMerge <- function(metadata, path, data.type, organized=FALSE) {
         
         rnaMatrix <- do.call("cbind", lapply(filenames, function(fl) 
             read.table(fl, header = T, stringsAsFactors = F, sep = '\t', comment.char = '#')$unstranded))
-        rownames(rnaMatrix) <- read.table(filenames[1], header = T, stringsAsFactors = F, sep = '\t', comment.char = '#')$gene_id
+        
+        rownames(rnaMatrix) <- read.table(filenames[1], header = T, 
+                                          stringsAsFactors = F, sep = '\t', comment.char = '#')$gene_id
+        
         rownames(rnaMatrix) <- unlist(lapply(strsplit(rownames(rnaMatrix), 
-            '.', fixed=TRUE), function(gene) gene[1]))
-        colnames(rnaMatrix) <- metadata$sample
+                                                      '.', fixed=TRUE), function(gene) gene[1]))
+        
+        filter <- grep('PAR_Y', rownames(rnaMatrix))
+        rnaMatrix <- rnaMatrix[-filter,]
         
         rnaMatrix <- rnaMatrix[biotype$ensemblID,]
         
+        colnames(rnaMatrix) <- metadata$sample
+
         nSamples = ncol(rnaMatrix)
         nGenes = nrow(rnaMatrix)
         
