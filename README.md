@@ -1,7 +1,7 @@
 ### *GDCRNATools* - an R/Bioconductor package for downloading, organizing, and integrative analyzing lncRNA, mRNA, and miRNA data in GDC
 
 
-* **Please go to [Wiki page](https://github.com/rli012/GDCRNATools/wiki) for the tutorial.**
+* **A tutorial is avaialable here: [Wiki page](https://github.com/rli012/GDCRNATools/wiki)**
 
 * **If you use `GDCRNATools` in your published research, please cite:**  
 Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W., and Jia, Z. (2018). GDCRNATools: an R/Bioconductor package for integrative analysis of lncRNA, miRNA and mRNA data in GDC. Bioinformatics 34, 2515-2517. https://doi.org/10.1093/bioinformatics/bty124.
@@ -9,8 +9,6 @@ Li, R., Qu, H., Wang, S., Wei, J., Zhang, L., Ma, R., Lu, J., Zhu, J., Zhong, W.
 * **Please add my WeChat: rli012 or email to rli012@ucr.edu if you have further questions.**
 
 ***
-
-## Introduction
 
 The [Genomic Data Commons (GDC)](https://portal.gdc.cancer.gov/) maintains standardized genomic, clinical, and biospecimen data from National Cancer Institute (NCI) programs including [The Cancer Genome Atlas (TCGA)](https://tcga-data.nci.nih.gov/) and [Therapeutically Applicable Research To Generate Effective Treatments (TARGET)](https://ocg.cancer.gov/programs/target), It also accepts high quality datasets from non-NCI supported cancer research programs, such as genomic data from the [Foundation Medicine](https://www.foundationmedicine.com/).
 
