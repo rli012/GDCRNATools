@@ -60,7 +60,7 @@ gdcCorPlot <- function(gene1, gene2, rna.expr, metadata) {
         xlab(paste(gene1,' (',ensembl2symbolFun(gene1),')',sep='')) +
         ylab(paste(gene2,' (',ensembl2symbolFun(gene2),')',sep='')) + 
         geom_smooth(method="lm",se=FALSE, col='darkgreen', size=0.5) + 
-        scale_colour_manual(breaks = sampleType, 
+        scale_colour_manual(breaks = levels(sampleType), 
             values = c('chocolate1', 'blue')) +
         ggplot2::annotate("text", x = xpos, y = ypos, 
             label = paste('cor=', c, ', p=', p, sep=''), size = 5) +
