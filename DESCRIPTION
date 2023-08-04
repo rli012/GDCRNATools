@@ -46,8 +46,9 @@ Imports: shiny,
     GenomicDataCommons,
     BiocParallel
 Suggests: knitr,
-    testthat,
-	rmarkdown
+    prettydoc,
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
 biocViews: ImmunoOncology, GeneExpression, DifferentialExpression, GeneRegulation, GeneTarget, 
 	NetworkInference, Survival, Visualization, GeneSetEnrichment,
